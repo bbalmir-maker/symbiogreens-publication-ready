@@ -50,3 +50,91 @@ Before accepting real users, connect:
 - Backups and monitoring.
 
 See the `docs/` folder for the recommended production plan.
+
+## Backend Phase 1 Readiness
+
+This package now includes a backend-readiness working version based on the downloaded live GitHub export.
+
+Added or updated:
+
+- `docs/backend-phase-1-readiness-audit.md`
+- `docs/supabase-schema-draft.sql`
+- `database/supabase-backend-phase-1-schema.sql`
+- `docs/supabase-integration-plan.md`
+- `docs/auth-role-model-plan.md`
+- `docs/admin-dashboard-implementation-plan.md`
+- `docs/buyer-survey-product-interest-plan.md`
+- `docs/investor-private-access-plan.md`
+- `assets/js/supabase-config.example.js`
+
+What remains static:
+
+- Public website pages, navigation, product catalog, modals, investor page, language logic, buyer demo workflow, manager prototype, and GitHub Pages deployment behavior.
+
+What is Supabase-ready:
+
+- Schema draft for profiles, buyers, buyer profiles, product interest, survey responses, contact messages, investor access, partner submissions, team members, and admin notes.
+- RLS guidance for public inserts, authenticated buyers, admin/manager access, investor-only private access, and team/admin content management.
+- Safe placeholder config using `SUPABASE_URL` and `SUPABASE_ANON_KEY` only.
+
+Next implementation phase:
+
+- Add a reversible Supabase adapter in `app.js`.
+- Keep localStorage fallback until Supabase Auth, RLS, and dashboard queries are tested.
+- Do not add real Supabase credentials or service-role keys to committed frontend files.
+
+## Backend Phase 2 Optional Persistence
+
+The site now includes `assets/js/backend-service.js`, an optional Supabase adapter for public persistence. It is loaded by `index.html` but stays inactive unless a separate runtime config provides a valid Supabase URL, public anon key, and `enabled: true`.
+
+Wired when configured:
+
+- Contact form -> `contact_messages`
+- Buyer survey submit -> `survey_responses`
+- Product interest modal/survey products -> `product_interest`
+- Investor prequalification -> `investor_prequalification`
+- Strategic partner submission -> `partner_submissions`
+
+Still unchanged:
+
+- Static public website loading.
+- Product catalog and modals.
+- Demo buyer login and dashboard.
+- Manager/admin prototype.
+- Language and translation logic.
+- GitHub Pages compatibility.
+
+## Backend Phases 3-8 Prepared
+
+The backend architecture is now staged in inactive modules and documentation:
+
+- Phase 3 Supabase activation: `docs/backend-phase-3-supabase-activation.md`
+- Phase 4 Auth plan: `docs/backend-phase-4-auth-plan.md`
+- Phase 5 Admin dashboard backend plan: `docs/backend-phase-5-admin-dashboard-plan.md`
+- Phase 6 Buyer dashboard persistence plan: `docs/backend-phase-6-buyer-dashboard-plan.md`
+- Phase 7 Private investor access plan: `docs/backend-phase-7-investor-private-access-plan.md`
+- Phase 8 Production activation checklist: `docs/backend-phase-8-production-activation-checklist.md`
+- Migration package: `database/migrations/001_backend_foundation.sql`
+
+Prepared but inactive service namespaces:
+
+- `SymbioGreensBackend.auth`
+- `SymbioGreensBackend.admin`
+- `SymbioGreensBackend.buyer`
+- `SymbioGreensBackend.investor`
+
+Activation order:
+
+1. Supabase project created.
+2. Schema applied.
+3. RLS enabled.
+4. Contact form activated.
+5. Buyer survey activated.
+6. Product interest activated.
+7. Admin login activated.
+8. Admin dashboard activated.
+9. Buyer accounts activated.
+10. Investor private access activated.
+11. Email notifications activated later if needed.
+
+Everything remains disabled unless valid Supabase config and module feature flags are explicitly set.

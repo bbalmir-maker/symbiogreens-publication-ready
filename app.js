@@ -1321,31 +1321,54 @@ function surveySelectOptions(values, selected) {
 function productInterestPayload(productId, formData = null) {
   const p = productById(productId);
   const d = formData ? Object.fromEntries(formData) : getDraft(productId);
+  const quantity = d.estimated_quantity || d.weekly_volume || '';
+  const frequency = d.delivery_frequency || '';
+  const sampleRequested = d.sample_request === 'Yes' || d.sample_requested === 'Yes';
+  const packaging = d.packaging_preference || d.packaging_preferences || '';
+  const notes = d.comments || d.notes || '';
   return {
-    buyer_id: state.session?.respondent_id || '',
-    customer_id: state.session?.respondent_id || '',
+    local_buyer_id: state.session?.respondent_id || '',
+    local_customer_id: state.session?.respondent_id || '',
     product_id: productId,
     product_name: p ? productName(p) : productId,
+    category_id: p?.category_id || '',
     category: p ? categoryLabel(p.category_id) : '',
     interest_level: d.interest_level || '',
-    estimated_quantity: d.estimated_quantity || d.weekly_volume || '',
-    preferred_delivery_frequency: d.delivery_frequency || '',
-    sample_requested: d.sample_request === 'Yes' || d.sample_requested === 'Yes',
-    packaging_preferences: d.packaging_preference || d.packaging_preferences || '',
-    notes: d.comments || d.notes || '',
+    quantity_estimate: quantity,
+    estimated_quantity: quantity,
+    delivery_frequency: frequency,
+    preferred_delivery_frequency: frequency,
+    sample_request: sampleRequested,
+    sample_requested: sampleRequested,
+    packaging_preference: packaging,
+    packaging_preferences: packaging,
+    notes,
+    language: state.lang,
+    source_page: location.hash || hashForRoute(state.route),
+    metadata: {
+      local_buyer_id: state.session?.respondent_id || '',
+      route: state.route,
+      category_id: p?.category_id || ''
+    },
     created_at: new Date().toISOString()
   };
 }
 async function saveProductInterest(productInterest) {
-  const supabaseClient = window.supabaseClient || window.supabase;
-  if (supabaseClient?.from && window.SYMBIOGREENS_SUPABASE_ENABLED === true) {
-    return supabaseClient.from('product_interest').insert([productInterest]);
+  const backend = window.SymbioGreensBackend;
+  if (backend?.isBackendEnabled?.()) {
+    return backend.saveProductInterest(productInterest);
   }
-  return {data: productInterest, error: null, local: true};
+  return {ok: false, data: productInterest, error: null, backend: 'local', skipped: true};
 }
 function currentRespondent() { return asArray(readStore(storeKeys.respondents, [])).find(r => r.id === state.session?.respondent_id); }
 function logEmail(to, template, subject) { const rows = asArray(readStore(storeKeys.emails, [])); rows.push({id:uid('email'), to, template, subject, created_at:new Date().toISOString(), status:'queued_local_preview'}); writeStore(storeKeys.emails, rows); }
 function notifyInternal(template, subject) { INTERNAL_NOTIFICATION_RECIPIENTS.forEach(to => logEmail(to, template, subject)); }
+function backendSyncUnavailable(result) {
+  return window.SymbioGreensBackend?.isBackendEnabled?.() && result && result.ok === false && result.backend === 'supabase';
+}
+function localSyncMessage() {
+  return translateText('Your submission was saved locally. Online sync is temporarily unavailable, so please contact us directly if this is urgent.');
+}
 
 function routeFromLocation() {
   const token = String(location.hash || '').replace(/^#\/?/, '').toLowerCase();
@@ -1787,9 +1810,9 @@ async function saveSurveyProductFromModal(productId, closeAfter = false) {
     comments: payload.notes
   };
   saveDraft(productId, patch);
-  await saveProductInterest(payload);
+  const result = await saveProductInterest(payload);
   const status = form.querySelector('.modal-status');
-  if (status) status.textContent = t('productInterestSaved');
+  if (status) status.textContent = backendSyncUnavailable(result) ? localSyncMessage() : t('productInterestSaved');
   if (closeAfter) {
     setTimeout(() => {
       closeModal();
@@ -1857,16 +1880,42 @@ async function loginManager(e) {
   writeStore(storeKeys.session, state.session);
   navigateToRoute('manager', {closeModal:false});
 }
-function submitSurvey(categoryId) {
+async function submitSurvey(categoryId) {
   const r = currentRespondent();
   if (!r) return;
   const drafts = readStore(storeKeys.drafts, {});
   const selected = Object.entries(drafts).filter(([key,d]) => key.startsWith(`${r.id}:`) && (!categoryId || productById(d.product_id)?.category_id === categoryId)).map(([,d]) => d).filter(d => d.interest_level || d.sample_request === 'Yes' || d.weekly_volume || d.comments);
   if (!selected.length) return alert(translateText('No product interest has been selected yet.'));
   const survey = {id:uid('srv'), respondent_id:r.id, business_id:r.business_id, category_id:categoryId || 'all_categories', submitted_at:new Date().toISOString()};
+  const responseRows = selected.map(d => ({...d, id:uid('resp'), survey_id:survey.id, respondent_id:r.id, business_id:r.business_id, created_at:new Date().toISOString()}));
+  const sampleRows = selected.filter(d => d.sample_request === 'Yes').map(d => ({id:uid('sample'), product_id:d.product_id, respondent_id:r.id, business_id:r.business_id, status:'Requested', created_at:new Date().toISOString()}));
   writeStore(storeKeys.surveys, [...asArray(readStore(storeKeys.surveys, [])), survey]);
-  writeStore(storeKeys.responses, [...asArray(readStore(storeKeys.responses, [])), ...selected.map(d => ({...d, id:uid('resp'), survey_id:survey.id, respondent_id:r.id, business_id:r.business_id, created_at:new Date().toISOString()}))]);
-  writeStore(storeKeys.samples, [...asArray(readStore(storeKeys.samples, [])), ...selected.filter(d => d.sample_request === 'Yes').map(d => ({id:uid('sample'), product_id:d.product_id, respondent_id:r.id, business_id:r.business_id, status:'Requested', created_at:new Date().toISOString()}))]);
+  writeStore(storeKeys.responses, [...asArray(readStore(storeKeys.responses, [])), ...responseRows]);
+  writeStore(storeKeys.samples, [...asArray(readStore(storeKeys.samples, [])), ...sampleRows]);
+  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+    const surveyPayload = {
+      local_buyer_id: r.id,
+      local_business_id: r.business_id,
+      category_id: categoryId || 'all_categories',
+      category_label: categoryId ? categoryLabel(categoryId) : 'All Categories',
+      response_scope: categoryId ? 'category' : 'all_categories',
+      responses: responseRows.map(row => ({
+        ...row,
+        product_name: productById(row.product_id) ? productName(productById(row.product_id)) : row.product_id,
+        category_id: productById(row.product_id)?.category_id || ''
+      })),
+      status: 'submitted',
+      submitted_at: survey.submitted_at,
+      language: state.lang,
+      source_page: location.hash || hashForRoute(state.route),
+      metadata: {local_survey_id: survey.id, local_buyer_id: r.id, local_business_id: r.business_id}
+    };
+    const results = await Promise.all([
+      window.SymbioGreensBackend.saveBuyerSurvey(surveyPayload),
+      ...selected.map(d => saveProductInterest(productInterestPayload(d.product_id)))
+    ]);
+    if (results.some(backendSyncUnavailable)) alert(localSyncMessage());
+  }
   notifyInternal('manager_survey_alert', `Survey submitted by ${r.email}`);
   navigateToRoute('thankyou', {closeModal:false});
 }
@@ -1901,12 +1950,12 @@ async function resetPassword(e) {
   alert(t('passwordChanged'));
   navigateToRoute('login', {closeModal:false});
 }
-function submitContact(e) {
+async function submitContact(e) {
   e.preventDefault();
   const fd = Object.fromEntries(new FormData(e.target));
   if (!isValidEmail(fd.email)) return alert(t('validEmailRequired'));
   const rows = asArray(readStore(storeKeys.contactInquiries, []));
-  rows.push({
+  const row = {
     id:uid('inq'),
     name:cleanText(fd.name,160),
     email:normalizeEmail(fd.email),
@@ -1918,23 +1967,37 @@ function submitContact(e) {
     message:cleanText(fd.message),
     created_at:new Date().toISOString(),
     status:'New'
-  });
+  };
+  rows.push(row);
   writeStore(storeKeys.contactInquiries, rows);
+  const result = await window.SymbioGreensBackend?.saveContactMessage?.({
+    ...row,
+    language: state.lang,
+    source_page: location.hash || hashForRoute(state.route),
+    metadata: {local_contact_id: row.id}
+  });
   notifyInternal('manager_public_inquiry_alert', `Public inquiry from ${fd.name || fd.email}`);
-  alert(t('contactSaved'));
+  alert(backendSyncUnavailable(result) ? localSyncMessage() : t('contactSaved'));
   state.contactInquiryType = '';
   e.target.reset();
 }
-function submitInvestor(e) {
+async function submitInvestor(e) {
   e.preventDefault();
   const fd = Object.fromEntries(new FormData(e.target));
   if (!isValidEmail(fd.email)) return alert(t('validEmailRequired'));
   const rows = asArray(readStore(storeKeys.investorRequests, []));
   const cleaned = Object.fromEntries(Object.entries(fd).map(([key, value]) => [key, cleanText(value)]));
-  rows.push({...cleaned, id:uid('inv'), inquiry_type:cleanText(fd.inquiry_type || 'Investor / Partner'), full_name:cleanText(fd.full_name,160), email:normalizeEmail(fd.email), company:cleanText(fd.company,160), status:'new', approved_access:false, created_at:new Date().toISOString()});
+  const row = {...cleaned, id:uid('inv'), inquiry_type:cleanText(fd.inquiry_type || 'Investor / Partner'), full_name:cleanText(fd.full_name,160), email:normalizeEmail(fd.email), company:cleanText(fd.company,160), status:'new', approved_access:false, created_at:new Date().toISOString()};
+  rows.push(row);
   writeStore(storeKeys.investorRequests, rows);
+  const result = await window.SymbioGreensBackend?.saveInvestorPrequalification?.({
+    ...row,
+    language: state.lang,
+    source_page: location.hash || hashForRoute(state.route),
+    metadata: {local_investor_request_id: row.id}
+  });
   notifyInternal('manager_investor_request_alert', `${fd.inquiry_type || 'Investor / partner'} request from ${fd.full_name || fd.email}`);
-  alert(t('investorSubmissionThanks'));
+  alert(backendSyncUnavailable(result) ? localSyncMessage() : t('investorSubmissionThanks'));
   e.target.reset();
 }
 async function manageUser(action, userId) {
