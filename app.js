@@ -1607,12 +1607,12 @@ function executiveProfiles() {
       name:'Marcel Bernard Villedrouin',
       title:'Co-Founder & Chief Operating Officer',
       tagline:'Agribusiness operator, food-distribution executive, and heir to a Haitian legacy of agriculture, importation, and ecological innovation.',
-      image:'public/company/production/executive-marcel-bernard-ville-drouin.png',
+      image:'public/company/production/executive-marcel-bernard-villedrouin.png',
       highlights:['Operations execution','Food distribution','Procurement & logistics','Quality discipline'],
       bio:[
-        'Marcel Bernard Ville-Drouin is a Haitian entrepreneur, agribusiness operator, and business executive with nearly three decades of experience across food products, importation, distribution, manufacturing, and agricultural ventures.',
+        'Marcel Bernard Villedrouin is a Haitian entrepreneur, agribusiness operator, and business executive with nearly three decades of experience across food products, importation, distribution, manufacturing, and agricultural ventures.',
         "Trained in Business Administration, Marcel has spent more than 25 years building and managing businesses connected to food supply, consumer products, agriculture, and commercial distribution. He is associated with Minaya Spices and Maison Ville-Drouin, two names tied to Haiti's food and product distribution sectors.",
-        "Marcel also comes from one of Haiti's recognized entrepreneurial families. His father, Philippe Ville-Drouin, was the founder and driving force behind Le Montcel, an ecological and agricultural property in the Kenscoff/Belot area connected to agriculture, environmental stewardship, rural development, and local production.",
+        "Marcel also comes from one of Haiti's recognized entrepreneurial families. His father, Philippe Villedrouin, was the founder and driving force behind Le Montcel, an ecological and agricultural property in the Kenscoff/Belot area connected to agriculture, environmental stewardship, rural development, and local production.",
         'His experience gives him practical knowledge of procurement, logistics, wholesale markets, inventory management, customer relationships, and the realities of operating in complex Caribbean environments.',
         'As COO, Marcel brings operational leadership, commercial realism, supplier and market experience, and grounded execution across procurement, production planning, logistics, distribution, quality control, and day-to-day operations.'
       ]
