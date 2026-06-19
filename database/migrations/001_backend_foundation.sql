@@ -180,6 +180,9 @@ create table if not exists public.investor_interest (
   target_region text,
   preferred_structure text,
   status text not null default 'new' check (status in ('new','reviewing','active','closed','archived')),
+  language text,
+  source_page text,
+  metadata jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -229,6 +232,48 @@ create table if not exists public.investor_admin_notes (
   note text not null,
   visibility text not null default 'admin_only' check (visibility in ('admin_only','team')),
   created_at timestamptz not null default now()
+);
+
+create table if not exists public.investor_interaction_events (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  session_id text not null,
+  investor_id uuid references public.investor_users(id) on delete set null,
+  investor_email text,
+  event_type text not null,
+  event_label text,
+  event_payload jsonb not null default '{}'::jsonb,
+  contribution_amount numeric,
+  estimated_equity numeric,
+  scenario_name text,
+  page_route text,
+  source_section text,
+  language text not null default 'en' check (language in ('en','es','fr')),
+  user_agent text,
+  referrer text,
+  backend_enabled boolean not null default false,
+  notes text
+);
+
+create table if not exists public.investor_engagement_scores (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  session_id text not null,
+  investor_id uuid references public.investor_users(id) on delete set null,
+  investor_email text,
+  total_events integer not null default 0,
+  calculator_uses integer not null default 0,
+  highest_contribution_tested numeric,
+  last_contribution_tested numeric,
+  markets_viewed jsonb not null default '[]'::jsonb,
+  scenarios_viewed jsonb not null default '[]'::jsonb,
+  submitted_interest boolean not null default false,
+  requested_review boolean not null default false,
+  engagement_score numeric not null default 0,
+  engagement_level text not null default 'cold' check (engagement_level in ('cold','warm','qualified','high_intent')),
+  recommended_follow_up text,
+  admin_notes text
 );
 
 create table if not exists public.partner_submissions (
@@ -288,6 +333,9 @@ create index if not exists idx_product_interest_buyer on public.product_interest
 create index if not exists idx_product_interest_product on public.product_interest(product_id);
 create index if not exists idx_contact_messages_status on public.contact_messages(status, created_at desc);
 create index if not exists idx_investor_prequalification_status on public.investor_prequalification(status, created_at desc);
+create index if not exists idx_investor_interaction_events_session on public.investor_interaction_events(session_id, created_at desc);
+create index if not exists idx_investor_interaction_events_type on public.investor_interaction_events(event_type, created_at desc);
+create index if not exists idx_investor_engagement_scores_level on public.investor_engagement_scores(engagement_level, updated_at desc);
 create index if not exists idx_partner_submissions_status on public.partner_submissions(status, created_at desc);
 create index if not exists idx_team_members_active_order on public.team_members(is_active, display_order);
 
@@ -309,6 +357,8 @@ begin
     'investor_calculator_sessions',
     'investor_document_access',
     'investor_admin_notes',
+    'investor_interaction_events',
+    'investor_engagement_scores',
     'partner_submissions',
     'team_members',
     'admin_notes'
@@ -371,6 +421,10 @@ drop policy if exists "investor own calculator sessions" on public.investor_calc
 drop policy if exists "investor document access read own or admin" on public.investor_document_access;
 drop policy if exists "investor document access insert own or admin" on public.investor_document_access;
 drop policy if exists "admin investor notes manage" on public.investor_admin_notes;
+drop policy if exists "public investor event insert" on public.investor_interaction_events;
+drop policy if exists "admin investor event read" on public.investor_interaction_events;
+drop policy if exists "public investor engagement insert" on public.investor_engagement_scores;
+drop policy if exists "admin investor engagement manage" on public.investor_engagement_scores;
 drop policy if exists "team members public read active" on public.team_members;
 drop policy if exists "team members admin manage" on public.team_members;
 drop policy if exists "admin notes manage" on public.admin_notes;
@@ -457,6 +511,16 @@ create policy "investor document access insert own or admin" on public.investor_
 create policy "admin investor notes manage" on public.investor_admin_notes
   for all to authenticated using (public.is_admin_or_manager()) with check (public.is_admin_or_manager());
 
+create policy "public investor event insert" on public.investor_interaction_events
+  for insert to anon, authenticated with check (true);
+create policy "admin investor event read" on public.investor_interaction_events
+  for select to authenticated using (public.is_admin_or_manager());
+
+create policy "public investor engagement insert" on public.investor_engagement_scores
+  for insert to anon, authenticated with check (true);
+create policy "admin investor engagement manage" on public.investor_engagement_scores
+  for all to authenticated using (public.is_admin_or_manager()) with check (public.is_admin_or_manager());
+
 create policy "team members public read active" on public.team_members
   for select to anon, authenticated using (is_active = true);
 create policy "team members admin manage" on public.team_members
@@ -476,6 +540,7 @@ drop trigger if exists set_investor_users_updated_at on public.investor_users;
 drop trigger if exists set_investor_interest_updated_at on public.investor_interest;
 drop trigger if exists set_investor_potential_commitments_updated_at on public.investor_potential_commitments;
 drop trigger if exists set_investor_calculator_sessions_updated_at on public.investor_calculator_sessions;
+drop trigger if exists set_investor_engagement_scores_updated_at on public.investor_engagement_scores;
 drop trigger if exists set_partner_submissions_updated_at on public.partner_submissions;
 drop trigger if exists set_team_members_updated_at on public.team_members;
 
@@ -490,5 +555,6 @@ create trigger set_investor_users_updated_at before update on public.investor_us
 create trigger set_investor_interest_updated_at before update on public.investor_interest for each row execute function public.set_updated_at();
 create trigger set_investor_potential_commitments_updated_at before update on public.investor_potential_commitments for each row execute function public.set_updated_at();
 create trigger set_investor_calculator_sessions_updated_at before update on public.investor_calculator_sessions for each row execute function public.set_updated_at();
+create trigger set_investor_engagement_scores_updated_at before update on public.investor_engagement_scores for each row execute function public.set_updated_at();
 create trigger set_partner_submissions_updated_at before update on public.partner_submissions for each row execute function public.set_updated_at();
 create trigger set_team_members_updated_at before update on public.team_members for each row execute function public.set_updated_at();
