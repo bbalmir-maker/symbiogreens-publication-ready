@@ -1,4 +1,4 @@
-# SymbioGreens Publication Ready Package
+﻿# SymbioGreens Publication Ready Package
 
 This folder contains the static SymbioGreens / Balponics public website and market intelligence prototype prepared for upload to static hosting.
 
@@ -16,7 +16,7 @@ This folder contains the static SymbioGreens / Balponics public website and mark
 - `app.js` - route rendering, interactions, login prototype, survey flow, modals, dashboards.
 - `platform-data.js` - catalog, public content, and reference data.
 - `public/` - active website images and brand assets.
-- `assets/js/investor-model-data.js` - investor model reference data.
+- `assets/js/investor-model-data.js` - disabled public placeholder; detailed model data is not loaded by the public page.
 - `assets/js/supabase-config.example.js` - safe Supabase configuration placeholder.
 - `docs/` - deployment, backend, Supabase, investor, and team update notes.
 
@@ -151,13 +151,18 @@ The Investor page now includes a static, backend-ready Investor Analysis module:
 - Risk and mitigation panel
 - Non-binding investor interest / review request actions
 
+Important public access control:
+
+- The public `#investors` route is intake-only.
+- The public Investor / Partner page does not render the investor calculator, equity calculations, scenario return tools, platform valuation simulator, saved scenarios, admin analytics, engagement scores, private documents, or mock private investor screens.
+- Public visitors can only review the high-level opportunity overview, submit non-binding investor interest, request a partner discussion, read the review process, and contact SymbioGreens.
+- Private investor materials and review access are provided only after review and approval.
+- `INVESTOR_PREVIEW_ENABLED` and `INVESTOR_PRIVATE_TOOLS_ENABLED` remain `false`.
+
 Current investment model:
 
-- Target raise: USD 2,200,000
-- Investor equity pool: 30%
-- Founder/platform allocation: USD 220,000
-- Founder/platform allocation estimate: contribution x 10%
-- Estimated equity: contribution / 2,200,000 x 30%, capped at 30%
+- Detailed investor model assumptions are not included in the public static build.
+- Future investor calculators and private review tools must be served only after review, approval, authentication, authorization, and legal review.
 
 Investor interaction intelligence is fallback-safe:
 
@@ -166,10 +171,23 @@ Investor interaction intelligence is fallback-safe:
 - Internal scores are not shown to public investors.
 - Admin retrieval methods remain inactive/admin-only unless configured.
 
+Local/developer-only founder preview:
+
+- Normal public visitors opening `#investor-preview` see only a preview-unavailable message.
+- No public navigation, button, or helper link exposes the preview route.
+- Local founder preview cannot render in the public build because `INVESTOR_PREVIEW_ENABLED` and `INVESTOR_PRIVATE_TOOLS_ENABLED` are false.
+- Future local-only preview would require deliberately changing both disabled flags in code and then setting `localStorage.setItem("symbioFounderPreviewEnabled", "true")`.
+- The local preview uses mock/demo data only and requires no login or Supabase configuration.
+- The local preview banner says: "Founder Preview Mode - demo investor view only. No private data is loaded."
+- Preview mode does not expose private documents, Supabase investor data, admin analytics, or engagement scoring.
+- Public investors are told that investor accounts and private document access are available only after review and approval.
+
 See:
 
 - `docs/investor-interactive-application-plan.md`
 - `docs/investor-calculator-assumptions.md`
+- `docs/investor-preview-review-mode.md`
 - `docs/investor-interaction-intelligence-plan.md`
 - `docs/investor-engagement-scoring-model.md`
 - `docs/privacy-and-investor-data-notes.md`
+

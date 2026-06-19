@@ -22,6 +22,8 @@
 };
 
 const INTERNAL_NOTIFICATION_RECIPIENTS = ['me@balponics.com', 'bbalmir@gmail.com'];
+const INVESTOR_PRIVATE_TOOLS_ENABLED = false;
+const INVESTOR_PREVIEW_ENABLED = false;
 
 const state = {
   route: 'landing',
@@ -37,14 +39,14 @@ const state = {
   investorScenario: 'base',
   investorHubs: 3,
   investorAnalysis: {
-    contribution: 50000,
+    contribution: 0,
     investorType: 'Individual',
     participation: 'Equity',
     interestLevel: 'Interested',
     notes: '',
-    revenuePerHub: 1400000,
-    ebitdaMargin: 24,
-    valuationMultiple: 6,
+    revenuePerHub: 0,
+    ebitdaMargin: 0,
+    valuationMultiple: 0,
     timelineYears: 5
   },
   contactInquiryType: '',
@@ -1388,10 +1390,10 @@ function localSyncMessage() {
 
 function routeFromLocation() {
   const token = String(location.hash || '').replace(/^#\/?/, '').toLowerCase();
-  return ({'':'landing',home:'landing',about:'brand',products:'products','why-hydroponics':'whyHydroponics',farms:'lasTerrenas','farms-projects':'lasTerrenas','las-terrenas':'lasTerrenas',team:'team',contact:'contact',register:'register','buyer-login':'login',login:'login',dashboard:'dashboard',catalog:'catalog','forgot-password':'forgotPassword','reset-password':'resetPassword',manager:'manager',admin:'manager',internal:'manager',investors:'investors','investor-access':'investorAccess','investor-login':'investorLogin','investor-dashboard':'investorDashboard','investor-model':'investorModel','investor-documents':'investorDocuments','investor-review':'investorReview',privacy:'privacy',terms:'terms',disclaimer:'disclaimer',legal:'legal'}[token]) || 'landing';
+  return ({'':'landing',home:'landing',about:'brand',products:'products','why-hydroponics':'whyHydroponics',farms:'lasTerrenas','farms-projects':'lasTerrenas','las-terrenas':'lasTerrenas',team:'team',contact:'contact',register:'register','buyer-login':'login',login:'login',dashboard:'dashboard',catalog:'catalog','forgot-password':'forgotPassword','reset-password':'resetPassword',manager:'manager',admin:'manager',internal:'manager',investors:'investors','investor-preview':'investorPreview','investors-preview':'investorPreview','investor-access':'investorAccess','investor-login':'investorLogin','investor-dashboard':'investorDashboard','investor-model':'investorModel','investor-documents':'investorDocuments','investor-review':'investorReview',privacy:'privacy',terms:'terms',disclaimer:'disclaimer',legal:'legal'}[token]) || 'landing';
 }
 function hashForRoute(route) {
-  return ({landing:'home',brand:'about',whyHydroponics:'why-hydroponics',lasTerrenas:'farms-projects',login:'buyer-login',forgotPassword:'forgot-password',resetPassword:'reset-password',manager:'manager',investorAccess:'investor-access',investorLogin:'investor-login',investorDashboard:'investor-dashboard',investorModel:'investor-model',investorDocuments:'investor-documents',investorReview:'investor-review'}[route]) || route;
+  return ({landing:'home',brand:'about',whyHydroponics:'why-hydroponics',lasTerrenas:'farms-projects',login:'buyer-login',forgotPassword:'forgot-password',resetPassword:'reset-password',manager:'manager',investorPreview:'investor-preview',investorAccess:'investor-access',investorLogin:'investor-login',investorDashboard:'investor-dashboard',investorModel:'investor-model',investorDocuments:'investor-documents',investorReview:'investor-review'}[route]) || route;
 }
 function syncLocationForRoute(route) { const hash = `#${hashForRoute(route)}`; if (location.hash !== hash) history.pushState(null, '', hash); }
 function scrollRouteToTop() { requestAnimationFrame(() => window.scrollTo({top:0, left:0, behavior:'auto'})); }
@@ -1438,6 +1440,7 @@ function renderRoute() {
   if (state.route === 'catalog') return state.session?.role === 'buyer' ? buyerCatalog() : registerPanel();
   if (state.route === 'manager') return managerRoute();
   if (state.route === 'investors') return investorsPanel();
+  if (state.route === 'investorPreview') return investorPreviewPanel();
   if (['investorAccess','investorLogin','investorDashboard','investorModel','investorDocuments'].includes(state.route)) return investorPrivatePlaceholderPanel(state.route);
   if (state.route === 'investorReview') return investorReviewPanel();
   if (['privacy','terms','disclaimer','legal'].includes(state.route)) return legalPanel(state.route);
@@ -1773,16 +1776,16 @@ function money(value) {
 function percent(value, digits = 2) { return `${Number(value || 0).toFixed(digits)}%`; }
 function contributionAnalysis(amount = state.investorAnalysis.contribution) {
   const model = investorModel();
-  const raiseTarget = model.raiseTarget || 2200000;
+  const raiseTarget = model.raiseTarget || 0;
   const contribution = Math.max(0, Math.min(Number(amount || 0), raiseTarget));
   const shareOfRaise = raiseTarget ? contribution / raiseTarget : 0;
-  const equityPool = model.investorEquityPoolPercent || model.maxInvestorEquityPercent || 30;
-  const estimatedEquity = Math.min(shareOfRaise * equityPool, model.maxInvestorEquityPercent || 30);
+  const equityPool = model.investorEquityPoolPercent || model.maxInvestorEquityPercent || 0;
+  const estimatedEquity = Math.min(shareOfRaise * equityPool, model.maxInvestorEquityPercent || 0);
   return {
     contribution,
     shareOfRaisePercent: shareOfRaise * 100,
     estimatedEquityPercent: estimatedEquity,
-    founderAllocation: contribution * ((model.founderDevelopmentAllocationPercent || 10) / 100),
+    founderAllocation: contribution * ((model.founderDevelopmentAllocationPercent || 0) / 100),
     remainingRaise: Math.max(raiseTarget - contribution, 0)
   };
 }
@@ -1818,9 +1821,6 @@ function calculateInvestorEngagementScore(sessionId = investorSessionId()) {
     if (contribution) {
       lastContribution = contribution;
       highest = Math.max(highest, contribution);
-      if (contribution >= 50000) score += weights.contribution_above_50000 || 0;
-      if (contribution >= 100000) score += weights.contribution_above_100000 || 0;
-      if (contribution >= 250000) score += weights.contribution_above_250000 || 0;
     }
     if (event.scenario_name) scenarios.add(event.scenario_name);
   });
@@ -1845,7 +1845,7 @@ async function saveInvestorEngagementSnapshot(payload) {
   const rows = asArray(readStore(storeKeys.investorEngagementSnapshots, []));
   rows.push({...payload, id:uid('inv_score'), created_at:new Date().toISOString()});
   writeStore(storeKeys.investorEngagementSnapshots, rows);
-  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+  if (state.route !== 'investorPreview' && window.SymbioGreensBackend?.isBackendEnabled?.()) {
     await window.SymbioGreensBackend.saveInvestorEngagementSnapshot?.(payload);
   }
 }
@@ -1863,11 +1863,11 @@ async function trackInvestorEvent(eventType, payload = {}) {
     page_route: location.hash || hashForRoute(state.route),
     source_section: payload.source_section || '',
     language: state.lang,
-    backend_enabled: Boolean(window.SymbioGreensBackend?.isBackendEnabled?.()),
+    backend_enabled: state.route !== 'investorPreview' && Boolean(window.SymbioGreensBackend?.isBackendEnabled?.()),
     created_at: new Date().toISOString()
   };
   writeStore(storeKeys.investorInteractionEvents, [...asArray(readStore(storeKeys.investorInteractionEvents, [])), row]);
-  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+  if (state.route !== 'investorPreview' && window.SymbioGreensBackend?.isBackendEnabled?.()) {
     await window.SymbioGreensBackend.trackInvestorEvent?.(eventType, row);
   }
   await saveInvestorEngagementSnapshot(calculateInvestorEngagementScore(sessionId));
@@ -1880,12 +1880,13 @@ function trackInvestorPageOpenedOnce() {
 function investorMetric(label, value, note = '') {
   return `<article class="investor-metric"><span>${esc(label)}</span><strong>${esc(value)}</strong>${note ? `<small>${esc(note)}</small>` : ''}</article>`;
 }
-function investorAnalysisPanel() {
+function investorAnalysisPanel(options = {}) {
   const model = investorModel();
+  const isPreview = options.preview === true;
   const analysis = contributionAnalysis();
   const scenario = selectedFirstHubScenario();
   const platform = platformAnalysis();
-  const presets = model.contributionPresets || [50000,100000,200000,250000,500000,1000000,2200000];
+  const presets = model.contributionPresets || [];
   const examples = model.examples || presets.map(contributionAnalysis);
   const useOfFunds = model.useOfFunds || [];
   const risks = model.risks || [];
@@ -1902,7 +1903,7 @@ function investorAnalysisPanel() {
         <h3>Investment Participation Calculator</h3>
         <div class="quick-amount-row">${presets.map(value => `<button class="ghost-btn ${Number(state.investorAnalysis.contribution) === value ? 'active' : ''}" type="button" data-action="setInvestorContribution" data-contribution="${value}">${esc(money(value))}</button>`).join('')}</div>
         <div class="form-grid two">
-          <label><span>Contribution amount</span><input data-investor-field="contribution" type="number" min="0" max="${esc(model.raiseTarget || 2200000)}" step="1000" value="${esc(state.investorAnalysis.contribution)}"></label>
+          <label><span>Contribution amount</span><input data-investor-field="contribution" type="number" min="0" max="${esc(model.raiseTarget || 0)}" step="1000" value="${esc(state.investorAnalysis.contribution)}"></label>
           <label><span>Investor type</span><select data-investor-field="investorType">${(model.investorTypes || []).map(item => `<option ${state.investorAnalysis.investorType === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
           <label><span>Preferred participation</span><select data-investor-field="participation">${(model.participationTypes || []).map(item => `<option ${state.investorAnalysis.participation === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
           <label><span>Interest level</span><select data-investor-field="interestLevel">${(model.interestLevels || []).map(item => `<option ${state.investorAnalysis.interestLevel === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
@@ -1915,7 +1916,7 @@ function investorAnalysisPanel() {
           ${investorMetric('Founder/platform allocation portion', money(analysis.founderAllocation), 'Contribution x 10%')}
           ${investorMetric('Remaining raise', money(analysis.remainingRaise))}
         </div>
-        <div class="investor-action-row"><button class="primary-btn" type="button" data-action="calculateInvestorScenario">Calculate Investment Scenario</button><button class="ghost-btn" type="button" data-action="submitInvestorInterest">Submit Non-Binding Investor Interest</button><button class="ghost-btn" type="button" data-action="requestInvestorReview">Request Investor Review</button></div>
+        <div class="investor-action-row"><button class="primary-btn" type="button" data-action="calculateInvestorScenario">Calculate Investment Scenario</button>${isPreview ? `<button class="ghost-btn" type="button" data-route="investors">Submit Non-Binding Investor Interest</button><button class="ghost-btn" type="button" data-route="investors">Request Investor Review</button>` : `<button class="ghost-btn" type="button" data-action="submitInvestorInterest">Submit Non-Binding Investor Interest</button><button class="ghost-btn" type="button" data-action="requestInvestorReview">Request Investor Review</button>`}</div>
       </article>
       <article class="investor-tool-card">
         <h3>First Hub Economics</h3>
@@ -1942,7 +1943,7 @@ function investorAnalysisPanel() {
         <div class="quick-amount-row">${(model.hubAssumptions?.hubPresets || [1,3,5,10]).map(count => `<button class="ghost-btn ${Number(state.investorHubs) === count ? 'active' : ''}" type="button" data-action="setInvestorHubs" data-hubs="${count}">${count} hub${count === 1 ? '' : 's'}</button>`).join('')}</div>
         <div class="form-grid two">
           <label><span>Custom hubs</span><input data-investor-field="hubs" type="number" min="1" max="25" step="1" value="${esc(state.investorHubs)}"></label>
-          <label><span>Revenue per hub</span><input data-investor-field="revenuePerHub" type="number" min="0" step="50000" value="${esc(state.investorAnalysis.revenuePerHub)}"></label>
+          <label><span>Revenue per hub</span><input data-investor-field="revenuePerHub" type="number" min="0" step="1000" value="${esc(state.investorAnalysis.revenuePerHub)}"></label>
           <label><span>EBITDA margin (%)</span><input data-investor-field="ebitdaMargin" type="number" min="0" max="60" step="1" value="${esc(state.investorAnalysis.ebitdaMargin)}"></label>
           <label><span>Valuation multiple</span><input data-investor-field="valuationMultiple" type="number" min="0" max="15" step="0.5" value="${esc(state.investorAnalysis.valuationMultiple)}"></label>
         </div>
@@ -1972,18 +1973,49 @@ function investorAnalysisPanel() {
     <p class="investor-privacy-note">When you use investor tools or submit investor information, SymbioGreens may record your submitted inputs and interaction history to evaluate investor interest, respond to inquiries, improve investor communications, and support appropriate follow-up. These tools are illustrative and non-binding.</p>
   </section>`;
 }
+function investorReviewProcessSection(showPreviewHelper = false, options = {}) {
+  const isPreview = options.preview === true;
+  const reviewSteps = [
+    ['Submit Interest Request', 'Submit a non-binding investor or partner interest request.'],
+    ['SymbioGreens Review', 'SymbioGreens reviews investor fit, contribution range, strategic alignment, and compliance requirements.'],
+    ['Direct Follow-Up', 'If the request is appropriate, SymbioGreens contacts the investor or partner directly.'],
+    ['Private Account Invitation', 'Qualified investors may be invited to create or activate a private review account.'],
+    ['Approved Materials & Terms', 'Private materials, detailed financial tools, due diligence files, calls, and final terms are shared only after approval and appropriate legal review.']
+  ];
+  return `<section class="review-process-section" id="investor-review-process"><div class="section-intro"><div class="eyebrow">Review Process</div><h2>How the Review Process Works</h2><p>Investor accounts and private document access are not open to the general public. Access is provided only after review and approval. Approved investors may later receive private login instructions or account activation details.</p></div><figure class="investor-wide-visual"><img src="public/company/production/investor-review-process.png" alt="How the investor and partnership review process works"></figure><div class="review-step-grid">${reviewSteps.map(([title,body], index) => `<article><span>${String(index + 1).padStart(2,'0')}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div><div class="investor-action-row">${isPreview ? `<button class="primary-btn" type="button" data-route="investors">Submit Non-Binding Investor Interest</button><button class="ghost-btn" type="button" data-route="investors">Request Investor Review</button>` : `<button class="primary-btn" type="button" data-action="focusInvestorForm">Submit Non-Binding Investor Interest</button><button class="ghost-btn" type="button" data-action="focusInvestorForm">Request Investor Review</button><button class="ghost-btn" type="button" data-action="focusPartnerForm">Request Partner Discussion</button>`}<button class="ghost-btn" type="button" data-route="contact">Contact SymbioGreens</button></div></section>`;
+}
+function founderPreviewEnabled() {
+  const params = new URLSearchParams(location.search || '');
+  return INVESTOR_PREVIEW_ENABLED === true && INVESTOR_PRIVATE_TOOLS_ENABLED === true && (readStore('symbioFounderPreviewEnabled', false) === true || localStorage.getItem('symbioFounderPreviewEnabled') === 'true' || params.get('founderPreview') === '1');
+}
+function investorPreviewUnavailablePanel() {
+  return `<section class="form-panel investor-preview-unavailable"><div class="eyebrow">Investor Review</div><h1>Preview unavailable</h1><p>Investor preview is not publicly available. Private investor review access is by invitation only.</p><p>Private investor materials and review access are provided only after review and approval.</p><button class="primary-btn" data-route="investors">Return to Investor Overview</button></section>`;
+}
+function investorPreviewPanel() {
+  if (!founderPreviewEnabled()) return investorPreviewUnavailablePanel();
+  const model = investorModel();
+  const saved = contributionAnalysis(0);
+  const baseScenario = (model.firstHubScenarios || []).find(item => item.id === 'base') || selectedFirstHubScenario();
+  return `<section class="investor-page investor-preview-page">
+    <div class="founder-preview-banner">Founder Preview Mode — demo investor view only. No private data is loaded.</div>
+    <section class="investor-hero investor-preview-hero"><div class="investor-hero-copy"><div class="eyebrow">Investor Review Preview</div><h1>Approved Investor Review Experience</h1><p>This founder-safe preview shows the type of review experience a qualified investor may see after submitting interest and being approved for a later private process. It uses mock scenario data only and does not load Supabase, real investor accounts, private files, admin analytics, or confidential documents.</p><div class="hero-actions"><button class="primary-btn" data-route="investors">Back to Public Investor Page</button><button class="ghost-btn" data-action="scrollToInvestorReviewProcess">How the Review Process Works</button></div></div><figure class="investor-hero-visual"><img src="public/company/production/investor-partnerships-hero.png" alt="Investor review preview"></figure></section>
+    <section class="investor-tool-card investor-preview-welcome"><div><div class="eyebrow">Demo Investor</div><h2>Welcome, Preview Investor</h2><p>Your profile has been marked as review-ready in this demo view. In production, access would require approval, authentication, legal review, and secure authorization before private materials are made available.</p></div><div class="investor-metric-grid">${investorMetric('Preview status', 'Demo only')}${investorMetric('Account access', 'Not enabled')}${investorMetric('Private documents', 'Not loaded')}${investorMetric('Supabase data', 'Not requested')}</div></section>
+    ${investorAnalysisPanel({preview:true})}
+    <section class="investor-tool-card saved-scenario-preview"><h3>Saved Scenario Preview</h3><p>This mock saved scenario illustrates what an approved investor might review later. It is not stored remotely and is not tied to a real investor account.</p><div class="investor-metric-grid">${investorMetric('Saved contribution', money(saved.contribution))}${investorMetric('Estimated equity', percent(saved.estimatedEquityPercent), 'From 30% investor pool')}${investorMetric('Founder/platform allocation', money(saved.founderAllocation), 'Contribution x 10%')}${investorMetric('Scenario', baseScenario.label || 'Base Case')}${investorMetric('Illustrative annual revenue', money(baseScenario.annualRevenue || 0))}${investorMetric('Illustrative investor share', money((baseScenario.distributableProfit || 0) * (saved.estimatedEquityPercent / 100)))}</div></section>
+    ${investorReviewProcessSection(false, {preview:true})}
+    <section class="investor-disclaimer"><strong>Preview disclaimer</strong><p>This preview is for founder proofing only. It is not an investment offer, not a solicitation, not a live investor portal, not a representation that any investor has been approved, and not a source of private investor or company data.</p><button class="primary-btn" data-route="investors">Back to Public Investor Page</button></section>
+  </section>`;
+}
 function investorsPanel() {
-  trackInvestorPageOpenedOnce();
   const active = state.investorTrack || 'investor';
-  const reviewSteps = [['Submit Profile','Complete the appropriate pre-qualification form with detailed information.'],['Initial Review','We review background, readiness, market fit, and strategic alignment.'],['Clarification','If there is potential alignment, we may request more information or schedule a call.'],['Concept Assessment','Qualified opportunities may be assessed for demand, feasibility, capital needs, operating model, and long-term viability.'],['Formal Discussion','Only aligned opportunities move to structured commercial, investment, or partnership review.']];
   const lookFor = ['Serious capital or real market access','Strong local need','Hospitality or specialty buyer demand','Long-term alignment','Operational discipline','Shared value creation'];
-  return `<section class="investor-page"><section class="investor-hero"><div class="investor-hero-copy"><div class="eyebrow">Investors & Partnerships</div><h1>Build the Future of Local Food Production With Us</h1><p>SymbioGreens and Balponics are developing a premium controlled-environment agriculture model designed for local freshness, food autonomy, hospitality supply, technical training, and scalable project replication. We welcome serious inquiries from qualified investors and strategic partners aligned with our mission to build smarter local food systems.</p></div><figure class="investor-hero-visual"><img src="public/company/production/investor-partnerships-hero.png" alt="Investors and strategic partnerships two-track overview"></figure></section><section class="track-selector-panel"><div class="section-intro"><h2>Choose Your Track</h2><p>Choose the path that best matches your interest.</p></div><div class="track-selector-grid"><button class="track-selector ${active === 'investor' ? 'active' : ''}" data-action="setInvestorTrack" data-track="investor"><span>I Am an Investor</span><small>For qualified investors seeking exposure to scalable local food production, hydroponic infrastructure, and regional growth opportunities.</small></button><button class="track-selector ${active === 'partner' ? 'active' : ''}" data-action="setInvestorTrack" data-track="partner"><span>I Am a Strategic Partner</span><small>For partners bringing land, capital, market access, buyer relationships, infrastructure, or local execution capacity.</small></button></div><div class="track-selected-note">${active === 'investor' ? 'Investor track selected: review investment opportunities in Balponics, SymbioGreens, farm development, technical platforms, and regional growth.' : 'Strategic partner track selected: explore project partnerships where local partners bring market access, resources, execution capacity, or infrastructure.'}</div></section><section class="track-section investor-track-section ${active === 'investor' ? 'active' : 'muted'}" id="investor-track"><div class="track-header"><div><div class="eyebrow">Investor Track</div><h2>Investor Interest</h2><p>This track is for qualified investors seeking exposure to controlled-environment agriculture, premium local food production, hydroponic infrastructure, farm development, technical platforms, or regional growth opportunities.</p></div><figure><img src="public/company/production/investor-track-overview.png" alt="Investor track pre-qualification overview"></figure></div>${investorInterestForm()}</section><section class="track-section partner-track-section ${active === 'partner' ? 'active' : 'muted'}" id="partner-track"><div class="track-header"><div><div class="eyebrow">Strategic Partner Track</div><h2>Strategic Partnership Interest</h2><p>This track is for partners who want to bring the SymbioGreens / Balponics model to a specific market, country, island, city, hospitality zone, or commercial network.</p><p>SymbioGreens / Balponics can bring the model, systems, crop strategy, training, technical support, brand standards, and operating framework. A local partner may bring land, capital, infrastructure, buyer access, market access, operations, or local execution. Partnership structures vary by project and may involve meaningful long-term participation within the approved investor equity pool, subject to project structure, technical contribution, capital structure, and support role. This is not a fixed offer; final terms require formal review and negotiation.</p></div><figure><img src="public/company/production/strategic-partner-track-overview.png" alt="Strategic partner track overview"></figure></div>${partnerInterestForm()}</section>${investorAnalysisPanel()}<section class="review-process-section"><div class="section-intro"><div class="eyebrow">Review Process</div><h2>How the Review Process Works</h2><p>All submissions are reviewed for strategic fit, readiness, and alignment to ensure we build the right partnerships and invest in the right opportunities.</p></div><figure class="investor-wide-visual"><img src="public/company/production/investor-review-process.png" alt="How the investor and partnership review process works"></figure><div class="review-step-grid">${reviewSteps.map(([title,body], index) => `<article><span>${String(index + 1).padStart(2,'0')}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="what-we-look-for"><div class="section-intro"><h2>What We Look For</h2></div><div class="investor-card-grid">${lookFor.map(item => `<article><strong>${esc(item)}</strong></article>`).join('')}</div></section><section class="investor-disclaimer"><strong>Important notice</strong><p>This page is for preliminary expressions of interest only. It is not an offer of securities, not a solicitation to invest, not a guaranteed partnership, and not a guarantee that any submission will advance. All opportunities are subject to review, due diligence, legal documentation, negotiation, and applicable laws.</p></section></section>`;
+  return `<section class="investor-page"><section class="investor-hero"><div class="investor-hero-copy"><div class="eyebrow">Investors & Partnerships</div><h1>Build the Future of Local Food Production With Us</h1><p>SymbioGreens and Balponics are developing a premium controlled-environment agriculture model designed for local freshness, food autonomy, hospitality supply, technical training, and scalable project replication. This public page is for initial interest only; private investor materials are available only after review and approval.</p><div class="hero-actions"><button class="primary-btn" data-action="focusInvestorForm">Request Investor Review</button><button class="ghost-btn" data-action="focusPartnerForm">Request Partner Discussion</button></div></div><figure class="investor-hero-visual"><img src="public/company/production/investor-partnerships-hero.png" alt="Investors and strategic partnerships two-track overview"></figure></section><section class="track-selector-panel"><div class="section-intro"><h2>Choose Your Track</h2><p>Choose the path that best matches your interest.</p></div><div class="track-selector-grid"><button class="track-selector ${active === 'investor' ? 'active' : ''}" data-action="setInvestorTrack" data-track="investor"><span>I Am an Investor</span><small>Submit a non-binding information request for review. This is not an offer of securities or a public investment application.</small></button><button class="track-selector ${active === 'partner' ? 'active' : ''}" data-action="setInvestorTrack" data-track="partner"><span>I Am a Strategic Partner</span><small>Request a discussion about land, market access, buyer relationships, infrastructure, capital, or local execution capacity.</small></button></div><div class="track-selected-note">${active === 'investor' ? 'Investor track selected: submit a non-binding investor interest request for review.' : 'Strategic partner track selected: request a partner discussion for review.'}</div></section><section class="track-section investor-track-section ${active === 'investor' ? 'active' : 'muted'}" id="investor-track"><div class="track-header"><div><div class="eyebrow">Investor Track</div><h2>Non-Binding Investor Interest</h2><p>Use this form to request information and begin the review process. Investor accounts, private document access, detailed financial tools, and due diligence materials are not open to the general public.</p></div><figure><img src="public/company/production/investor-track-overview.png" alt="Investor track overview"></figure></div>${investorInterestForm()}</section><section class="track-section partner-track-section ${active === 'partner' ? 'active' : 'muted'}" id="partner-track"><div class="track-header"><div><div class="eyebrow">Strategic Partner Track</div><h2>Partner Inquiry</h2><p>Use this form to request a discussion about a possible market, land, infrastructure, buyer network, capital, or operating partnership. Structures vary by project and require formal review, negotiation, and legal documentation.</p></div><figure><img src="public/company/production/strategic-partner-track-overview.png" alt="Strategic partner track overview"></figure></div>${partnerInterestForm()}</section>${investorReviewProcessSection(false)}<section class="what-we-look-for"><div class="section-intro"><h2>What We Look For</h2></div><div class="investor-card-grid">${lookFor.map(item => `<article><strong>${esc(item)}</strong></article>`).join('')}</div></section><section class="investor-disclaimer"><strong>Important notice</strong><p>This page is for non-binding information requests only. It is not an offer to sell securities, not a solicitation to invest, not a public investor application, and not a guarantee that any inquiry will advance. Private investor materials and review access are provided only after review and approval. Final terms are subject to due diligence, legal review, formal agreements, and applicable law.</p></section></section>`;
 }
 function investorInterestForm() {
-  return `<form class="investor-form" data-form="investor"><input type="hidden" name="inquiry_type" value="Investor"><h3>Investor Pre-Qualification</h3><div class="form-grid two"><label><span>Full Name</span><input name="full_name" required></label><label><span>Company / Organization</span><input name="company"></label><label><span>Email</span><input name="email" type="email" required></label><label><span>Phone / WhatsApp</span><input name="phone"></label><label><span>Country / City</span><input name="country_city"></label><label><span>Website / LinkedIn</span><input name="website"></label><label><span>Investor Type</span><select name="investor_type"><option>Individual investor</option><option>Family office</option><option>Strategic investor</option><option>Institutional investor</option><option>Development / impact investor</option></select></label><label><span>Area of Interest</span><select name="investment_area"><option>Balponics Technical Systems & Services</option><option>SymbioGreens Farm Development</option><option>SymbioGreens Network / Group Expansion</option><option>Specific Model Farms & Projects</option><option>Regional Replication Projects</option><option>Strategic Growth Capital</option></select></label><label><span>Investment Capacity</span><input name="investment_capacity" placeholder="Indicative range"></label><label><span>Preferred Investment Style</span><input name="investment_style" placeholder="Equity, project finance, strategic capital..."></label><label class="full"><span>Current Sector / Business Background</span><textarea name="sector_background"></textarea></label><label class="full"><span>Why You Are Interested</span><textarea name="why_interested" required></textarea></label><label class="full"><span>Expectations, Return / Impact / Value</span><textarea name="expectations"></textarea></label><label class="full"><span>Resources & Relationships</span><textarea name="resources_relationships"></textarea></label><label class="checkbox-row full"><input type="checkbox" name="review_consent" value="Yes" required><span>I understand this is a selective preliminary review process and not an investment offer or guaranteed opportunity.</span></label></div><button class="primary-btn">Submit Investor Profile</button></form>`;
+  return `<form class="investor-form" data-form="investor"><input type="hidden" name="inquiry_type" value="Investor"><h3>Submit Non-Binding Investor Interest</h3><div class="form-grid two"><label><span>Name</span><input name="full_name" required></label><label><span>Email</span><input name="email" type="email" required></label><label><span>Phone optional</span><input name="phone"></label><label><span>Investor type</span><select name="investor_type"><option>Individual investor</option><option>Family office</option><option>Strategic investor</option><option>Institutional investor</option><option>Development / impact investor</option><option>Other</option></select></label><label><span>Estimated contribution range</span><input name="investment_capacity" placeholder="Indicative range only"></label><label><span>Country / market interest</span><input name="country_city" placeholder="Country, city, or market"></label><label><span>Preferred participation</span><select name="investment_style"><option>To be discussed</option><option>Equity interest</option><option>Project finance</option><option>Strategic capital</option><option>Partnership participation</option></select></label><label class="full"><span>Message / notes</span><textarea name="why_interested" required placeholder="Tell us what you would like SymbioGreens to review."></textarea></label><label class="checkbox-row full"><input type="checkbox" name="review_consent" value="Yes" required><span>I understand this is a non-binding information request, not an offer to sell securities, not investment advice, and not a guarantee of access or final terms.</span></label></div><button class="primary-btn">Request Investor Review</button></form>`;
 }
 function partnerInterestForm() {
-  return `<form class="investor-form" data-form="investor"><input type="hidden" name="inquiry_type" value="Strategic Partner"><h3>Strategic Partner Pre-Qualification</h3><div class="form-grid two"><label><span>Full Name</span><input name="full_name" required></label><label><span>Organization</span><input name="company"></label><label><span>Email</span><input name="email" type="email" required></label><label><span>Phone / WhatsApp</span><input name="phone"></label><label><span>Partner Type</span><select name="partner_type"><option>Market / country partner</option><option>Land or infrastructure partner</option><option>Hospitality / buyer network partner</option><option>Capital partner</option><option>Operations partner</option><option>Government / institutional partner</option></select></label><label><span>Target Market & Location</span><input name="target_market" required></label><label class="full"><span>Local Opportunity / Market Need</span><textarea name="local_opportunity"></textarea></label><label class="full"><span>Potential Buyers / Commercial Network</span><textarea name="buyers"></textarea></label><label class="full"><span>Contribution / Resources You May Bring</span><textarea name="contributions" placeholder="Land, capital, infrastructure, permits, logistics, team, buyer access..."></textarea></label><label><span>Capital & Readiness</span><input name="capital_readiness" placeholder="Budget range, readiness level"></label><label><span>Timeline</span><input name="timeline"></label><label class="full"><span>Partnership Vision</span><textarea name="partnership_vision" required></textarea></label><label class="full"><span>Your Role in the Project</span><textarea name="role_in_project"></textarea></label><label class="full"><span>Strategic Alignment</span><textarea name="strategic_alignment"></textarea></label><label class="checkbox-row full"><input type="checkbox" name="review_consent" value="Yes" required><span>I understand partnership structures vary by project and require formal review, negotiation, and legal documentation.</span></label></div><button class="primary-btn">Submit Partnership Profile</button></form>`;
+  return `<form class="investor-form" data-form="investor"><input type="hidden" name="inquiry_type" value="Strategic Partner"><h3>Request Partner Discussion</h3><div class="form-grid two"><label><span>Name</span><input name="full_name" required></label><label><span>Organization</span><input name="company"></label><label><span>Email</span><input name="email" type="email" required></label><label><span>Phone optional</span><input name="phone"></label><label><span>Partner type</span><select name="partner_type"><option>Market / country partner</option><option>Land or infrastructure partner</option><option>Hospitality / buyer network partner</option><option>Capital partner</option><option>Operations partner</option><option>Government / institutional partner</option><option>Other</option></select></label><label><span>Market / region</span><input name="target_market" required></label><label><span>Interest area</span><select name="investment_area"><option>Project development</option><option>Market access</option><option>Land or infrastructure</option><option>Buyer relationships</option><option>Capital partnership</option><option>Operations support</option></select></label><label class="full"><span>Message / notes</span><textarea name="partnership_vision" required placeholder="Tell us what you would like to discuss."></textarea></label></div><button class="primary-btn">Request Partner Discussion</button></form>`;
 }
 function investorPrivatePlaceholderPanel(route) {
   const labels = {
@@ -2227,7 +2259,7 @@ async function submitInvestor(e) {
     source_page: location.hash || hashForRoute(state.route),
     metadata: {local_investor_request_id: row.id}
   });
-  await trackInvestorEvent('prequalification_submitted', {source_section:'investor_prequalification', event_payload: row, contribution_amount: cleanText(fd.investment_capacity || fd.capital_readiness || '')});
+  await trackInvestorEvent(row.inquiry_type === 'Strategic Partner' ? 'partner_inquiry_submitted' : 'interest_form_submitted', {source_section: row.inquiry_type === 'Strategic Partner' ? 'public_partner_inquiry' : 'public_investor_interest', event_payload: row, contribution_amount: cleanText(fd.investment_capacity || '')});
   notifyInternal('manager_investor_request_alert', `${fd.inquiry_type || 'Investor / partner'} request from ${fd.full_name || fd.email}`);
   alert(backendSyncUnavailable(result) ? localSyncMessage() : t('investorSubmissionThanks'));
   e.target.reset();
@@ -2366,6 +2398,9 @@ document.addEventListener('click', e => {
     alert(`Illustrative scenario calculated: ${percent(analysis.estimatedEquityPercent)} estimated equity on ${money(analysis.contribution)}. This is non-binding and discussion-only.`);
     return;
   }
+  if (action === 'scrollToInvestorReviewProcess') { document.getElementById('investor-review-process')?.scrollIntoView({behavior:'smooth', block:'start'}); return; }
+  if (action === 'focusInvestorForm') { state.investorTrack = 'investor'; trackInvestorEvent('review_request_clicked', {source_section:'public_investor_page'}); mount(); setTimeout(() => document.getElementById('investor-track')?.scrollIntoView({behavior:'smooth', block:'start'}), 0); return; }
+  if (action === 'focusPartnerForm') { state.investorTrack = 'partner'; trackInvestorEvent('partner_discussion_clicked', {source_section:'public_investor_page'}); mount(); setTimeout(() => document.getElementById('partner-track')?.scrollIntoView({behavior:'smooth', block:'start'}), 0); return; }
   if (action === 'submitInvestorInterest') { submitNonBindingInvestorInterest(false); return; }
   if (action === 'requestInvestorReview') { submitNonBindingInvestorInterest(true); return; }
   if (action === 'setContactInquiry') { state.contactInquiryType = actionBtn.dataset.inquiry || ''; mount(); setTimeout(() => document.querySelector('[data-form="contact"]')?.scrollIntoView({behavior:'smooth', block:'center'}), 0); return; }
@@ -2377,12 +2412,6 @@ document.addEventListener('click', e => {
   if (action === 'exportWorkbook') { exportWorkbook(); return; }
   if (action === 'exportRespondents') { exportCsv('respondents'); return; }
   if (['activateUser','deactivateUser','resetUserPassword'].includes(action)) { manageUser(action, actionBtn.dataset.user); return; }
-});
-document.addEventListener('focusin', e => {
-  if (e.target.closest?.('.investor-form') && !state._investorPrequalStarted) {
-    state._investorPrequalStarted = true;
-    trackInvestorEvent('prequalification_started', {source_section:'investor_prequalification'});
-  }
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
