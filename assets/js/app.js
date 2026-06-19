@@ -16,6 +16,9 @@
   contactInquiries: 'sg_platform_contact_inquiries',
   investorRequests: 'sg_platform_investor_requests',
   investorFeedback: 'sg_platform_investor_feedback',
+  investorInteractionSession: 'sg_investor_interaction_session',
+  investorInteractionEvents: 'sg_investor_interaction_events',
+  investorEngagementSnapshots: 'sg_investor_engagement_snapshots',
 };
 
 const INTERNAL_NOTIFICATION_RECIPIENTS = ['me@balponics.com', 'bbalmir@gmail.com'];
@@ -31,6 +34,19 @@ const state = {
   resetEmail: '',
   investorAccessEmail: '',
   investorTrack: 'investor',
+  investorScenario: 'base',
+  investorHubs: 3,
+  investorAnalysis: {
+    contribution: 50000,
+    investorType: 'Individual',
+    participation: 'Equity',
+    interestLevel: 'Interested',
+    notes: '',
+    revenuePerHub: 1400000,
+    ebitdaMargin: 24,
+    valuationMultiple: 6,
+    timelineYears: 5
+  },
   contactInquiryType: '',
   activeHomeModel: 'symbio',
   activeHomeFamily: 'lettuces',
@@ -1454,10 +1470,10 @@ function harvestOperationsPanel() {
   return `<div class="operations-feature"><div class="operations-copy"><h3>${esc(t('harvestTitle'))}</h3><p>${esc(t('harvestBody1'))}</p><p>${esc(t('harvestBody2'))}</p><ul>${list('harvestBullets').map(x => `<li>${esc(x)}</li>`).join('')}</ul></div><figure class="operations-image"><div class="operations-photo" style="background-image:url('public/company/production/harvest-delivery-operations.png')"></div><figcaption>${esc(t('harvestCaption'))}</figcaption></figure></div>`;
 }
 function qualityAssurancePanel() {
-  return `<div class="quality-feature"><div class="quality-copy"><div class="eyebrow">${esc(t('qualityTitle'))}</div><h3>${esc(t('qualityHeadline'))}</h3><p>${esc(t('qualityBody'))}</p><div class="quality-badges">${list('qualityBadges').map(x => `<span><b>✓</b>${esc(x)}</span>`).join('')}</div><div class="quality-metrics">${list('qualityMetrics').map(x => `<span><b>✓</b>${esc(x)}</span>`).join('')}</div></div><figure class="quality-image-card"><img src="public/company/production/packaging-quality-control.png" alt="Quality assurance and packaging for premium hydroponic produce"><figcaption>${esc(t('qualityCaption'))}</figcaption></figure></div>`;
+  return `<div class="quality-feature"><div class="quality-copy"><div class="eyebrow">${esc(t('qualityTitle'))}</div><h3>${esc(t('qualityHeadline'))}</h3><p>${esc(t('qualityBody'))}</p><div class="quality-badges">${list('qualityBadges').map(x => `<span><b>?</b>${esc(x)}</span>`).join('')}</div><div class="quality-metrics">${list('qualityMetrics').map(x => `<span><b>?</b>${esc(x)}</span>`).join('')}</div></div><figure class="quality-image-card"><img src="public/company/production/packaging-quality-control.png" alt="Quality assurance and packaging for premium hydroponic produce"><figcaption>${esc(t('qualityCaption'))}</figcaption></figure></div>`;
 }
 function distributionDeliveryPanel() {
-  return `<div class="delivery-feature"><figure class="delivery-image-card"><img src="public/company/production/delivery-logistics.png" alt="Distribution and delivery of fresh SymbioGreens produce"><figcaption>${esc(t('deliveryCaption'))}</figcaption></figure><div class="delivery-copy"><div class="eyebrow">${esc(t('deliveryTitle'))}</div><h3>${esc(t('deliveryHeadline'))}</h3><p>${esc(t('deliveryBody'))}</p><ul>${list('deliveryBullets').map(x => `<li>${esc(x)}</li>`).join('')}</ul><div class="delivery-metrics">${list('deliveryMetrics').map(x => `<span><b>✓</b>${esc(x)}</span>`).join('')}</div></div></div>`;
+  return `<div class="delivery-feature"><figure class="delivery-image-card"><img src="public/company/production/delivery-logistics.png" alt="Distribution and delivery of fresh SymbioGreens produce"><figcaption>${esc(t('deliveryCaption'))}</figcaption></figure><div class="delivery-copy"><div class="eyebrow">${esc(t('deliveryTitle'))}</div><h3>${esc(t('deliveryHeadline'))}</h3><p>${esc(t('deliveryBody'))}</p><ul>${list('deliveryBullets').map(x => `<li>${esc(x)}</li>`).join('')}</ul><div class="delivery-metrics">${list('deliveryMetrics').map(x => `<span><b>?</b>${esc(x)}</span>`).join('')}</div></div></div>`;
 }
 function whyHydroponicsPanel() {
   const cards = dict('homeHydroCards');
@@ -1742,11 +1758,226 @@ function tableView(rows) {
   const heads = [...new Set(rows.flatMap(r => Object.keys(r)))].slice(0,8);
   return `<div class="table-wrap"><table><thead><tr>${heads.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${heads.map(h => `<td>${esc(Array.isArray(r[h]) ? r[h].join(', ') : r[h] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
+function investorModel() { return window.SYMBIOGREENS_INVESTOR_MODEL || {}; }
+function investorSessionId() {
+  let id = readStore(storeKeys.investorInteractionSession, '');
+  if (!id) {
+    id = uid('inv_session');
+    writeStore(storeKeys.investorInteractionSession, id);
+  }
+  return id;
+}
+function money(value) {
+  return new Intl.NumberFormat('en-US', {style:'currency', currency: investorModel().currency || 'USD', maximumFractionDigits:0}).format(Number(value || 0));
+}
+function percent(value, digits = 2) { return `${Number(value || 0).toFixed(digits)}%`; }
+function contributionAnalysis(amount = state.investorAnalysis.contribution) {
+  const model = investorModel();
+  const raiseTarget = model.raiseTarget || 2200000;
+  const contribution = Math.max(0, Math.min(Number(amount || 0), raiseTarget));
+  const shareOfRaise = raiseTarget ? contribution / raiseTarget : 0;
+  const equityPool = model.investorEquityPoolPercent || model.maxInvestorEquityPercent || 30;
+  const estimatedEquity = Math.min(shareOfRaise * equityPool, model.maxInvestorEquityPercent || 30);
+  return {
+    contribution,
+    shareOfRaisePercent: shareOfRaise * 100,
+    estimatedEquityPercent: estimatedEquity,
+    founderAllocation: contribution * ((model.founderDevelopmentAllocationPercent || 10) / 100),
+    remainingRaise: Math.max(raiseTarget - contribution, 0)
+  };
+}
+function selectedFirstHubScenario() {
+  return (investorModel().firstHubScenarios || []).find(item => item.id === state.investorScenario) || (investorModel().firstHubScenarios || [])[1] || {};
+}
+function platformAnalysis() {
+  const model = investorModel();
+  const hubs = Math.max(1, Number(state.investorHubs || model.hubAssumptions?.defaultHubCount || 1));
+  const revenuePerHub = Math.max(0, Number(state.investorAnalysis.revenuePerHub || model.hubAssumptions?.defaultRevenuePerHub || 0));
+  const ebitdaMargin = Math.max(0, Number(state.investorAnalysis.ebitdaMargin || 0)) / 100;
+  const valuationMultiple = Math.max(0, Number(state.investorAnalysis.valuationMultiple || 0));
+  const totalRevenue = hubs * revenuePerHub;
+  const totalEbitda = totalRevenue * ebitdaMargin;
+  const valuation = totalEbitda * valuationMultiple;
+  const equity = contributionAnalysis().estimatedEquityPercent / 100;
+  return {hubs, revenuePerHub, ebitdaMargin, valuationMultiple, totalRevenue, totalEbitda, valuation, theoreticalInvestorValue: valuation * equity};
+}
+function investorEngagementLevel(score) {
+  const levels = investorModel().engagementScoring?.levels || [];
+  return levels.find(item => score >= item.min && score <= item.max) || {level:'cold', followUp:'No immediate action or nurture follow-up.'};
+}
+function calculateInvestorEngagementScore(sessionId = investorSessionId()) {
+  const events = asArray(readStore(storeKeys.investorInteractionEvents, [])).filter(event => event.session_id === sessionId);
+  const weights = investorModel().engagementScoring?.weights || {};
+  let score = 0;
+  let highest = 0;
+  let lastContribution = 0;
+  const scenarios = new Set();
+  events.forEach(event => {
+    score += weights[event.event_type] || 0;
+    const contribution = Number(event.contribution_amount || event.event_payload?.contribution || 0);
+    if (contribution) {
+      lastContribution = contribution;
+      highest = Math.max(highest, contribution);
+      if (contribution >= 50000) score += weights.contribution_above_50000 || 0;
+      if (contribution >= 100000) score += weights.contribution_above_100000 || 0;
+      if (contribution >= 250000) score += weights.contribution_above_250000 || 0;
+    }
+    if (event.scenario_name) scenarios.add(event.scenario_name);
+  });
+  const level = investorEngagementLevel(score);
+  return {
+    session_id: sessionId,
+    total_events: events.length,
+    calculator_uses: events.filter(event => event.event_type === 'scenario_calculated').length,
+    highest_contribution_tested: highest,
+    last_contribution_tested: lastContribution,
+    markets_viewed: [],
+    scenarios_viewed: [...scenarios],
+    submitted_interest: events.some(event => event.event_type === 'non_binding_interest_submitted'),
+    requested_review: events.some(event => event.event_type === 'investor_review_requested'),
+    engagement_score: score,
+    engagement_level: level.level,
+    recommended_follow_up: level.followUp,
+    updated_at: new Date().toISOString()
+  };
+}
+async function saveInvestorEngagementSnapshot(payload) {
+  const rows = asArray(readStore(storeKeys.investorEngagementSnapshots, []));
+  rows.push({...payload, id:uid('inv_score'), created_at:new Date().toISOString()});
+  writeStore(storeKeys.investorEngagementSnapshots, rows);
+  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+    await window.SymbioGreensBackend.saveInvestorEngagementSnapshot?.(payload);
+  }
+}
+async function trackInvestorEvent(eventType, payload = {}) {
+  const sessionId = investorSessionId();
+  const row = {
+    id: uid('inv_event'),
+    session_id: sessionId,
+    event_type: eventType,
+    event_label: payload.event_label || eventType,
+    event_payload: payload,
+    contribution_amount: payload.contribution_amount || payload.contribution || null,
+    estimated_equity: payload.estimated_equity || payload.estimatedEquityPercent || null,
+    scenario_name: payload.scenario_name || payload.scenario || '',
+    page_route: location.hash || hashForRoute(state.route),
+    source_section: payload.source_section || '',
+    language: state.lang,
+    backend_enabled: Boolean(window.SymbioGreensBackend?.isBackendEnabled?.()),
+    created_at: new Date().toISOString()
+  };
+  writeStore(storeKeys.investorInteractionEvents, [...asArray(readStore(storeKeys.investorInteractionEvents, [])), row]);
+  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+    await window.SymbioGreensBackend.trackInvestorEvent?.(eventType, row);
+  }
+  await saveInvestorEngagementSnapshot(calculateInvestorEngagementScore(sessionId));
+}
+function trackInvestorPageOpenedOnce() {
+  if (state._investorPageTracked) return;
+  state._investorPageTracked = true;
+  trackInvestorEvent('investor_page_opened', {source_section:'investor_page'});
+}
+function investorMetric(label, value, note = '') {
+  return `<article class="investor-metric"><span>${esc(label)}</span><strong>${esc(value)}</strong>${note ? `<small>${esc(note)}</small>` : ''}</article>`;
+}
+function investorAnalysisPanel() {
+  const model = investorModel();
+  const analysis = contributionAnalysis();
+  const scenario = selectedFirstHubScenario();
+  const platform = platformAnalysis();
+  const presets = model.contributionPresets || [50000,100000,200000,250000,500000,1000000,2200000];
+  const examples = model.examples || presets.map(contributionAnalysis);
+  const useOfFunds = model.useOfFunds || [];
+  const risks = model.risks || [];
+  const scenarioInvestorShare = (scenario.distributableProfit || 0) * (analysis.estimatedEquityPercent / 100);
+  return `<section class="investor-analysis-section" id="investor-analysis">
+    <div class="section-intro">
+      <div class="eyebrow">Investor Analysis</div>
+      <h2>From First Hub to Caribbean Platform</h2>
+      <p>The Las Terrenas model is designed as the first reference hub for a scalable controlled-environment agriculture platform. The first-hub financials remain grounded in the Northeast Dominican Republic model, while platform scenarios are illustrative only.</p>
+    </div>
+    <div class="investor-disclaimer compact"><strong>Important notice</strong><p>${esc(model.disclaimer || '')}</p></div>
+    <div class="investor-tool-grid">
+      <article class="investor-tool-card investor-calculator-card">
+        <h3>Investment Participation Calculator</h3>
+        <div class="quick-amount-row">${presets.map(value => `<button class="ghost-btn ${Number(state.investorAnalysis.contribution) === value ? 'active' : ''}" type="button" data-action="setInvestorContribution" data-contribution="${value}">${esc(money(value))}</button>`).join('')}</div>
+        <div class="form-grid two">
+          <label><span>Contribution amount</span><input data-investor-field="contribution" type="number" min="0" max="${esc(model.raiseTarget || 2200000)}" step="1000" value="${esc(state.investorAnalysis.contribution)}"></label>
+          <label><span>Investor type</span><select data-investor-field="investorType">${(model.investorTypes || []).map(item => `<option ${state.investorAnalysis.investorType === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
+          <label><span>Preferred participation</span><select data-investor-field="participation">${(model.participationTypes || []).map(item => `<option ${state.investorAnalysis.participation === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
+          <label><span>Interest level</span><select data-investor-field="interestLevel">${(model.interestLevels || []).map(item => `<option ${state.investorAnalysis.interestLevel === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
+        </div>
+        <label><span>Notes / comments</span><textarea data-investor-field="notes" placeholder="Optional discussion notes">${esc(state.investorAnalysis.notes || '')}</textarea></label>
+        <div class="investor-metric-grid">
+          ${investorMetric('Contribution', money(analysis.contribution))}
+          ${investorMetric('Share of target raise', percent(analysis.shareOfRaisePercent))}
+          ${investorMetric('Estimated equity from 30% pool', percent(analysis.estimatedEquityPercent), 'Capped at 30%')}
+          ${investorMetric('Founder/platform allocation portion', money(analysis.founderAllocation), 'Contribution x 10%')}
+          ${investorMetric('Remaining raise', money(analysis.remainingRaise))}
+        </div>
+        <div class="investor-action-row"><button class="primary-btn" type="button" data-action="calculateInvestorScenario">Calculate Investment Scenario</button><button class="ghost-btn" type="button" data-action="submitInvestorInterest">Submit Non-Binding Investor Interest</button><button class="ghost-btn" type="button" data-action="requestInvestorReview">Request Investor Review</button></div>
+      </article>
+      <article class="investor-tool-card">
+        <h3>First Hub Economics</h3>
+        <div class="scenario-toggle-row">${(model.firstHubScenarios || []).map(item => `<button class="ghost-btn ${state.investorScenario === item.id ? 'active' : ''}" type="button" data-action="setInvestorScenario" data-scenario="${esc(item.id)}">${esc(item.label)}</button>`).join('')}</div>
+        <div class="investor-metric-grid">
+          ${investorMetric('Illustrative annual revenue', money(scenario.annualRevenue))}
+          ${investorMetric('Illustrative EBITDA margin', percent((scenario.ebitdaMargin || 0) * 100))}
+          ${investorMetric('Illustrative distributable profit', money(scenario.distributableProfit))}
+          ${investorMetric('Investor share at current estimate', money(scenarioInvestorShare))}
+          ${investorMetric('Payback range', scenario.paybackRange || 'discussion-only')}
+          ${investorMetric('ROI multiple scenario', `${Number(scenario.roiMultiple || 0).toFixed(1)}x`, 'Illustrative only')}
+        </div>
+        <p class="investor-note">${esc(scenario.notes || '')}</p>
+      </article>
+    </div>
+    <div class="investor-tool-grid">
+      <article class="investor-tool-card">
+        <h3>Platform Expansion Upside</h3>
+        <p>The first hub is a proof point for a repeatable Caribbean controlled-environment agriculture model if successfully executed.</p>
+        <div class="platform-stage-list">${(model.expansionStages || []).map(([stage, text]) => `<div><strong>${esc(stage)}</strong><span>${esc(text)}</span></div>`).join('')}</div>
+      </article>
+      <article class="investor-tool-card">
+        <h3>Multi-Hub Revenue Simulator</h3>
+        <div class="quick-amount-row">${(model.hubAssumptions?.hubPresets || [1,3,5,10]).map(count => `<button class="ghost-btn ${Number(state.investorHubs) === count ? 'active' : ''}" type="button" data-action="setInvestorHubs" data-hubs="${count}">${count} hub${count === 1 ? '' : 's'}</button>`).join('')}</div>
+        <div class="form-grid two">
+          <label><span>Custom hubs</span><input data-investor-field="hubs" type="number" min="1" max="25" step="1" value="${esc(state.investorHubs)}"></label>
+          <label><span>Revenue per hub</span><input data-investor-field="revenuePerHub" type="number" min="0" step="50000" value="${esc(state.investorAnalysis.revenuePerHub)}"></label>
+          <label><span>EBITDA margin (%)</span><input data-investor-field="ebitdaMargin" type="number" min="0" max="60" step="1" value="${esc(state.investorAnalysis.ebitdaMargin)}"></label>
+          <label><span>Valuation multiple</span><input data-investor-field="valuationMultiple" type="number" min="0" max="15" step="0.5" value="${esc(state.investorAnalysis.valuationMultiple)}"></label>
+        </div>
+        <div class="investor-metric-grid">
+          ${investorMetric('Platform revenue', money(platform.totalRevenue))}
+          ${investorMetric('Platform EBITDA', money(platform.totalEbitda))}
+          ${investorMetric('Potential valuation range', money(platform.valuation), 'Scenario multiple')}
+          ${investorMetric('Theoretical investor value', money(platform.theoreticalInvestorValue), 'Based on current estimated equity')}
+        </div>
+      </article>
+    </div>
+    <div class="investor-tool-grid">
+      <article class="investor-tool-card">
+        <h3>Use of Funds</h3>
+        <div class="funds-list">${useOfFunds.map(([label, amount]) => `<div><span>${esc(label)}</span><strong>${esc(money(amount))}</strong></div>`).join('')}</div>
+        <p class="investor-note">Total shown: ${esc(money(model.useOfFundsTotal || 0))}. Allocation remains subject to final budgets, legal structure, and execution planning.</p>
+      </article>
+      <article class="investor-tool-card">
+        <h3>Risk & Mitigation</h3>
+        <div class="risk-list">${risks.map(([risk, mitigation]) => `<div><strong>${esc(risk)}</strong><p>${esc(mitigation)}</p></div>`).join('')}</div>
+      </article>
+    </div>
+    <article class="investor-tool-card">
+      <h3>Investor Participation Examples</h3>
+      <div class="table-wrap"><table><thead><tr><th>Contribution</th><th>Share of raise</th><th>Estimated equity</th><th>Founder/platform allocation</th><th>Remaining raise</th></tr></thead><tbody>${examples.map(row => `<tr><td>${esc(money(row.contribution))}</td><td>${esc(percent(row.shareOfRaisePercent))}</td><td>${esc(percent(row.indicativeInvestorEquityPercent))}</td><td>${esc(money(row.founderDevelopmentAllocationReleased))}</td><td>${esc(money(row.remainingRaise))}</td></tr>`).join('')}</tbody></table></div>
+    </article>
+    <p class="investor-privacy-note">When you use investor tools or submit investor information, SymbioGreens may record your submitted inputs and interaction history to evaluate investor interest, respond to inquiries, improve investor communications, and support appropriate follow-up. These tools are illustrative and non-binding.</p>
+  </section>`;
+}
 function investorsPanel() {
+  trackInvestorPageOpenedOnce();
   const active = state.investorTrack || 'investor';
   const reviewSteps = [['Submit Profile','Complete the appropriate pre-qualification form with detailed information.'],['Initial Review','We review background, readiness, market fit, and strategic alignment.'],['Clarification','If there is potential alignment, we may request more information or schedule a call.'],['Concept Assessment','Qualified opportunities may be assessed for demand, feasibility, capital needs, operating model, and long-term viability.'],['Formal Discussion','Only aligned opportunities move to structured commercial, investment, or partnership review.']];
   const lookFor = ['Serious capital or real market access','Strong local need','Hospitality or specialty buyer demand','Long-term alignment','Operational discipline','Shared value creation'];
-  return `<section class="investor-page"><section class="investor-hero"><div class="investor-hero-copy"><div class="eyebrow">Investors & Partnerships</div><h1>Build the Future of Local Food Production With Us</h1><p>SymbioGreens and Balponics are developing a premium controlled-environment agriculture model designed for local freshness, food autonomy, hospitality supply, technical training, and scalable project replication. We welcome serious inquiries from qualified investors and strategic partners aligned with our mission to build smarter local food systems.</p></div><figure class="investor-hero-visual"><img src="public/company/production/investor-partnerships-hero.png" alt="Investors and strategic partnerships two-track overview"></figure></section><section class="track-selector-panel"><div class="section-intro"><h2>Choose Your Track</h2><p>Choose the path that best matches your interest.</p></div><div class="track-selector-grid"><button class="track-selector ${active === 'investor' ? 'active' : ''}" data-action="setInvestorTrack" data-track="investor"><span>I Am an Investor</span><small>For qualified investors seeking exposure to scalable local food production, hydroponic infrastructure, and regional growth opportunities.</small></button><button class="track-selector ${active === 'partner' ? 'active' : ''}" data-action="setInvestorTrack" data-track="partner"><span>I Am a Strategic Partner</span><small>For partners bringing land, capital, market access, buyer relationships, infrastructure, or local execution capacity.</small></button></div><div class="track-selected-note">${active === 'investor' ? 'Investor track selected: review investment opportunities in Balponics, SymbioGreens, farm development, technical platforms, and regional growth.' : 'Strategic partner track selected: explore project partnerships where local partners bring market access, resources, execution capacity, or infrastructure.'}</div></section><section class="track-section investor-track-section ${active === 'investor' ? 'active' : 'muted'}" id="investor-track"><div class="track-header"><div><div class="eyebrow">Investor Track</div><h2>Investor Interest</h2><p>This track is for qualified investors seeking exposure to controlled-environment agriculture, premium local food production, hydroponic infrastructure, farm development, technical platforms, or regional growth opportunities.</p></div><figure><img src="public/company/production/investor-track-overview.png" alt="Investor track pre-qualification overview"></figure></div>${investorInterestForm()}</section><section class="track-section partner-track-section ${active === 'partner' ? 'active' : 'muted'}" id="partner-track"><div class="track-header"><div><div class="eyebrow">Strategic Partner Track</div><h2>Strategic Partnership Interest</h2><p>This track is for partners who want to bring the SymbioGreens / Balponics model to a specific market, country, island, city, hospitality zone, or commercial network.</p><p>SymbioGreens / Balponics can bring the model, systems, crop strategy, training, technical support, brand standards, and operating framework. A local partner may bring land, capital, infrastructure, buyer access, market access, operations, or local execution. Partnership structures vary by project and may involve meaningful long-term participation within the approved investor equity pool, subject to project structure, technical contribution, capital structure, and support role. This is not a fixed offer; final terms require formal review and negotiation.</p></div><figure><img src="public/company/production/strategic-partner-track-overview.png" alt="Strategic partner track overview"></figure></div>${partnerInterestForm()}</section><section class="review-process-section"><div class="section-intro"><div class="eyebrow">Review Process</div><h2>How the Review Process Works</h2><p>All submissions are reviewed for strategic fit, readiness, and alignment to ensure we build the right partnerships and invest in the right opportunities.</p></div><figure class="investor-wide-visual"><img src="public/company/production/investor-review-process.png" alt="How the investor and partnership review process works"></figure><div class="review-step-grid">${reviewSteps.map(([title,body], index) => `<article><span>${String(index + 1).padStart(2,'0')}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="what-we-look-for"><div class="section-intro"><h2>What We Look For</h2></div><div class="investor-card-grid">${lookFor.map(item => `<article><strong>${esc(item)}</strong></article>`).join('')}</div></section><section class="investor-disclaimer"><strong>Important notice</strong><p>This page is for preliminary expressions of interest only. It is not an offer of securities, not a solicitation to invest, not a guaranteed partnership, and not a guarantee that any submission will advance. All opportunities are subject to review, due diligence, legal documentation, negotiation, and applicable laws.</p></section></section>`;
+  return `<section class="investor-page"><section class="investor-hero"><div class="investor-hero-copy"><div class="eyebrow">Investors & Partnerships</div><h1>Build the Future of Local Food Production With Us</h1><p>SymbioGreens and Balponics are developing a premium controlled-environment agriculture model designed for local freshness, food autonomy, hospitality supply, technical training, and scalable project replication. We welcome serious inquiries from qualified investors and strategic partners aligned with our mission to build smarter local food systems.</p></div><figure class="investor-hero-visual"><img src="public/company/production/investor-partnerships-hero.png" alt="Investors and strategic partnerships two-track overview"></figure></section><section class="track-selector-panel"><div class="section-intro"><h2>Choose Your Track</h2><p>Choose the path that best matches your interest.</p></div><div class="track-selector-grid"><button class="track-selector ${active === 'investor' ? 'active' : ''}" data-action="setInvestorTrack" data-track="investor"><span>I Am an Investor</span><small>For qualified investors seeking exposure to scalable local food production, hydroponic infrastructure, and regional growth opportunities.</small></button><button class="track-selector ${active === 'partner' ? 'active' : ''}" data-action="setInvestorTrack" data-track="partner"><span>I Am a Strategic Partner</span><small>For partners bringing land, capital, market access, buyer relationships, infrastructure, or local execution capacity.</small></button></div><div class="track-selected-note">${active === 'investor' ? 'Investor track selected: review investment opportunities in Balponics, SymbioGreens, farm development, technical platforms, and regional growth.' : 'Strategic partner track selected: explore project partnerships where local partners bring market access, resources, execution capacity, or infrastructure.'}</div></section><section class="track-section investor-track-section ${active === 'investor' ? 'active' : 'muted'}" id="investor-track"><div class="track-header"><div><div class="eyebrow">Investor Track</div><h2>Investor Interest</h2><p>This track is for qualified investors seeking exposure to controlled-environment agriculture, premium local food production, hydroponic infrastructure, farm development, technical platforms, or regional growth opportunities.</p></div><figure><img src="public/company/production/investor-track-overview.png" alt="Investor track pre-qualification overview"></figure></div>${investorInterestForm()}</section><section class="track-section partner-track-section ${active === 'partner' ? 'active' : 'muted'}" id="partner-track"><div class="track-header"><div><div class="eyebrow">Strategic Partner Track</div><h2>Strategic Partnership Interest</h2><p>This track is for partners who want to bring the SymbioGreens / Balponics model to a specific market, country, island, city, hospitality zone, or commercial network.</p><p>SymbioGreens / Balponics can bring the model, systems, crop strategy, training, technical support, brand standards, and operating framework. A local partner may bring land, capital, infrastructure, buyer access, market access, operations, or local execution. Partnership structures vary by project and may involve meaningful long-term participation within the approved investor equity pool, subject to project structure, technical contribution, capital structure, and support role. This is not a fixed offer; final terms require formal review and negotiation.</p></div><figure><img src="public/company/production/strategic-partner-track-overview.png" alt="Strategic partner track overview"></figure></div>${partnerInterestForm()}</section>${investorAnalysisPanel()}<section class="review-process-section"><div class="section-intro"><div class="eyebrow">Review Process</div><h2>How the Review Process Works</h2><p>All submissions are reviewed for strategic fit, readiness, and alignment to ensure we build the right partnerships and invest in the right opportunities.</p></div><figure class="investor-wide-visual"><img src="public/company/production/investor-review-process.png" alt="How the investor and partnership review process works"></figure><div class="review-step-grid">${reviewSteps.map(([title,body], index) => `<article><span>${String(index + 1).padStart(2,'0')}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="what-we-look-for"><div class="section-intro"><h2>What We Look For</h2></div><div class="investor-card-grid">${lookFor.map(item => `<article><strong>${esc(item)}</strong></article>`).join('')}</div></section><section class="investor-disclaimer"><strong>Important notice</strong><p>This page is for preliminary expressions of interest only. It is not an offer of securities, not a solicitation to invest, not a guaranteed partnership, and not a guarantee that any submission will advance. All opportunities are subject to review, due diligence, legal documentation, negotiation, and applicable laws.</p></section></section>`;
 }
 function investorInterestForm() {
   return `<form class="investor-form" data-form="investor"><input type="hidden" name="inquiry_type" value="Investor"><h3>Investor Pre-Qualification</h3><div class="form-grid two"><label><span>Full Name</span><input name="full_name" required></label><label><span>Company / Organization</span><input name="company"></label><label><span>Email</span><input name="email" type="email" required></label><label><span>Phone / WhatsApp</span><input name="phone"></label><label><span>Country / City</span><input name="country_city"></label><label><span>Website / LinkedIn</span><input name="website"></label><label><span>Investor Type</span><select name="investor_type"><option>Individual investor</option><option>Family office</option><option>Strategic investor</option><option>Institutional investor</option><option>Development / impact investor</option></select></label><label><span>Area of Interest</span><select name="investment_area"><option>Balponics Technical Systems & Services</option><option>SymbioGreens Farm Development</option><option>SymbioGreens Network / Group Expansion</option><option>Specific Model Farms & Projects</option><option>Regional Replication Projects</option><option>Strategic Growth Capital</option></select></label><label><span>Investment Capacity</span><input name="investment_capacity" placeholder="Indicative range"></label><label><span>Preferred Investment Style</span><input name="investment_style" placeholder="Equity, project finance, strategic capital..."></label><label class="full"><span>Current Sector / Business Background</span><textarea name="sector_background"></textarea></label><label class="full"><span>Why You Are Interested</span><textarea name="why_interested" required></textarea></label><label class="full"><span>Expectations, Return / Impact / Value</span><textarea name="expectations"></textarea></label><label class="full"><span>Resources & Relationships</span><textarea name="resources_relationships"></textarea></label><label class="checkbox-row full"><input type="checkbox" name="review_consent" value="Yes" required><span>I understand this is a selective preliminary review process and not an investment offer or guaranteed opportunity.</span></label></div><button class="primary-btn">Submit Investor Profile</button></form>`;
@@ -1996,9 +2227,58 @@ async function submitInvestor(e) {
     source_page: location.hash || hashForRoute(state.route),
     metadata: {local_investor_request_id: row.id}
   });
+  await trackInvestorEvent('prequalification_submitted', {source_section:'investor_prequalification', event_payload: row, contribution_amount: cleanText(fd.investment_capacity || fd.capital_readiness || '')});
   notifyInternal('manager_investor_request_alert', `${fd.inquiry_type || 'Investor / partner'} request from ${fd.full_name || fd.email}`);
   alert(backendSyncUnavailable(result) ? localSyncMessage() : t('investorSubmissionThanks'));
   e.target.reset();
+}
+async function submitNonBindingInvestorInterest(requestReview = false) {
+  const analysis = contributionAnalysis();
+  const platform = platformAnalysis();
+  const payload = {
+    opportunity_area: 'SymbioGreens Caribbean platform',
+    interest_summary: [
+      `Contribution scenario: ${money(analysis.contribution)}`,
+      `Estimated equity: ${percent(analysis.estimatedEquityPercent)}`,
+      `Participation: ${state.investorAnalysis.participation}`,
+      `Interest level: ${state.investorAnalysis.interestLevel}`,
+      state.investorAnalysis.notes ? `Notes: ${state.investorAnalysis.notes}` : ''
+    ].filter(Boolean).join('\n'),
+    target_region: 'Las Terrenas / Caribbean platform',
+    preferred_structure: state.investorAnalysis.participation,
+    status: requestReview ? 'reviewing' : 'new',
+    metadata: {
+      session_id: investorSessionId(),
+      investor_type: state.investorAnalysis.investorType,
+      contribution_amount: analysis.contribution,
+      share_of_raise_percent: analysis.shareOfRaisePercent,
+      estimated_equity_percent: analysis.estimatedEquityPercent,
+      founder_platform_allocation: analysis.founderAllocation,
+      remaining_raise: analysis.remainingRaise,
+      platform_scenario: platform
+    },
+    created_at: new Date().toISOString()
+  };
+  const rows = asArray(readStore(storeKeys.investorFeedback, []));
+  rows.push({...payload, id:uid('inv_interest'), request_review: requestReview});
+  writeStore(storeKeys.investorFeedback, rows);
+  await trackInvestorEvent(requestReview ? 'investor_review_requested' : 'non_binding_interest_submitted', {
+    source_section: 'investor_analysis',
+    contribution_amount: analysis.contribution,
+    estimated_equity: analysis.estimatedEquityPercent,
+    event_payload: payload.metadata
+  });
+  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+    await window.SymbioGreensBackend.saveInvestorInterest?.(payload);
+    await window.SymbioGreensBackend.investor?.saveInvestorCalculatorSession?.({
+      scenario_name: state.investorScenario,
+      inputs: {...state.investorAnalysis, hubs: state.investorHubs},
+      outputs: {analysis, platform},
+      is_saved: true,
+      created_at: new Date().toISOString()
+    });
+  }
+  alert(requestReview ? 'Investor review request saved. This is non-binding and subject to formal review.' : 'Non-binding investor interest saved for discussion.');
 }
 async function manageUser(action, userId) {
   const respondents = asArray(readStore(storeKeys.respondents, []));
@@ -2061,6 +2341,33 @@ document.addEventListener('click', e => {
   if (action === 'setHomeHydro') { state.activeHomeHydro = actionBtn.dataset.homeHydro || 'water'; mount(); return; }
   if (action === 'setHomeStep') { state.activeHomeStep = actionBtn.dataset.homeStep || 'profile'; mount(); return; }
   if (action === 'setInvestorTrack') { state.investorTrack = actionBtn.dataset.track || 'investor'; mount(); setTimeout(() => document.querySelector(state.investorTrack === 'partner' ? '#partner-track' : '#investor-track')?.scrollIntoView({behavior:'smooth', block:'start'}), 0); return; }
+  if (action === 'setInvestorContribution') {
+    state.investorAnalysis.contribution = Number(actionBtn.dataset.contribution || 0);
+    const analysis = contributionAnalysis();
+    trackInvestorEvent('quick_contribution_clicked', {source_section:'investment_calculator', contribution_amount: analysis.contribution, estimated_equity: analysis.estimatedEquityPercent});
+    mount();
+    return;
+  }
+  if (action === 'setInvestorScenario') {
+    state.investorScenario = actionBtn.dataset.scenario || 'base';
+    trackInvestorEvent('scenario_viewed', {source_section:'first_hub_economics', scenario_name: state.investorScenario});
+    mount();
+    return;
+  }
+  if (action === 'setInvestorHubs') {
+    state.investorHubs = Number(actionBtn.dataset.hubs || 1);
+    trackInvestorEvent('multi_hub_simulator_used', {source_section:'multi_hub_simulator', event_payload: platformAnalysis()});
+    mount();
+    return;
+  }
+  if (action === 'calculateInvestorScenario') {
+    const analysis = contributionAnalysis();
+    trackInvestorEvent('scenario_calculated', {source_section:'investment_calculator', contribution_amount: analysis.contribution, estimated_equity: analysis.estimatedEquityPercent, scenario_name: state.investorScenario});
+    alert(`Illustrative scenario calculated: ${percent(analysis.estimatedEquityPercent)} estimated equity on ${money(analysis.contribution)}. This is non-binding and discussion-only.`);
+    return;
+  }
+  if (action === 'submitInvestorInterest') { submitNonBindingInvestorInterest(false); return; }
+  if (action === 'requestInvestorReview') { submitNonBindingInvestorInterest(true); return; }
   if (action === 'setContactInquiry') { state.contactInquiryType = actionBtn.dataset.inquiry || ''; mount(); setTimeout(() => document.querySelector('[data-form="contact"]')?.scrollIntoView({behavior:'smooth', block:'center'}), 0); return; }
   if (action === 'focusContactForm') { document.querySelector('[data-form="contact"]')?.scrollIntoView({behavior:'smooth', block:'center'}); return; }
   if (action === 'closeModal') { closeModal(); return; }
@@ -2071,11 +2378,32 @@ document.addEventListener('click', e => {
   if (action === 'exportRespondents') { exportCsv('respondents'); return; }
   if (['activateUser','deactivateUser','resetUserPassword'].includes(action)) { manageUser(action, actionBtn.dataset.user); return; }
 });
+document.addEventListener('focusin', e => {
+  if (e.target.closest?.('.investor-form') && !state._investorPrequalStarted) {
+    state._investorPrequalStarted = true;
+    trackInvestorEvent('prequalification_started', {source_section:'investor_prequalification'});
+  }
+});
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
 });
 document.addEventListener('input', e => {
   if (e.target.matches('[data-search]')) { state.search = e.target.value; mount(); return; }
+  if (e.target.matches('[data-investor-field]')) {
+    const field = e.target.dataset.investorField;
+    const numericFields = ['contribution','revenuePerHub','ebitdaMargin','valuationMultiple','timelineYears'];
+    if (field === 'hubs') {
+      state.investorHubs = Number(e.target.value || 1);
+      trackInvestorEvent('valuation_sensitivity_changed', {source_section:'valuation_sensitivity', event_payload: platformAnalysis()});
+      mount();
+      return;
+    }
+    state.investorAnalysis[field] = numericFields.includes(field) ? Number(e.target.value || 0) : e.target.value;
+    const analysis = contributionAnalysis();
+    trackInvestorEvent(field === 'contribution' ? 'contribution_amount_entered' : 'valuation_sensitivity_changed', {source_section:'investor_analysis', contribution_amount: analysis.contribution, estimated_equity: analysis.estimatedEquityPercent, event_payload: {[field]: state.investorAnalysis[field]}});
+    mount();
+    return;
+  }
   const draft = e.target.dataset.draft;
   if (draft) { const [productId, field] = draft.split(':'); saveDraft(productId, {[field]: e.target.value}); }
 });
@@ -2097,4 +2425,6 @@ window.addEventListener('hashchange', () => { state.route = routeFromLocation();
 state.route = routeFromLocation();
 if (!state.category && categories()[0]) state.category = categories()[0].id;
 mount();
+
+
 

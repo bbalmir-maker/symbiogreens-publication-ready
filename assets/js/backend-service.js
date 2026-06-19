@@ -67,6 +67,23 @@
     investor_document_access: [
       "investor_user_id", "document_key", "document_title", "access_action", "ip_address",
       "user_agent", "created_at"
+    ],
+    investor_interest: [
+      "investor_user_id", "prequalification_id", "opportunity_area", "interest_summary",
+      "target_region", "preferred_structure", "status", "language", "source_page",
+      "metadata", "created_at"
+    ],
+    investor_interaction_events: [
+      "session_id", "investor_id", "investor_email", "event_type", "event_label",
+      "event_payload", "contribution_amount", "estimated_equity", "scenario_name",
+      "page_route", "source_section", "language", "user_agent", "referrer",
+      "backend_enabled", "notes", "created_at"
+    ],
+    investor_engagement_scores: [
+      "session_id", "investor_id", "investor_email", "total_events", "calculator_uses",
+      "highest_contribution_tested", "last_contribution_tested", "markets_viewed",
+      "scenarios_viewed", "submitted_interest", "requested_review", "engagement_score",
+      "engagement_level", "recommended_follow_up", "admin_notes", "created_at", "updated_at"
     ]
   };
 
@@ -287,6 +304,27 @@
     return insertRow(table, withDefaults(payload, "investor_prequalification"));
   }
 
+  function saveInvestorInterest(payload) {
+    if (!isFeatureEnabled("INVESTOR_PORTAL_ENABLED")) return Promise.resolve({ ok: false, backend: "local", data: null, error: null, skipped: true });
+    return insertRow("investor_interest", withDefaults(payload, "investor_interest"));
+  }
+
+  function trackInvestorEvent(eventType, payload = {}) {
+    if (!isFeatureEnabled("INVESTOR_PORTAL_ENABLED")) return Promise.resolve({ ok: false, backend: "local", data: null, error: null, skipped: true });
+    return insertRow("investor_interaction_events", withDefaults({
+      ...payload,
+      event_type: eventType,
+      backend_enabled: true,
+      user_agent: payload.user_agent || window.navigator?.userAgent || "",
+      referrer: payload.referrer || document.referrer || ""
+    }, "investor_event"));
+  }
+
+  function saveInvestorEngagementSnapshot(payload) {
+    if (!isFeatureEnabled("INVESTOR_PORTAL_ENABLED")) return Promise.resolve({ ok: false, backend: "local", data: null, error: null, skipped: true });
+    return insertRow("investor_engagement_scores", withDefaults(payload, "investor_engagement"));
+  }
+
   async function getCurrentUser() {
     const client = await getClient();
     if (!client?.auth?.getUser) return { user: null, backend: "local" };
@@ -416,6 +454,36 @@
     }));
   }
 
+  function getInvestorCalculatorSessions(options = {}) {
+    if (!isFeatureEnabled("ADMIN_ENABLED")) return Promise.resolve({ ok: false, backend: "local", data: [], skipped: true });
+    return selectRows("investor_calculator_sessions", { order: { column: "created_at", ascending: false }, limit: options.limit || 100 });
+  }
+
+  function getInvestorInterestSubmissions(options = {}) {
+    if (!isFeatureEnabled("ADMIN_ENABLED")) return Promise.resolve({ ok: false, backend: "local", data: [], skipped: true });
+    return selectRows("investor_interest", { order: { column: "created_at", ascending: false }, limit: options.limit || 100 });
+  }
+
+  function getInvestorInteractionEvents(options = {}) {
+    if (!isFeatureEnabled("ADMIN_ENABLED")) return Promise.resolve({ ok: false, backend: "local", data: [], skipped: true });
+    return selectRows("investor_interaction_events", { order: { column: "created_at", ascending: false }, limit: options.limit || 250 });
+  }
+
+  function getInvestorEngagementScores(options = {}) {
+    if (!isFeatureEnabled("ADMIN_ENABLED")) return Promise.resolve({ ok: false, backend: "local", data: [], skipped: true });
+    return selectRows("investor_engagement_scores", { order: { column: "updated_at", ascending: false }, limit: options.limit || 100 });
+  }
+
+  function getInvestorEngagementBySession(sessionId) {
+    if (!isFeatureEnabled("ADMIN_ENABLED")) return Promise.resolve({ ok: false, backend: "local", data: [], skipped: true });
+    return selectRows("investor_engagement_scores", { eq: { session_id: sessionId }, limit: 1 });
+  }
+
+  function updateInvestorAdminNotes(id, adminNotes) {
+    if (!isFeatureEnabled("ADMIN_ENABLED")) return Promise.resolve({ ok: false, backend: "local", skipped: true });
+    return updateRows("investor_engagement_scores", { id }, { admin_notes: adminNotes, updated_at: new Date().toISOString() });
+  }
+
   function saveInvestorCalculatorSession(payload) {
     if (!isFeatureEnabled("INVESTOR_PORTAL_ENABLED")) return Promise.resolve({ ok: false, backend: "local", skipped: true });
     return insertRow("investor_calculator_sessions", withDefaults(payload, "investor_calculator"));
@@ -439,6 +507,9 @@
     saveBuyerSurvey,
     saveProductInterest,
     saveInvestorPrequalification,
+    saveInvestorInterest,
+    trackInvestorEvent,
+    saveInvestorEngagementSnapshot,
     auth: {
       signIn,
       signOut,
@@ -459,7 +530,13 @@
       getInvestorDashboard,
       saveInvestorCalculatorSession,
       saveInvestorPotentialCommitment,
-      logInvestorDocumentAccess
+      logInvestorDocumentAccess,
+      getInvestorCalculatorSessions,
+      getInvestorInterestSubmissions,
+      getInvestorInteractionEvents,
+      getInvestorEngagementScores,
+      getInvestorEngagementBySession,
+      updateInvestorAdminNotes
     }
   };
 })();
