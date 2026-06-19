@@ -12,6 +12,132 @@
   --balponics-navy: #0d253f;
   --radius: 8px;
 }
+
+.investor-analysis-section {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.investor-disclaimer.compact {
+  border: 1px solid rgba(42, 99, 79, 0.2);
+  background: rgba(247, 250, 245, 0.95);
+}
+
+.investor-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.investor-tool-card {
+  border: 1px solid rgba(42, 99, 79, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 45px rgba(20, 48, 36, 0.08);
+  padding: clamp(1rem, 2vw, 1.4rem);
+}
+
+.investor-tool-card h3 {
+  margin-top: 0;
+}
+
+.quick-amount-row,
+.scenario-toggle-row,
+.investor-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.quick-amount-row .ghost-btn,
+.scenario-toggle-row .ghost-btn {
+  min-height: 38px;
+  padding: 0.45rem 0.7rem;
+}
+
+.ghost-btn.active {
+  border-color: var(--green-700);
+  background: rgba(42, 99, 79, 0.1);
+  color: var(--green-900);
+}
+
+.investor-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.investor-metric {
+  border-radius: 14px;
+  border: 1px solid rgba(42, 99, 79, 0.14);
+  background: linear-gradient(180deg, rgba(247, 250, 245, 0.95), rgba(255, 255, 255, 0.96));
+  padding: 0.9rem;
+}
+
+.investor-metric span,
+.investor-metric small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.investor-metric strong {
+  display: block;
+  margin: 0.25rem 0;
+  font-size: 1.2rem;
+  color: var(--green-900);
+}
+
+.platform-stage-list,
+.funds-list,
+.risk-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.platform-stage-list div,
+.funds-list div,
+.risk-list div {
+  border-bottom: 1px solid rgba(42, 99, 79, 0.1);
+  padding-bottom: 0.65rem;
+}
+
+.platform-stage-list strong,
+.platform-stage-list span,
+.funds-list span,
+.funds-list strong {
+  display: block;
+}
+
+.funds-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+.risk-list p,
+.investor-note,
+.investor-privacy-note {
+  color: var(--muted);
+}
+
+.investor-privacy-note {
+  border-left: 4px solid var(--green-700);
+  padding: 0.75rem 1rem;
+  background: rgba(42, 99, 79, 0.08);
+  border-radius: 10px;
+}
+
+@media (max-width: 860px) {
+  .investor-tool-grid,
+  .investor-metric-grid {
+    grid-template-columns: 1fr;
+  }
+}
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -3206,10 +3332,12 @@ th { background:#f1f6f3; color:var(--green); font-size:12px; text-transform:uppe
   grid-template-columns: minmax(520px, 1.15fr) minmax(360px, .85fr);
   gap: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: #fff;
   box-shadow: 0 30px 80px rgba(0, 35, 24, .32);
 }
+
 .product-modal-card .modal-close {
   position: absolute;
   top: 14px;
@@ -3218,8 +3346,9 @@ th { background:#f1f6f3; color:var(--green); font-size:12px; text-transform:uppe
   background: rgba(255,255,255,.94);
   box-shadow: 0 10px 24px rgba(0,0,0,.12);
 }
+
 .product-modal-media {
-  min-height: min(78vh, 760px);
+  min-height: auto;
   margin: 0;
   padding: 14px;
   display: grid;
@@ -3228,31 +3357,51 @@ th { background:#f1f6f3; color:var(--green); font-size:12px; text-transform:uppe
     linear-gradient(145deg, rgba(238,246,241,.72), rgba(255,255,255,.96)),
     #f3f7f4;
 }
+
 .product-modal-media img {
   width: 100%;
-  height: 100%;
-  max-height: calc(92vh - 28px);
+  height: auto;
+  max-height: 70vh;
   object-fit: contain;
   border-radius: calc(var(--radius) - 2px);
   box-shadow: 0 18px 44px rgba(0,76,52,.16);
   background: #fff;
 }
+
 .product-modal-body {
   min-width: 0;
   padding: clamp(24px, 3vw, 44px);
-  overflow: auto;
+  overflow: visible;
 }
+
 .product-modal-body h2 {
   margin: 8px 0 14px;
   color: var(--green);
   font-size: clamp(34px, 4vw, 58px);
   line-height: .98;
 }
+
 .product-modal-lede {
   margin: 0 0 18px;
   color: var(--ink);
   font-size: 17px;
   line-height: 1.6;
+}
+
+@media (max-width: 860px) {
+  .product-modal-card {
+    display: block;
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+
+  .product-modal-media img {
+    max-height: 62vh;
+  }
+
+  .product-modal-body {
+    overflow: visible;
+  }
 }
 .product-modal-details {
   grid-template-columns: 1fr;

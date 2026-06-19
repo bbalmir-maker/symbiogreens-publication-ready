@@ -16,6 +16,9 @@
   contactInquiries: 'sg_platform_contact_inquiries',
   investorRequests: 'sg_platform_investor_requests',
   investorFeedback: 'sg_platform_investor_feedback',
+  investorInteractionSession: 'sg_investor_interaction_session',
+  investorInteractionEvents: 'sg_investor_interaction_events',
+  investorEngagementSnapshots: 'sg_investor_engagement_snapshots',
 };
 
 const INTERNAL_NOTIFICATION_RECIPIENTS = ['me@balponics.com', 'bbalmir@gmail.com'];
@@ -31,6 +34,19 @@ const state = {
   resetEmail: '',
   investorAccessEmail: '',
   investorTrack: 'investor',
+  investorScenario: 'base',
+  investorHubs: 3,
+  investorAnalysis: {
+    contribution: 50000,
+    investorType: 'Individual',
+    participation: 'Equity',
+    interestLevel: 'Interested',
+    notes: '',
+    revenuePerHub: 1400000,
+    ebitdaMargin: 24,
+    valuationMultiple: 6,
+    timelineYears: 5
+  },
   contactInquiryType: '',
   activeHomeModel: 'symbio',
   activeHomeFamily: 'lettuces',
@@ -1321,31 +1337,54 @@ function surveySelectOptions(values, selected) {
 function productInterestPayload(productId, formData = null) {
   const p = productById(productId);
   const d = formData ? Object.fromEntries(formData) : getDraft(productId);
+  const quantity = d.estimated_quantity || d.weekly_volume || '';
+  const frequency = d.delivery_frequency || '';
+  const sampleRequested = d.sample_request === 'Yes' || d.sample_requested === 'Yes';
+  const packaging = d.packaging_preference || d.packaging_preferences || '';
+  const notes = d.comments || d.notes || '';
   return {
-    buyer_id: state.session?.respondent_id || '',
-    customer_id: state.session?.respondent_id || '',
+    local_buyer_id: state.session?.respondent_id || '',
+    local_customer_id: state.session?.respondent_id || '',
     product_id: productId,
     product_name: p ? productName(p) : productId,
+    category_id: p?.category_id || '',
     category: p ? categoryLabel(p.category_id) : '',
     interest_level: d.interest_level || '',
-    estimated_quantity: d.estimated_quantity || d.weekly_volume || '',
-    preferred_delivery_frequency: d.delivery_frequency || '',
-    sample_requested: d.sample_request === 'Yes' || d.sample_requested === 'Yes',
-    packaging_preferences: d.packaging_preference || d.packaging_preferences || '',
-    notes: d.comments || d.notes || '',
+    quantity_estimate: quantity,
+    estimated_quantity: quantity,
+    delivery_frequency: frequency,
+    preferred_delivery_frequency: frequency,
+    sample_request: sampleRequested,
+    sample_requested: sampleRequested,
+    packaging_preference: packaging,
+    packaging_preferences: packaging,
+    notes,
+    language: state.lang,
+    source_page: location.hash || hashForRoute(state.route),
+    metadata: {
+      local_buyer_id: state.session?.respondent_id || '',
+      route: state.route,
+      category_id: p?.category_id || ''
+    },
     created_at: new Date().toISOString()
   };
 }
 async function saveProductInterest(productInterest) {
-  const supabaseClient = window.supabaseClient || window.supabase;
-  if (supabaseClient?.from && window.SYMBIOGREENS_SUPABASE_ENABLED === true) {
-    return supabaseClient.from('product_interest').insert([productInterest]);
+  const backend = window.SymbioGreensBackend;
+  if (backend?.isBackendEnabled?.()) {
+    return backend.saveProductInterest(productInterest);
   }
-  return {data: productInterest, error: null, local: true};
+  return {ok: false, data: productInterest, error: null, backend: 'local', skipped: true};
 }
 function currentRespondent() { return asArray(readStore(storeKeys.respondents, [])).find(r => r.id === state.session?.respondent_id); }
 function logEmail(to, template, subject) { const rows = asArray(readStore(storeKeys.emails, [])); rows.push({id:uid('email'), to, template, subject, created_at:new Date().toISOString(), status:'queued_local_preview'}); writeStore(storeKeys.emails, rows); }
 function notifyInternal(template, subject) { INTERNAL_NOTIFICATION_RECIPIENTS.forEach(to => logEmail(to, template, subject)); }
+function backendSyncUnavailable(result) {
+  return window.SymbioGreensBackend?.isBackendEnabled?.() && result && result.ok === false && result.backend === 'supabase';
+}
+function localSyncMessage() {
+  return translateText('Your submission was saved locally. Online sync is temporarily unavailable, so please contact us directly if this is urgent.');
+}
 
 function routeFromLocation() {
   const token = String(location.hash || '').replace(/^#\/?/, '').toLowerCase();
@@ -1431,10 +1470,10 @@ function harvestOperationsPanel() {
   return `<div class="operations-feature"><div class="operations-copy"><h3>${esc(t('harvestTitle'))}</h3><p>${esc(t('harvestBody1'))}</p><p>${esc(t('harvestBody2'))}</p><ul>${list('harvestBullets').map(x => `<li>${esc(x)}</li>`).join('')}</ul></div><figure class="operations-image"><div class="operations-photo" style="background-image:url('public/company/production/harvest-delivery-operations.png')"></div><figcaption>${esc(t('harvestCaption'))}</figcaption></figure></div>`;
 }
 function qualityAssurancePanel() {
-  return `<div class="quality-feature"><div class="quality-copy"><div class="eyebrow">${esc(t('qualityTitle'))}</div><h3>${esc(t('qualityHeadline'))}</h3><p>${esc(t('qualityBody'))}</p><div class="quality-badges">${list('qualityBadges').map(x => `<span><b>✓</b>${esc(x)}</span>`).join('')}</div><div class="quality-metrics">${list('qualityMetrics').map(x => `<span><b>✓</b>${esc(x)}</span>`).join('')}</div></div><figure class="quality-image-card"><img src="public/company/production/packaging-quality-control.png" alt="Quality assurance and packaging for premium hydroponic produce"><figcaption>${esc(t('qualityCaption'))}</figcaption></figure></div>`;
+  return `<div class="quality-feature"><div class="quality-copy"><div class="eyebrow">${esc(t('qualityTitle'))}</div><h3>${esc(t('qualityHeadline'))}</h3><p>${esc(t('qualityBody'))}</p><div class="quality-badges">${list('qualityBadges').map(x => `<span><b>?</b>${esc(x)}</span>`).join('')}</div><div class="quality-metrics">${list('qualityMetrics').map(x => `<span><b>?</b>${esc(x)}</span>`).join('')}</div></div><figure class="quality-image-card"><img src="public/company/production/packaging-quality-control.png" alt="Quality assurance and packaging for premium hydroponic produce"><figcaption>${esc(t('qualityCaption'))}</figcaption></figure></div>`;
 }
 function distributionDeliveryPanel() {
-  return `<div class="delivery-feature"><figure class="delivery-image-card"><img src="public/company/production/delivery-logistics.png" alt="Distribution and delivery of fresh SymbioGreens produce"><figcaption>${esc(t('deliveryCaption'))}</figcaption></figure><div class="delivery-copy"><div class="eyebrow">${esc(t('deliveryTitle'))}</div><h3>${esc(t('deliveryHeadline'))}</h3><p>${esc(t('deliveryBody'))}</p><ul>${list('deliveryBullets').map(x => `<li>${esc(x)}</li>`).join('')}</ul><div class="delivery-metrics">${list('deliveryMetrics').map(x => `<span><b>✓</b>${esc(x)}</span>`).join('')}</div></div></div>`;
+  return `<div class="delivery-feature"><figure class="delivery-image-card"><img src="public/company/production/delivery-logistics.png" alt="Distribution and delivery of fresh SymbioGreens produce"><figcaption>${esc(t('deliveryCaption'))}</figcaption></figure><div class="delivery-copy"><div class="eyebrow">${esc(t('deliveryTitle'))}</div><h3>${esc(t('deliveryHeadline'))}</h3><p>${esc(t('deliveryBody'))}</p><ul>${list('deliveryBullets').map(x => `<li>${esc(x)}</li>`).join('')}</ul><div class="delivery-metrics">${list('deliveryMetrics').map(x => `<span><b>?</b>${esc(x)}</span>`).join('')}</div></div></div>`;
 }
 function whyHydroponicsPanel() {
   const cards = dict('homeHydroCards');
@@ -1472,83 +1511,83 @@ function aboutPanel() {
   const principles = [['Local First','Grow closer to the market whenever possible.'],['Resilience by Design','Reduce vulnerability through smarter local production.'],['Water Intelligence','Use water more efficiently and responsibly.'],['Quality Before Volume','Premium buyers need consistency, freshness, and presentation.'],['Innovation With Purpose','Technology should solve real production and business problems.'],['Build Local Value','Create better opportunities for local businesses, teams, and operators.'],['From Import Dependence to Productive Capacity','Help transform supply dependence into local production potential.'],['Replicable Systems','Build models that can be adapted to other locations and markets.']];
   return `<section class="about-strategy-page"><section class="about-strategy-hero"><div class="eyebrow">${esc(t('about'))}</div><h1>Why We Are Building a Smarter Local Food Production Model</h1><p>SymbioGreens is being developed as a premium hydroponic farm initiative focused on fresh, local, reliable, and high-quality production. Balponics is the technical company behind the model, supporting hydroponic systems, controlled-environment growing, crop planning, technical execution, and scalable agricultural development.</p><p>Together, SymbioGreens and Balponics are being built to help create a more resilient, more efficient, and more autonomous food production model for tourism-driven, island, and import-dependent markets where food autonomy, food independence, and local resilience matter.</p></section><section class="about-strategy-block"><div class="about-section-copy"><div class="eyebrow">The Problem</div><h2>Why the Current Supply Model Is Not Enough</h2><p>Many island and tourism-driven markets remain highly dependent on imported fresh produce. That dependence creates structural vulnerability. Shipping costs fluctuate. Delays affect freshness. External crises disrupt availability. Premium buyers struggle with inconsistency. Local businesses remain dependent on external supply chains they do not control.</p><p>This is not only a logistics issue. It is a business resilience issue, a food autonomy issue, and a long-term development issue.</p></div><div class="about-chip-grid">${problemCards.map(item => `<span>${esc(item)}</span>`).join('')}</div></section><figure class="about-visual-card"><img src="public/company/production/about-import-vs-local-production.png" alt="Import dependency compared with local production model"><figcaption>Import dependency versus a local production model: shorter supply routes, better control, stronger freshness, and more local resilience.</figcaption></figure><section class="about-strategy-block"><div class="about-section-copy"><div class="eyebrow">Food Autonomy</div><h2>Building Food Autonomy and Local Resilience</h2><p>A smarter local production model can help communities, businesses, and countries reduce their dependence on distant supply chains. By producing more strategically at the local level, markets gain greater food autonomy, better control, stronger resilience, and improved ability to respond to shocks.</p><p>This is especially important for island economies and hospitality markets, where dependence on imported produce can create vulnerability.</p></div><div class="about-card-grid">${autonomyCards.map(([title,body]) => `<article><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><figure class="about-visual-card"><img src="public/company/production/about-food-autonomy-resilience.png" alt="Food autonomy and resilience benefits"><figcaption>Local, controlled-environment production strengthens communities by improving reliability, control, and long-term food resilience.</figcaption></figure><section class="about-strategy-block"><div class="about-section-copy"><div class="eyebrow">Opportunity</div><h2>Turning Dependence Into Opportunity</h2><p>One of the biggest opportunities in this model is the ability to help markets shift from being only importers to becoming producers. Instead of depending almost entirely on incoming goods, local businesses and operators can participate in value creation through controlled production, packaging, technical operations, and local supply relationships.</p><p>That shift matters economically. More value can stay in the local economy. More knowledge can be built locally. More jobs can be created locally. More strategic capacity can be developed locally.</p></div><div class="about-step-grid">${importerSteps.map(([title,body], index) => `<article><span>${index + 1}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><figure class="about-visual-card"><img src="public/company/production/about-importer-to-producer.png" alt="From importer to producer pathway"><figcaption>From importer to producer: planning, systems, quality handling, local distribution, and stronger local economic autonomy.</figcaption></figure><section class="about-strategy-block"><div class="about-section-copy"><div class="eyebrow">Why Hydroponics</div><h2>Why Hydroponics Is Central to the Model</h2><p>Hydroponics makes it possible to produce premium crops with greater control over water, nutrients, spacing, hygiene, and harvest planning. In the right context, hydroponics is not just a technology upgrade; it is a strategic production model for freshness, consistency, efficiency, and resilience.</p><p>For SymbioGreens and Balponics, hydroponics supports local production in a way that is cleaner, more planned, and more adaptive to modern market needs.</p></div><div class="about-card-grid">${hydroCards.map(([title,body]) => `<article><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><figure class="about-visual-card"><img src="public/company/production/about-why-hydroponics-works.png" alt="Why hydroponics works benefits"><figcaption>Hydroponics supports water efficiency, space efficiency, local freshness, consistency, production control, and smarter risk management.</figcaption></figure><section class="about-strategy-block"><div class="about-section-copy"><h2>Better Economics for Local Businesses</h2><p>A stronger local production model creates more than food. It creates economic opportunity. Hotels, restaurants, villas, retailers, and food operators gain access to fresher local products. Entrepreneurs and agricultural operators gain the opportunity to produce, package, and supply instead of relying only on imports.</p><p>This can improve profit retention, reduce waste, shorten delivery cycles, and create more responsive buyer relationships.</p></div><div class="about-chip-grid">${businessCards.map(item => `<span>${esc(item)}</span>`).join('')}</div></section><section class="about-strategy-block"><div class="about-section-copy"><h2>Less Vulnerable to External Shocks</h2><p>Recent years have shown how fragile global supply systems can become. Shipping costs can rise sharply. Delays can become normal. Crises can interrupt product flows. Markets that depend almost entirely on imports remain exposed.</p><p>A local controlled-environment production layer can help reduce that exposure. It does not replace all agriculture or all imports, but it strengthens resilience by creating a reliable local base for selected premium crops.</p></div><div class="about-card-grid compact">${shockCards.map(item => `<article><strong>${esc(item)}</strong></article>`).join('')}</div></section><section class="about-strategy-block about-ecosystem-block"><div class="about-section-copy"><div class="eyebrow">The Ecosystem</div><h2>The Farm and the Technical Platform</h2><p>SymbioGreens is the farm-facing production brand: focused on growing, harvesting, quality, buyer relationships, and premium local supply. Balponics is the technical company behind the model: supporting hydroponic design, greenhouse systems, crop planning, training, post-harvest systems, and long-term project development.</p><p>Balponics provides the systems, technical discipline, and production model. SymbioGreens brings that model to life through real farm execution and market-facing supply.</p></div><div class="about-duo-grid"><article><h3>SymbioGreens</h3><ul><li>Premium fresh production</li><li>Market-facing supply</li><li>Hospitality and local buyers</li><li>Quality and consistency</li><li>Local fresh-food model</li></ul></article><article><h3>Balponics</h3><ul><li>Technical systems</li><li>Hydroponic design</li><li>Greenhouse planning</li><li>Training and SOPs</li><li>Crop strategy and operational support</li></ul></article></div></section><figure class="about-visual-card"><img src="public/company/production/about-symbiogreens-balponics-ecosystem.png" alt="SymbioGreens and Balponics ecosystem model"><figcaption>SymbioGreens and Balponics together: technical systems, crop planning, farm production, quality delivery, buyers, feedback, and continuous improvement.</figcaption></figure><section class="about-strategy-block"><div class="about-section-copy"><h2>More Than a Farm</h2><p>The ambition is not simply to build a farm. The ambition is to build a model: a system that combines controlled growing, efficient water use, crop planning, operational discipline, post-harvest handling, cold-chain support, delivery readiness, and scalable technical know-how.</p><p>This is about creating a production ecosystem that can serve local buyers today and become a replicable model for tomorrow.</p></div><div class="about-chip-grid">${buildCards.map(item => `<span>${esc(item)}</span>`).join('')}</div></section><section class="about-strategy-block"><div class="about-section-copy"><h2>Our Operating Principles</h2></div><div class="about-card-grid">${principles.map(([title,body]) => `<article><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="about-strategy-cta"><div><h2>Building a More Autonomous Fresh Food Future</h2><p>SymbioGreens and Balponics are being developed to help create cleaner, smarter, more resilient local food systems with premium hydroponic production, better resource efficiency, stronger local business opportunity, and reduced dependence on fragile supply chains.</p></div><div class="hero-actions"><button class="primary-btn" data-route="lasTerrenas">Explore Farms & Projects</button><button class="ghost-btn" data-route="products">${esc(t('explore'))}</button><button class="ghost-btn" data-route="contact">Contact Us</button></div></section></section>`;
 }
-function lasTerrenasPanel() {
-  const interiorImage = 'public/company/production/greenhouse-interior-tower-production.png';
-  const layoutImage = 'public/company/production/las-terrenas-northeast-dr-model-farm-hub.png';
-  const metrics = [['Land area','Approx. 15 hectares for phase one planning'],['Greenhouse area','Approx. 10,610 m2 controlled-environment production area'],['Plot area','Approx. 30,000 m2 initial hub footprint'],['Hydroponic towers','500 phase-one towers, 8-inch diameter and 8-foot height'],['Plant sites','Approx. 80 plant sites per tower and 40,000 plants per cycle'],['Microgreens','8,000-9,000 trays per cycle in five-level racks'],['Mushrooms','Approx. 2,000 kg per month target capacity'],['Commercial corridor','Las Terrenas / Sánchez / Río San Juan with broader Dominican reach']];
-  const systems = [['Hydroponic Tower Greenhouses','Phase one is centered on 500 high-density hydroponic towers for herbs, leafy greens, and specialty crops, with approximately 40,000 plant sites per cycle.'],['Microgreens Facility','A controlled-room microgreens facility with five-level racks and approximately 8,000-9,000 trays per cycle for chef-oriented, high-turnover crops.'],['Mushroom Grow Rooms','Dedicated indoor rooms for gourmet mushrooms such as lion\'s mane, king oyster, shiitake, enoki, and other specialty varieties where commercially appropriate.'],['Specialty Substrate Greenhouse','Substrate production for larger-root crops, Asian herbs, wellness crops, resort kitchen ingredients, and specialty varieties such as kaffir lime, pandan, lemongrass, curry leaves, ginger, and turmeric where appropriate.']];
-  const infrastructure = [['Medicinal & Wellness Plant Area','Dedicated production planning for tulsi, gotu kola, lemon balm, moringa, stevia, ashwagandha, ginger, turmeric, and other approved wellness-oriented crops.'],['Drying & Value-Added Processing','Light processing capacity for herbs, teas, spices, seasoning blends, mushroom powders, drying, packaging, and value-added products.'],['Cold Storage & Packing Line','Refrigerated rooms, sorting, grading, washing, labeling, quality control, and buyer-ready packing flow.'],['Logistics & Fleet','Refrigerated delivery truck, pickup or management vehicles, loading access, and delivery flow for resorts, chefs, restaurants, and distributors.'],['Solar & Electrical Resilience','Solar-assisted power, battery storage, efficient electrical design, and backup planning to reduce exposure to energy instability.'],['Water & Nutrient Management','Reservoirs, filtration, nutrient mixing, irrigation control, recirculation, pH/EC monitoring, and water-quality discipline.'],['Manager House, Office & Staff Facilities','Operations office, manager residence, staff housing or rest areas, bathrooms, laundry, secure storage, administration, and monitoring space.']];
-  const offers = [['Feasibility & Market Alignment','Market demand review, buyer mapping, crop priorities, corridor strategy, and commercial positioning.'],['Site Planning & Concept Development','Campus layout, greenhouse configuration, workflow planning, hub infrastructure, and phased development strategy.'],['Climate-Adapted Greenhouse Design','Greenhouse concepts adapted to tropical, coastal, island, and tourism-driven environments.'],['Hydroponic System Selection','Tower hydroponics, microgreens, mushrooms, substrate systems, medicinal crops, nursery, and specialty crop planning.'],['Post-Harvest & Cold Chain','Harvest flow, packing, cold room planning, freshness holding, quality control, and delivery readiness.'],['Training, SOPs & Commissioning','Team training, crop planning, system commissioning, quality protocols, technical operations, and operating discipline.'],['Long-Term Technical Support','Ongoing improvement, crop planning support, production troubleshooting, renewable planning, and scaling roadmap.']];
-  const education = [['Visitor Experience & Chef Area','Guided farm tours, chef sampling, tasting area, farm-to-table education, harvest lists, and tasteful culinary or herbal tea workshop concepts.'],['Training & Demonstration Zone','Hands-on training for operators, greenhouse teams, partners, culinary buyers, and community programs.'],['Buyer & Distributor Visits','Practical walkthroughs for resorts, chefs, restaurants, distributors, wellness buyers, and specialty food channels.'],['R&D / Innovation Area','Crop trials, hydroponic system testing, monitoring, automation, future food systems, and continuous production improvement.']];
-  const regional = [
-    ['Bahamas Hospitality Supply Model','Illustrative Caribbean replication concept','A scalable controlled-environment agriculture hub designed to serve resorts, villas, chefs, restaurants, and specialty buyers with premium local supply.','public/company/production/bahamas_hospitality_supply_model_concept.png',['Resort and villa supply','Chef-driven demand','Import replacement','Same-day freshness','Scalable island model','Local business opportunity']],
-    ['Bermuda High-Value Island Model','Illustrative Caribbean replication concept','A compact, high-value controlled-environment farm model adapted for limited land, premium local markets, and island food resilience.','public/company/production/bermuda_high_value_agriculture_model_pitch.png',['Compact footprint','High-value production','Limited land adaptation','Local freshness','Resilience and efficiency','Year-round premium supply']],
-    ['Eastern Caribbean Boutique Market Model','Illustrative Caribbean replication concept','A modular production hub for tourism clusters, restaurants, boutique hotels, local retailers, cruise markets, and island communities.','public/company/production/eastern_caribbean_hydroponic_farm_model.png',['Modular greenhouse planning','Local market adaptation','Tourism cluster supply','Training and technical support','Scalable investment model','Local food resilience']],
-    ['Martinique Premium Fresh Supply Model','Illustrative Caribbean replication concept','An integrated fresh supply model designed for culinary culture, wellness products, specialty herbs, local freshness, and sustainable production.','public/company/production/fresh_and_sustainable_agriculture_for_martinique.png',['Culinary and wellness demand','Herbs and specialty crops','Efficient water use','Local delivery','Value-added processing','Regional replication potential']],
-    ['Guadeloupe Resilient Local Supply Model','Illustrative Caribbean replication concept','A resilient local supply model designed around controlled-environment production, local business opportunity, reduced imports, and regional scalability.','public/company/production/guadeloupe_resilient_local_farm_model.png',['Resilient by design','Controlled-environment production','Local business opportunity','Packing and cold chain','Electric fleet and delivery','Scalable Caribbean model']],
-  ];
-  const applications = ['Hotels & Resorts','Restaurants & Fine Dining','Private Villas','Specialty Retail','Wellness & Tourism Operators','Institutional Buyers','Island Communities','Training & Demonstration Centers'];
-  return `<section class="projects-page"><section class="projects-hero"><div><div class="eyebrow">${esc(t('farmsProjects'))}</div><h1>Las Terrenas / Northeast DR Model Farm Hub</h1><p>A premium controlled-environment agriculture campus designed for same-day local supply, imported specialty produce replacement, resort and chef demand, and Caribbean replication.</p><p>The Las Terrenas / Sánchez / Río San Juan operating corridor is planned as the first reference hub for the Northeast Dominican Republic. The model combines 500 phase-one hydroponic towers, microgreens, mushrooms, specialty crops, medicinal plants, value-added processing, cold chain, logistics, solar-assisted resilience, staff facilities, visitor experience, and R&D capacity.</p><div class="hero-actions"><button class="primary-btn" data-action="openImageLightbox" data-image="${esc(layoutImage)}" data-title="Las Terrenas / Northeast DR Model Farm Hub">View Hub Model</button><button class="ghost-btn" data-route="contact">Discuss a Project</button></div></div><figure class="projects-hero-visual"><button class="project-image-button" data-action="openImageLightbox" data-image="${esc(layoutImage)}" data-title="Las Terrenas / Northeast DR Model Farm Hub"><img src="${esc(layoutImage)}" alt="Illustrative Las Terrenas Northeast Dominican Republic controlled-environment agriculture model farm hub"></button><figcaption>Illustrative model hub based on the private investor presentation: a diversified controlled-environment agriculture campus combining 500 phase-one hydroponic towers, microgreens, mushrooms, specialty crops, medicinal plants, value-added processing, cold chain, solar-assisted resilience, staff facilities, logistics, visitor experience, and R&D capacity.</figcaption></figure></section><section class="project-block"><div class="section-intro"><div class="eyebrow">Reference Hub</div><h2>The Reference Model: Las Terrenas / Northeast DR</h2><p>Las Terrenas is positioned as a full model farm hub, not a small pilot greenhouse. The hub is designed to serve resorts, chefs, restaurants, distributors, wellness buyers, specialty retailers, and fresh local supply channels with premium produce grown close to market.</p><p>The operating corridor connects Las Terrenas, Sánchez, and Río San Juan, with commercial reach toward Santo Domingo, Punta Cana, Cap Cana, Casa de Campo, and the North Coast where appropriate. Detailed financial projections remain reserved for qualified investor review.</p></div><div class="project-metrics">${metrics.map(([label,value]) => `<article><strong>${esc(label)}</strong><span>${esc(value)}</span></article>`).join('')}</div></section><section class="project-block"><div class="section-intro"><div class="eyebrow">Hub Layout</div><h2>Model Farm Hub Campus</h2><p>The visual is an illustrative planning reference for a diversified controlled-environment agriculture campus with production greenhouses, microgreens, mushrooms, specialty substrate crops, medicinal and wellness plants, processing, cold chain, logistics, utilities, staff facilities, visitor experience, and R&D / training capacity.</p></div><figure class="project-feature-image"><button class="project-image-button" data-action="openImageLightbox" data-image="${esc(layoutImage)}" data-title="Las Terrenas / Northeast DR Model Farm Hub"><img src="${esc(layoutImage)}" alt="Panoramic illustrated model farm hub for Las Terrenas Northeast Dominican Republic"></button><figcaption>Illustrative model based on initial project design. Final layout remains subject to site conditions, engineering, budget, permitting, buyer demand, and phased implementation.</figcaption></figure></section><section class="project-block"><div class="section-intro"><h2>Four Complementary Growing Systems</h2><p>The hub model is diversified by design, supporting fresh produce, chef-focused crops, wellness-oriented crops, mushrooms, and value-added product pathways.</p></div><div class="project-card-grid four">${systems.map(([title,body]) => `<article class="project-card"><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="project-block"><div class="section-intro"><h2>Built as a Complete Operating Hub</h2><p>The Las Terrenas hub concept includes the infrastructure required to grow, process, protect, pack, store, manage, and deliver premium products with commercial discipline.</p></div><div class="project-card-grid">${infrastructure.map(([title,body]) => `<article class="project-card"><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="project-block"><div class="section-intro"><h2>Visitor Experience, Training & Demonstration Value</h2><p>The model farm can also support farm visits, chef sampling, guided tours, harvest list presentation, culinary experiences, training, and tasteful farm-to-table or herbal tea workshop concepts for tourism-driven markets.</p><button class="ghost-btn" data-route="contact">Discuss Demonstration Opportunities</button></div><div class="project-card-grid four">${education.map(([title,body]) => `<article class="project-card"><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="project-block"><div class="section-intro"><h2>What We Offer</h2><p>Through the SymbioGreens and Balponics model, the project can be adapted into different farm formats depending on land size, market demand, climate conditions, budget, crop strategy, energy profile, and operational goals.</p></div><div class="project-card-grid">${offers.map(([title,body]) => `<article class="project-card service"><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="project-block regional-models"><div class="section-intro"><div class="eyebrow">Dominican Republic First, Caribbean Next</div><h2>Designed for Caribbean Replication</h2><p>The Las Terrenas / Northeast DR model is designed as a reference platform that can be adapted to different Caribbean and island markets after the Dominican Republic launch path is validated. Each market may require a different configuration depending on land availability, tourism demand, import dependence, buyer concentration, water access, energy costs, logistics, and local operating capacity.</p><p>These examples are not presented as confirmed projects. They are illustrative replication models showing how SymbioGreens / Balponics can adapt the same core production logic to different island realities.</p></div><div class="regional-grid">${regional.map(([title,subtitle,body,img,bullets]) => `<article class="regional-card"><button class="project-image-button" data-action="openImageLightbox" data-image="${esc(img)}" data-title="${esc(title)}"><img src="${esc(img)}" alt="${esc(title)}"></button><div class="regional-card-body"><span>${esc(subtitle)}</span><h3>${esc(title)}</h3><p>${esc(body)}</p><ul>${bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul><button class="ghost-btn" data-action="openImageLightbox" data-image="${esc(img)}" data-title="${esc(title)}">View Model Concept</button></div></article>`).join('')}</div></section>${projectInnovationSections()}<section class="project-block"><div class="section-intro"><h2>Where This Model Fits</h2><p>The model can be adapted to markets where freshness, reliability, presentation, and proximity create value. Each project should be shaped by buyer demand, land conditions, climate realities, energy profile, logistics, and operational capacity.</p></div><div class="application-grid">${applications.map(item => `<span>${esc(item)}</span>`).join('')}</div></section><section class="project-cta"><div><h2>Build Resilient Local Production Systems</h2><p>From renewable-first infrastructure to water monitoring, crop trials, and future food research, SymbioGreens and Balponics are building a platform for cleaner, smarter, and more resilient food production.</p></div><div class="hero-actions"><button class="primary-btn" data-route="contact">Discuss a Project</button><button class="ghost-btn" data-route="investors">Investor & Partnership Review</button><button class="ghost-btn" data-route="contact">Contact Us</button></div></section></section>`;
-}
-function projectInnovationSections() {
-  const sections = [
-    {
-      eyebrow:'Renewable Energy',
-      title:'Renewable-First Energy Strategy',
-      subtitle:'Clean power, resilient farms, sustainable growth.',
-      image:'public/company/production/farms-renewable-first-energy-strategy.png',
-      alt:'Renewable-first energy strategy showing solar-led greenhouse power, battery storage, smart energy management, cold room support, and resilient farm infrastructure.',
-      body:['SymbioGreens and Balponics are designed around a renewable-first energy strategy. In Caribbean and island markets where sunlight is abundant and energy costs can be volatile, solar-led infrastructure, battery storage where feasible, efficient farm design, and smart energy management can strengthen operational resilience and improve long-term economics.','The objective is not to make unrealistic claims of immediate full independence from the grid. The objective is to design farms that reduce exposure to energy volatility, improve continuity during disruptions, and support cleaner production through practical renewable integration.'],
-      cards:[['Solar-Led Power','High-efficiency solar arrays can support daily farm operations, irrigation, lighting, monitoring, packing, and cold-chain support where technically and economically feasible.'],['Battery Storage','Battery systems can store excess solar energy for peak demand, night operations, and critical systems such as monitoring, pumps, and cold storage.'],['Hybrid Backup Planning','Backup systems may still be required for continuity during storms, extended cloudy periods, technical faults, or grid disruptions.'],['Smart Energy Management','Monitoring and automation can help schedule loads, reduce waste, protect equipment, and improve operational reliability.'],['Stronger Margins & Resilience','Lower exposure to unpredictable energy costs can improve planning, protect freshness, and support more resilient unit economics.']]
-    },
-    {
-      eyebrow:'Monitoring Architecture',
-      title:'Water & Nutrient Monitoring Station',
-      subtitle:'Smart control. Precise monitoring. Consistent growth.',
-      image:'public/company/production/farms-water-nutrient-monitoring-station.png',
-      alt:'Water and nutrient monitoring station showing pH and EC tracking, irrigation control, recirculation, filtration, pumps, sensors, and nutrient delivery to hydroponic crops.',
-      body:['Controlled-environment agriculture depends on disciplined water and nutrient management. Monitoring pH, EC, temperature, flow, irrigation timing, filtration, and recirculation helps protect crop health, reduce waste, and improve consistency across production cycles.','This is presented as a planned monitoring architecture and target operating model, subject to site conditions, engineering design, equipment selection, and phased implementation.'],
-      cards:[['Water Quality','Continuous monitoring of key water parameters supports a clean and stable foundation for plant health.'],['pH / EC Tracking','Real-time measurement helps maintain nutrient availability and supports better plant uptake.'],['Irrigation Control','Automated scheduling and dosing can deliver water and nutrients at the right time and in the right quantity.'],['Recirculation','Closed-loop or semi-closed systems can reduce water waste and improve resource efficiency.'],['Data-Informed Growing','Centralized monitoring gives operators better visibility into system performance, crop needs, and potential problems.'],['System Reliability','Redundant components, alerts, and routine monitoring help protect crops and reduce operational risk.']]
-    },
-    {
-      eyebrow:'R&D Platform',
-      title:'Research, Development & Future Food Systems',
-      subtitle:'Advancing sustainable agriculture through science, technology, and integrated systems.',
-      image:'public/company/production/farms-rd-future-food-systems.png',
-      alt:'Research and development greenhouse showing crop trials, system optimization, water and nutrient efficiency, automation, renewable integration, and future food systems.',
-      body:['The SymbioGreens / Balponics model is designed to evolve through applied research, crop trials, system optimization, automation, data collection, and continuous improvement. The goal is to test what works locally, refine production protocols, improve resilience, and build a platform that can adapt to different Caribbean and island market conditions.'],
-      cards:[['Crop Trials','Testing varieties and growing techniques to identify high-performing crops for local buyers, climate conditions, and market demand.'],['System Optimization','Refining growing environments, irrigation, spacing, lighting, airflow, and workflows to improve quality and operational efficiency.'],['Water & Nutrient Efficiency','Studying fertigation, nutrient delivery, and recirculation to reduce waste and improve crop performance.'],['Automation & Monitoring','Using sensors, data, alerts, and control systems to support better decisions and consistent operations.'],['Renewable Integration','Studying how solar, batteries, efficient equipment, and smart energy scheduling can support resilient production.'],['Future Food Systems','Designing scalable, nutritious, local production systems that can strengthen community resilience and long-term food security.']]
-    },
-    {
-      eyebrow:'Biological Innovation',
-      title:'Future Food Systems & Biological Innovation',
-      subtitle:'Research today, resilience tomorrow.',
-      image:'public/company/production/farms-biological-innovation-future-resilience.png',
-      alt:'Biological innovation concept showing exploratory algae research, biological systems, sustainable inputs, emerging technologies, and future food resilience.',
-      body:['Beyond immediate production, the platform can support exploratory research into biological systems, sustainable inputs, algae research, beneficial microorganisms, biostimulants, automation, and integrated future food solutions. These areas are research pathways and future opportunities, not guaranteed commercial technologies.'],
-      cards:[['Exploratory Algae Research','Investigating algae biology, strain discovery, and potential applications in nutrition, agriculture, and bioproducts.'],['Biological Systems','Studying soil microbiomes, beneficial microorganisms, plant interactions, and biological inputs that may support healthier growing systems.'],['Sustainable Inputs','Evaluating biofertilizers, biostimulants, compost-derived products, and other inputs that may reduce external dependencies.'],['Emerging Technologies','Exploring automation, sensors, AI-supported analysis, and data platforms to improve system efficiency and monitoring.'],['Innovation Pathway','Using iterative research, validation, and integration to move promising ideas from concept to practical application.'],['Future Resilience','Building adaptive production systems that can support people, communities, and markets in the face of climate, logistics, and supply-chain challenges.']]
-    }
-  ];
-  return `<section class="project-innovation-stack">${sections.map((section, index) => `<article class="project-innovation-section ${index % 2 ? 'reverse' : ''}"><div class="project-innovation-copy"><div class="eyebrow">${esc(section.eyebrow)}</div><h2>${esc(section.title)}</h2><p class="project-innovation-subtitle">${esc(section.subtitle)}</p>${section.body.map(paragraph => `<p>${esc(paragraph)}</p>`).join('')}<div class="project-innovation-cards">${section.cards.map(([title,body], cardIndex) => `<article class="${cardIndex === 0 ? 'active' : ''}"><span>${String(cardIndex + 1).padStart(2,'0')}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></div><figure class="project-innovation-visual"><button class="project-image-button" data-action="openImageLightbox" data-image="${esc(section.image)}" data-title="${esc(section.title)}"><img src="${esc(section.image)}" alt="${esc(section.alt)}"></button></figure></article>`).join('')}</section>`;
-}
-function productsPanel(compact) {
-  const cats = categories();
-  const selected = state.category || cats[0]?.id;
-  const allProducts = products();
-  if (compact) {
-    const featured = cats.map(c => allProducts.find(p => p.category_id === c.id)).filter(Boolean).slice(0, 4);
-    return `<section class="public-products-section product-preview-section"><div class="toolbar"><div><div class="eyebrow">${esc(t('products'))}</div><h2>${esc(t('publicProductsTitle'))}</h2><p>${esc(t('productsPageBody'))}</p></div><button class="primary-btn" data-route="products">${esc(t('explore'))}</button></div><div class="public-product-grid">${featured.map(productCardPublic).join('')}</div></section>`;
-  }
-  const visible = allProducts.filter(p => !selected || p.category_id === selected).filter(p => productName(p).toLowerCase().includes(state.search.toLowerCase()));
-  return `<section class="public-products-section"><div class="toolbar"><div><div class="eyebrow">${esc(t('products'))}</div><h2>${esc(compact ? t('publicProductsTitle') : t('productsPageTitle'))}</h2><p>${esc(t('productsPageBody'))}</p></div><button class="primary-btn" data-action="startProductionSurvey">${esc(t('takeSurvey'))}</button></div><div class="public-category-row">${cats.map(c => `<button class="public-category-chip ${selected===c.id?'active':''}" data-category="${esc(c.id)}"><span class="category-thumb">${esc((c.family || c.name).slice(0,2).toUpperCase())}</span>${esc(categoryLabel(c.id))}</button>`).join('')}</div>${categoryIntro(selected)}<div class="form-grid"><label><span>${esc(t('Search'))}</span><input type="search" data-search value="${esc(state.search)}" placeholder="${esc(t('Search products'))}"></label></div><div class="public-product-grid">${visible.slice(0, compact ? 8 : visible.length).map(productCardPublic).join('')}</div></section>`;
-}
-function categoryIntro(id) {
-  const story = state.lang === 'en' ? (CATEGORY_STORIES[id] || []) : list('categoryIntroPoints');
-  const living = dict('livingOptions')[id];
-  return `<div class="category-intro"><article class="card"><h3>${esc(categoryLabel(id))}</h3>${story.map(s => `<p>${esc(s)}</p>`).join('')}${living ? `<p><strong>${esc(living)}</strong></p>` : ''}<button class="ghost-btn" data-action="startProductionSurvey">${esc(t('takeSurvey'))}</button></article></div>`;
-}
-function productCardPublic(p) {
-  return `<article class="card public-product-card" data-action="openProduct" data-product="${esc(p.id)}"><img src="${esc(imageFor(p))}" alt="${esc(productName(p))}"><h3>${esc(productName(p))}</h3><p>${esc(localizedProductCopy(p.flavor_profile))}</p><button class="ghost-btn" data-action="openProduct" data-product="${esc(p.id)}">${esc(t('viewDetails'))}</button></article>`;
+              function lasTerrenasPanel() {
+                const interiorImage = 'public/company/production/greenhouse-interior-tower-production.png';
+                const layoutImage = 'public/company/production/las-terrenas-northeast-dr-model-farm-hub.png';
+                const metrics = [['Land area','Approx. 15 hectares for phase one planning'],['Greenhouse area','Approx. 10,610 m2 controlled-environment production area'],['Plot area','Approx. 30,000 m2 initial hub footprint'],['Hydroponic towers','500 phase-one towers, 8-inch diameter and 8-foot height'],['Plant sites','Approx. 80 plant sites per tower and 40,000 plants per cycle'],['Microgreens','8,000-9,000 trays per cycle in five-level racks'],['Mushrooms','Approx. 2,000 kg per month target capacity'],['Commercial corridor','Las Terrenas / Sánchez / Río San Juan with broader Dominican reach']];
+                const systems = [['Hydroponic Tower Greenhouses','Phase one is centered on 500 high-density hydroponic towers for herbs, leafy greens, and specialty crops, with approximately 40,000 plant sites per cycle.'],['Microgreens Facility','A controlled-room microgreens facility with five-level racks and approximately 8,000-9,000 trays per cycle for chef-oriented, high-turnover crops.'],['Mushroom Grow Rooms','Dedicated indoor rooms for gourmet mushrooms such as lion\'s mane, king oyster, shiitake, enoki, and other specialty varieties where commercially appropriate.'],['Specialty Substrate Greenhouse','Substrate production for larger-root crops, Asian herbs, wellness crops, resort kitchen ingredients, and specialty varieties such as kaffir lime, pandan, lemongrass, curry leaves, ginger, and turmeric where appropriate.']];
+                const infrastructure = [['Medicinal & Wellness Plant Area','Dedicated production planning for tulsi, gotu kola, lemon balm, moringa, stevia, ashwagandha, ginger, turmeric, and other approved wellness-oriented crops.'],['Drying & Value-Added Processing','Light processing capacity for herbs, teas, spices, seasoning blends, mushroom powders, drying, packaging, and value-added products.'],['Cold Storage & Packing Line','Refrigerated rooms, sorting, grading, washing, labeling, quality control, and buyer-ready packing flow.'],['Logistics & Fleet','Refrigerated delivery truck, pickup or management vehicles, loading access, and delivery flow for resorts, chefs, restaurants, and distributors.'],['Solar & Electrical Resilience','Solar-assisted power, battery storage, efficient electrical design, and backup planning to reduce exposure to energy instability.'],['Water & Nutrient Management','Reservoirs, filtration, nutrient mixing, irrigation control, recirculation, pH/EC monitoring, and water-quality discipline.'],['Manager House, Office & Staff Facilities','Operations office, manager residence, staff housing or rest areas, bathrooms, laundry, secure storage, administration, and monitoring space.']];
+                const offers = [['Feasibility & Market Alignment','Market demand review, buyer mapping, crop priorities, corridor strategy, and commercial positioning.'],['Site Planning & Concept Development','Campus layout, greenhouse configuration, workflow planning, hub infrastructure, and phased development strategy.'],['Climate-Adapted Greenhouse Design','Greenhouse concepts adapted to tropical, coastal, island, and tourism-driven environments.'],['Hydroponic System Selection','Tower hydroponics, microgreens, mushrooms, substrate systems, medicinal crops, nursery, and specialty crop planning.'],['Post-Harvest & Cold Chain','Harvest flow, packing, cold room planning, freshness holding, quality control, and delivery readiness.'],['Training, SOPs & Commissioning','Team training, crop planning, system commissioning, quality protocols, technical operations, and operating discipline.'],['Long-Term Technical Support','Ongoing improvement, crop planning support, production troubleshooting, renewable planning, and scaling roadmap.']];
+                const education = [['Visitor Experience & Chef Area','Guided farm tours, chef sampling, tasting area, farm-to-table education, harvest lists, and tasteful culinary or herbal tea workshop concepts.'],['Training & Demonstration Zone','Hands-on training for operators, greenhouse teams, partners, culinary buyers, and community programs.'],['Buyer & Distributor Visits','Practical walkthroughs for resorts, chefs, restaurants, distributors, wellness buyers, and specialty food channels.'],['R&D / Innovation Area','Crop trials, hydroponic system testing, monitoring, automation, future food systems, and continuous production improvement.']];
+                const regional = [
+                  ['Bahamas Hospitality Supply Model','Illustrative Caribbean replication concept','A scalable controlled-environment agriculture hub designed to serve resorts, villas, chefs, restaurants, and specialty buyers with premium local supply.','public/company/production/bahamas_hospitality_supply_model_concept.png',['Resort and villa supply','Chef-driven demand','Import replacement','Same-day freshness','Scalable island model','Local business opportunity']],
+                  ['Bermuda High-Value Island Model','Illustrative Caribbean replication concept','A compact, high-value controlled-environment farm model adapted for limited land, premium local markets, and island food resilience.','public/company/production/bermuda_high_value_agriculture_model_pitch.png',['Compact footprint','High-value production','Limited land adaptation','Local freshness','Resilience and efficiency','Year-round premium supply']],
+                  ['Eastern Caribbean Boutique Market Model','Illustrative Caribbean replication concept','A modular production hub for tourism clusters, restaurants, boutique hotels, local retailers, cruise markets, and island communities.','public/company/production/regional-eastern-caribbean-boutique-market-model.png',['Modular greenhouse planning','Local market adaptation','Tourism cluster supply','Training and technical support','Scalable investment model','Local food resilience']],
+                  ['Martinique Premium Fresh Supply Model','Illustrative Caribbean replication concept','An integrated fresh supply model designed for culinary culture, wellness products, specialty herbs, local freshness, and sustainable production.','public/company/fresh_and_sustainable_agriculture_for_martinique.png',['Culinary and wellness demand','Herbs and specialty crops','Efficient water use','Local delivery','Value-added processing','Regional replication potential']],
+                  ['Guadeloupe Resilient Local Supply Model','Illustrative Caribbean replication concept','A resilient local supply model designed around controlled-environment production, local business opportunity, reduced imports, and regional scalability.','public/company/guadeloupe_resilient_local_farm_model.png',['Resilient by design','Controlled-environment production','Local business opportunity','Packing and cold chain','Electric fleet and delivery','Scalable Caribbean model']],
+                ];
+                const applications = ['Hotels & Resorts','Restaurants & Fine Dining','Private Villas','Specialty Retail','Wellness & Tourism Operators','Institutional Buyers','Island Communities','Training & Demonstration Centers'];
+                return `<section class="projects-page"><section class="projects-hero"><div><div class="eyebrow">${esc(t('farmsProjects'))}</div><h1>Las Terrenas / Northeast DR Model Farm Hub</h1><p>A premium controlled-environment agriculture campus designed for same-day local supply, imported specialty produce replacement, resort and chef demand, and Caribbean replication.</p><p>The Las Terrenas / Sánchez / Río San Juan operating corridor is planned as the first reference hub for the Northeast Dominican Republic. The model combines 500 phase-one hydroponic towers, microgreens, mushrooms, specialty crops, medicinal plants, value-added processing, cold chain, logistics, solar-assisted resilience, staff facilities, visitor experience, and R&D capacity.</p><div class="hero-actions"><button class="primary-btn" data-action="openImageLightbox" data-image="${esc(layoutImage)}" data-title="Las Terrenas / Northeast DR Model Farm Hub">View Hub Model</button><button class="ghost-btn" data-route="contact">Discuss a Project</button></div></div><figure class="projects-hero-visual"><button class="project-image-button" data-action="openImageLightbox" data-image="${esc(layoutImage)}" data-title="Las Terrenas / Northeast DR Model Farm Hub"><img src="${esc(layoutImage)}" alt="Illustrative Las Terrenas Northeast Dominican Republic controlled-environment agriculture model farm hub"></button><figcaption>Illustrative model hub based on the private investor presentation: a diversified controlled-environment agriculture campus combining 500 phase-one hydroponic towers, microgreens, mushrooms, specialty crops, medicinal plants, value-added processing, cold chain, solar-assisted resilience, staff facilities, logistics, visitor experience, and R&D capacity.</figcaption></figure></section><section class="project-block"><div class="section-intro"><div class="eyebrow">Reference Hub</div><h2>The Reference Model: Las Terrenas / Northeast DR</h2><p>Las Terrenas is positioned as a full model farm hub, not a small pilot greenhouse. The hub is designed to serve resorts, chefs, restaurants, distributors, wellness buyers, specialty retailers, and fresh local supply channels with premium produce grown close to market.</p><p>The operating corridor connects Las Terrenas, Sánchez, and Río San Juan, with commercial reach toward Santo Domingo, Punta Cana, Cap Cana, Casa de Campo, and the North Coast where appropriate. Detailed financial projections remain reserved for qualified investor review.</p></div><div class="project-metrics">${metrics.map(([label,value]) => `<article><strong>${esc(label)}</strong><span>${esc(value)}</span></article>`).join('')}</div></section><section class="project-block"><div class="section-intro"><div class="eyebrow">Hub Layout</div><h2>Model Farm Hub Campus</h2><p>The visual is an illustrative planning reference for a diversified controlled-environment agriculture campus with production greenhouses, microgreens, mushrooms, specialty substrate crops, medicinal and wellness plants, processing, cold chain, logistics, utilities, staff facilities, visitor experience, and R&D / training capacity.</p></div><figure class="project-feature-image"><button class="project-image-button" data-action="openImageLightbox" data-image="${esc(layoutImage)}" data-title="Las Terrenas / Northeast DR Model Farm Hub"><img src="${esc(layoutImage)}" alt="Panoramic illustrated model farm hub for Las Terrenas Northeast Dominican Republic"></button><figcaption>Illustrative model based on initial project design. Final layout remains subject to site conditions, engineering, budget, permitting, buyer demand, and phased implementation.</figcaption></figure></section><section class="project-block"><div class="section-intro"><h2>Four Complementary Growing Systems</h2><p>The hub model is diversified by design, supporting fresh produce, chef-focused crops, wellness-oriented crops, mushrooms, and value-added product pathways.</p></div><div class="project-card-grid four">${systems.map(([title,body]) => `<article class="project-card"><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="project-block"><div class="section-intro"><h2>Built as a Complete Operating Hub</h2><p>The Las Terrenas hub concept includes the infrastructure required to grow, process, protect, pack, store, manage, and deliver premium products with commercial discipline.</p></div><div class="project-card-grid">${infrastructure.map(([title,body]) => `<article class="project-card"><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="project-block"><div class="section-intro"><h2>Visitor Experience, Training & Demonstration Value</h2><p>The model farm can also support farm visits, chef sampling, guided tours, harvest list presentation, culinary experiences, training, and tasteful farm-to-table or herbal tea workshop concepts for tourism-driven markets.</p><button class="ghost-btn" data-route="contact">Discuss Demonstration Opportunities</button></div><div class="project-card-grid four">${education.map(([title,body]) => `<article class="project-card"><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="project-block"><div class="section-intro"><h2>What We Offer</h2><p>Through the SymbioGreens and Balponics model, the project can be adapted into different farm formats depending on land size, market demand, climate conditions, budget, crop strategy, energy profile, and operational goals.</p></div><div class="project-card-grid">${offers.map(([title,body]) => `<article class="project-card service"><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="project-block regional-models"><div class="section-intro"><div class="eyebrow">Dominican Republic First, Caribbean Next</div><h2>Designed for Caribbean Replication</h2><p>The Las Terrenas / Northeast DR model is designed as a reference platform that can be adapted to different Caribbean and island markets after the Dominican Republic launch path is validated. Each market may require a different configuration depending on land availability, tourism demand, import dependence, buyer concentration, water access, energy costs, logistics, and local operating capacity.</p><p>These examples are not presented as confirmed projects. They are illustrative replication models showing how SymbioGreens / Balponics can adapt the same core production logic to different island realities.</p></div><div class="regional-grid">${regional.map(([title,subtitle,body,img,bullets]) => `<article class="regional-card"><button class="project-image-button" data-action="openImageLightbox" data-image="${esc(img)}" data-title="${esc(title)}"><img src="${esc(img)}" alt="${esc(title)}"></button><div class="regional-card-body"><span>${esc(subtitle)}</span><h3>${esc(title)}</h3><p>${esc(body)}</p><ul>${bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul><button class="ghost-btn" data-action="openImageLightbox" data-image="${esc(img)}" data-title="${esc(title)}">View Model Concept</button></div></article>`).join('')}</div></section>${projectInnovationSections()}<section class="project-block"><div class="section-intro"><h2>Where This Model Fits</h2><p>The model can be adapted to markets where freshness, reliability, presentation, and proximity create value. Each project should be shaped by buyer demand, land conditions, climate realities, energy profile, logistics, and operational capacity.</p></div><div class="application-grid">${applications.map(item => `<span>${esc(item)}</span>`).join('')}</div></section><section class="project-cta"><div><h2>Build Resilient Local Production Systems</h2><p>From renewable-first infrastructure to water monitoring, crop trials, and future food research, SymbioGreens and Balponics are building a platform for cleaner, smarter, and more resilient food production.</p></div><div class="hero-actions"><button class="primary-btn" data-route="contact">Discuss a Project</button><button class="ghost-btn" data-route="investors">Investor & Partnership Review</button><button class="ghost-btn" data-route="contact">Contact Us</button></div></section></section>`;
+              }
+              function projectInnovationSections() {
+                const sections = [
+                  {
+                    eyebrow:'Renewable Energy',
+                    title:'Renewable-First Energy Strategy',
+                    subtitle:'Clean power, resilient farms, sustainable growth.',
+                    image:'public/company/farms-renewable-first-energy-strategy.png',
+                    alt:'Renewable-first energy strategy showing solar-led greenhouse power, battery storage, smart energy management, cold room support, and resilient farm infrastructure.',
+                    body:['SymbioGreens and Balponics are designed around a renewable-first energy strategy. In Caribbean and island markets where sunlight is abundant and energy costs can be volatile, solar-led infrastructure, battery storage where feasible, efficient farm design, and smart energy management can strengthen operational resilience and improve long-term economics.','The objective is not to make unrealistic claims of immediate full independence from the grid. The objective is to design farms that reduce exposure to energy volatility, improve continuity during disruptions, and support cleaner production through practical renewable integration.'],
+                    cards:[['Solar-Led Power','High-efficiency solar arrays can support daily farm operations, irrigation, lighting, monitoring, packing, and cold-chain support where technically and economically feasible.'],['Battery Storage','Battery systems can store excess solar energy for peak demand, night operations, and critical systems such as monitoring, pumps, and cold storage.'],['Hybrid Backup Planning','Backup systems may still be required for continuity during storms, extended cloudy periods, technical faults, or grid disruptions.'],['Smart Energy Management','Monitoring and automation can help schedule loads, reduce waste, protect equipment, and improve operational reliability.'],['Stronger Margins & Resilience','Lower exposure to unpredictable energy costs can improve planning, protect freshness, and support more resilient unit economics.']]
+                  },
+                  {
+                    eyebrow:'Monitoring Architecture',
+                    title:'Water & Nutrient Monitoring Station',
+                    subtitle:'Smart control. Precise monitoring. Consistent growth.',
+                    image:'public/company/farms-water-nutrient-monitoring-station.png',
+                    alt:'Water and nutrient monitoring station showing pH and EC tracking, irrigation control, recirculation, filtration, pumps, sensors, and nutrient delivery to hydroponic crops.',
+                    body:['Controlled-environment agriculture depends on disciplined water and nutrient management. Monitoring pH, EC, temperature, flow, irrigation timing, filtration, and recirculation helps protect crop health, reduce waste, and improve consistency across production cycles.','This is presented as a planned monitoring architecture and target operating model, subject to site conditions, engineering design, equipment selection, and phased implementation.'],
+                    cards:[['Water Quality','Continuous monitoring of key water parameters supports a clean and stable foundation for plant health.'],['pH / EC Tracking','Real-time measurement helps maintain nutrient availability and supports better plant uptake.'],['Irrigation Control','Automated scheduling and dosing can deliver water and nutrients at the right time and in the right quantity.'],['Recirculation','Closed-loop or semi-closed systems can reduce water waste and improve resource efficiency.'],['Data-Informed Growing','Centralized monitoring gives operators better visibility into system performance, crop needs, and potential problems.'],['System Reliability','Redundant components, alerts, and routine monitoring help protect crops and reduce operational risk.']]
+                  },
+                  {
+                    eyebrow:'R&D Platform',
+                    title:'Research, Development & Future Food Systems',
+                    subtitle:'Advancing sustainable agriculture through science, technology, and integrated systems.',
+                    image:'public/company/farms-rd-future-food-systems.png',
+                    alt:'Research and development greenhouse showing crop trials, system optimization, water and nutrient efficiency, automation, renewable integration, and future food systems.',
+                    body:['The SymbioGreens / Balponics model is designed to evolve through applied research, crop trials, system optimization, automation, data collection, and continuous improvement. The goal is to test what works locally, refine production protocols, improve resilience, and build a platform that can adapt to different Caribbean and island market conditions.'],
+                    cards:[['Crop Trials','Testing varieties and growing techniques to identify high-performing crops for local buyers, climate conditions, and market demand.'],['System Optimization','Refining growing environments, irrigation, spacing, lighting, airflow, and workflows to improve quality and operational efficiency.'],['Water & Nutrient Efficiency','Studying fertigation, nutrient delivery, and recirculation to reduce waste and improve crop performance.'],['Automation & Monitoring','Using sensors, data, alerts, and control systems to support better decisions and consistent operations.'],['Renewable Integration','Studying how solar, batteries, efficient equipment, and smart energy scheduling can support resilient production.'],['Future Food Systems','Designing scalable, nutritious, local production systems that can strengthen community resilience and long-term food security.']]
+                  },
+                  {
+                    eyebrow:'Biological Innovation',
+                    title:'Future Food Systems & Biological Innovation',
+                    subtitle:'Research today, resilience tomorrow.',
+                    image:'public/company/farms-biological-innovation-future-resilience.png',
+                    alt:'Biological innovation concept showing exploratory algae research, biological systems, sustainable inputs, emerging technologies, and future food resilience.',
+                    body:['Beyond immediate production, the platform can support exploratory research into biological systems, sustainable inputs, algae research, beneficial microorganisms, biostimulants, automation, and integrated future food solutions. These areas are research pathways and future opportunities, not guaranteed commercial technologies.'],
+                    cards:[['Exploratory Algae Research','Investigating algae biology, strain discovery, and potential applications in nutrition, agriculture, and bioproducts.'],['Biological Systems','Studying soil microbiomes, beneficial microorganisms, plant interactions, and biological inputs that may support healthier growing systems.'],['Sustainable Inputs','Evaluating biofertilizers, biostimulants, compost-derived products, and other inputs that may reduce external dependencies.'],['Emerging Technologies','Exploring automation, sensors, AI-supported analysis, and data platforms to improve system efficiency and monitoring.'],['Innovation Pathway','Using iterative research, validation, and integration to move promising ideas from concept to practical application.'],['Future Resilience','Building adaptive production systems that can support people, communities, and markets in the face of climate, logistics, and supply-chain challenges.']]
+                  }
+                ];
+                return `<section class="project-innovation-stack">${sections.map((section, index) => `<article class="project-innovation-section ${index % 2 ? 'reverse' : ''}"><div class="project-innovation-copy"><div class="eyebrow">${esc(section.eyebrow)}</div><h2>${esc(section.title)}</h2><p class="project-innovation-subtitle">${esc(section.subtitle)}</p>${section.body.map(paragraph => `<p>${esc(paragraph)}</p>`).join('')}<div class="project-innovation-cards">${section.cards.map(([title,body], cardIndex) => `<article class="${cardIndex === 0 ? 'active' : ''}"><span>${String(cardIndex + 1).padStart(2,'0')}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></div><figure class="project-innovation-visual"><button class="project-image-button" data-action="openImageLightbox" data-image="${esc(section.image)}" data-title="${esc(section.title)}"><img src="${esc(section.image)}" alt="${esc(section.alt)}"></button></figure></article>`).join('')}</section>`;
+              }
+              function productsPanel(compact) {
+                const cats = categories();
+                const selected = state.category || cats[0]?.id;
+                const allProducts = products();
+                if (compact) {
+                  const featured = cats.map(c => allProducts.find(p => p.category_id === c.id)).filter(Boolean).slice(0, 4);
+                  return `<section class="public-products-section product-preview-section"><div class="toolbar"><div><div class="eyebrow">${esc(t('products'))}</div><h2>${esc(t('publicProductsTitle'))}</h2><p>${esc(t('productsPageBody'))}</p></div><button class="primary-btn" data-route="products">${esc(t('explore'))}</button></div><div class="public-product-grid">${featured.map(productCardPublic).join('')}</div></section>`;
+                }
+                const visible = allProducts.filter(p => !selected || p.category_id === selected).filter(p => productName(p).toLowerCase().includes(state.search.toLowerCase()));
+                return `<section class="public-products-section"><div class="toolbar"><div><div class="eyebrow">${esc(t('products'))}</div><h2>${esc(compact ? t('publicProductsTitle') : t('productsPageTitle'))}</h2><p>${esc(t('productsPageBody'))}</p></div><button class="primary-btn" data-action="startProductionSurvey">${esc(t('takeSurvey'))}</button></div><div class="public-category-row">${cats.map(c => `<button class="public-category-chip ${selected===c.id?'active':''}" data-category="${esc(c.id)}"><span class="category-thumb">${esc((c.family || c.name).slice(0,2).toUpperCase())}</span>${esc(categoryLabel(c.id))}</button>`).join('')}</div>${categoryIntro(selected)}<div class="form-grid"><label><span>${esc(t('Search'))}</span><input type="search" data-search value="${esc(state.search)}" placeholder="${esc(t('Search products'))}"></label></div><div class="public-product-grid">${visible.slice(0, compact ? 8 : visible.length).map(productCardPublic).join('')}</div></section>`;
+              }
+              function categoryIntro(id) {
+                const story = state.lang === 'en' ? (CATEGORY_STORIES[id] || []) : list('categoryIntroPoints');
+                const living = dict('livingOptions')[id];
+                return `<div class="category-intro"><article class="card"><h3>${esc(categoryLabel(id))}</h3>${story.map(s => `<p>${esc(s)}</p>`).join('')}${living ? `<p><strong>${esc(living)}</strong></p>` : ''}<button class="ghost-btn" data-action="startProductionSurvey">${esc(t('takeSurvey'))}</button></article></div>`;
+              }
+              function productCardPublic(p) {
+                return `<article class="card public-product-card" data-action="openProduct" data-product="${esc(p.id)}"><img src="${esc(imageFor(p))}" alt="${esc(productName(p))}"><h3>${esc(productName(p))}</h3><p>${esc(localizedProductCopy(p.flavor_profile))}</p><button class="ghost-btn" data-action="openProduct" data-product="${esc(p.id)}">${esc(t('viewDetails'))}</button></article>`;
 }
 function teamOperationsShortPanel() {
   return `<section class="team-operations-section home-team-operations-section"><div class="team-operations-copy"><div class="eyebrow">${esc(t('team'))}</div><h2>${esc(t('operationsHomeTitle'))}</h2><p>${esc(t('operationsHomeBody'))}</p><div class="team-operations-list">${list('operationsHomeCards').map(card => `<article><strong>${esc(card[0])}</strong><p>${esc(card[1])}</p></article>`).join('')}</div><button class="primary-btn" data-route="team">${esc(t('meetTeam'))}</button></div><figure class="team-operations-image-card"><img src="public/company/production/team-operations.png" alt="SymbioGreens team and daily operations handling premium fresh produce"></figure></section>`;
@@ -1607,12 +1646,12 @@ function executiveProfiles() {
       name:'Marcel Bernard Villedrouin',
       title:'Co-Founder & Chief Operating Officer',
       tagline:'Agribusiness operator, food-distribution executive, and heir to a Haitian legacy of agriculture, importation, and ecological innovation.',
-      image:'public/company/production/executive-marcel-bernard-ville-drouin.png',
+      image:'public/company/production/executive-marcel-bernard-villedrouin.png',
       highlights:['Operations execution','Food distribution','Procurement & logistics','Quality discipline'],
       bio:[
-        'Marcel Bernard Ville-Drouin is a Haitian entrepreneur, agribusiness operator, and business executive with nearly three decades of experience across food products, importation, distribution, manufacturing, and agricultural ventures.',
+        'Marcel Bernard Villedrouin is a Haitian entrepreneur, agribusiness operator, and business executive with nearly three decades of experience across food products, importation, distribution, manufacturing, and agricultural ventures.',
         "Trained in Business Administration, Marcel has spent more than 25 years building and managing businesses connected to food supply, consumer products, agriculture, and commercial distribution. He is associated with Minaya Spices and Maison Ville-Drouin, two names tied to Haiti's food and product distribution sectors.",
-        "Marcel also comes from one of Haiti's recognized entrepreneurial families. His father, Philippe Ville-Drouin, was the founder and driving force behind Le Montcel, an ecological and agricultural property in the Kenscoff/Belot area connected to agriculture, environmental stewardship, rural development, and local production.",
+        "Marcel also comes from one of Haiti's recognized entrepreneurial families. His father, Philippe Villedrouin, was the founder and driving force behind Le Montcel, an ecological and agricultural property in the Kenscoff/Belot area connected to agriculture, environmental stewardship, rural development, and local production.",
         'His experience gives him practical knowledge of procurement, logistics, wholesale markets, inventory management, customer relationships, and the realities of operating in complex Caribbean environments.',
         'As COO, Marcel brings operational leadership, commercial realism, supplier and market experience, and grounded execution across procurement, production planning, logistics, distribution, quality control, and day-to-day operations.'
       ]
@@ -1719,11 +1758,226 @@ function tableView(rows) {
   const heads = [...new Set(rows.flatMap(r => Object.keys(r)))].slice(0,8);
   return `<div class="table-wrap"><table><thead><tr>${heads.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${heads.map(h => `<td>${esc(Array.isArray(r[h]) ? r[h].join(', ') : r[h] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 }
+function investorModel() { return window.SYMBIOGREENS_INVESTOR_MODEL || {}; }
+function investorSessionId() {
+  let id = readStore(storeKeys.investorInteractionSession, '');
+  if (!id) {
+    id = uid('inv_session');
+    writeStore(storeKeys.investorInteractionSession, id);
+  }
+  return id;
+}
+function money(value) {
+  return new Intl.NumberFormat('en-US', {style:'currency', currency: investorModel().currency || 'USD', maximumFractionDigits:0}).format(Number(value || 0));
+}
+function percent(value, digits = 2) { return `${Number(value || 0).toFixed(digits)}%`; }
+function contributionAnalysis(amount = state.investorAnalysis.contribution) {
+  const model = investorModel();
+  const raiseTarget = model.raiseTarget || 2200000;
+  const contribution = Math.max(0, Math.min(Number(amount || 0), raiseTarget));
+  const shareOfRaise = raiseTarget ? contribution / raiseTarget : 0;
+  const equityPool = model.investorEquityPoolPercent || model.maxInvestorEquityPercent || 30;
+  const estimatedEquity = Math.min(shareOfRaise * equityPool, model.maxInvestorEquityPercent || 30);
+  return {
+    contribution,
+    shareOfRaisePercent: shareOfRaise * 100,
+    estimatedEquityPercent: estimatedEquity,
+    founderAllocation: contribution * ((model.founderDevelopmentAllocationPercent || 10) / 100),
+    remainingRaise: Math.max(raiseTarget - contribution, 0)
+  };
+}
+function selectedFirstHubScenario() {
+  return (investorModel().firstHubScenarios || []).find(item => item.id === state.investorScenario) || (investorModel().firstHubScenarios || [])[1] || {};
+}
+function platformAnalysis() {
+  const model = investorModel();
+  const hubs = Math.max(1, Number(state.investorHubs || model.hubAssumptions?.defaultHubCount || 1));
+  const revenuePerHub = Math.max(0, Number(state.investorAnalysis.revenuePerHub || model.hubAssumptions?.defaultRevenuePerHub || 0));
+  const ebitdaMargin = Math.max(0, Number(state.investorAnalysis.ebitdaMargin || 0)) / 100;
+  const valuationMultiple = Math.max(0, Number(state.investorAnalysis.valuationMultiple || 0));
+  const totalRevenue = hubs * revenuePerHub;
+  const totalEbitda = totalRevenue * ebitdaMargin;
+  const valuation = totalEbitda * valuationMultiple;
+  const equity = contributionAnalysis().estimatedEquityPercent / 100;
+  return {hubs, revenuePerHub, ebitdaMargin, valuationMultiple, totalRevenue, totalEbitda, valuation, theoreticalInvestorValue: valuation * equity};
+}
+function investorEngagementLevel(score) {
+  const levels = investorModel().engagementScoring?.levels || [];
+  return levels.find(item => score >= item.min && score <= item.max) || {level:'cold', followUp:'No immediate action or nurture follow-up.'};
+}
+function calculateInvestorEngagementScore(sessionId = investorSessionId()) {
+  const events = asArray(readStore(storeKeys.investorInteractionEvents, [])).filter(event => event.session_id === sessionId);
+  const weights = investorModel().engagementScoring?.weights || {};
+  let score = 0;
+  let highest = 0;
+  let lastContribution = 0;
+  const scenarios = new Set();
+  events.forEach(event => {
+    score += weights[event.event_type] || 0;
+    const contribution = Number(event.contribution_amount || event.event_payload?.contribution || 0);
+    if (contribution) {
+      lastContribution = contribution;
+      highest = Math.max(highest, contribution);
+      if (contribution >= 50000) score += weights.contribution_above_50000 || 0;
+      if (contribution >= 100000) score += weights.contribution_above_100000 || 0;
+      if (contribution >= 250000) score += weights.contribution_above_250000 || 0;
+    }
+    if (event.scenario_name) scenarios.add(event.scenario_name);
+  });
+  const level = investorEngagementLevel(score);
+  return {
+    session_id: sessionId,
+    total_events: events.length,
+    calculator_uses: events.filter(event => event.event_type === 'scenario_calculated').length,
+    highest_contribution_tested: highest,
+    last_contribution_tested: lastContribution,
+    markets_viewed: [],
+    scenarios_viewed: [...scenarios],
+    submitted_interest: events.some(event => event.event_type === 'non_binding_interest_submitted'),
+    requested_review: events.some(event => event.event_type === 'investor_review_requested'),
+    engagement_score: score,
+    engagement_level: level.level,
+    recommended_follow_up: level.followUp,
+    updated_at: new Date().toISOString()
+  };
+}
+async function saveInvestorEngagementSnapshot(payload) {
+  const rows = asArray(readStore(storeKeys.investorEngagementSnapshots, []));
+  rows.push({...payload, id:uid('inv_score'), created_at:new Date().toISOString()});
+  writeStore(storeKeys.investorEngagementSnapshots, rows);
+  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+    await window.SymbioGreensBackend.saveInvestorEngagementSnapshot?.(payload);
+  }
+}
+async function trackInvestorEvent(eventType, payload = {}) {
+  const sessionId = investorSessionId();
+  const row = {
+    id: uid('inv_event'),
+    session_id: sessionId,
+    event_type: eventType,
+    event_label: payload.event_label || eventType,
+    event_payload: payload,
+    contribution_amount: payload.contribution_amount || payload.contribution || null,
+    estimated_equity: payload.estimated_equity || payload.estimatedEquityPercent || null,
+    scenario_name: payload.scenario_name || payload.scenario || '',
+    page_route: location.hash || hashForRoute(state.route),
+    source_section: payload.source_section || '',
+    language: state.lang,
+    backend_enabled: Boolean(window.SymbioGreensBackend?.isBackendEnabled?.()),
+    created_at: new Date().toISOString()
+  };
+  writeStore(storeKeys.investorInteractionEvents, [...asArray(readStore(storeKeys.investorInteractionEvents, [])), row]);
+  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+    await window.SymbioGreensBackend.trackInvestorEvent?.(eventType, row);
+  }
+  await saveInvestorEngagementSnapshot(calculateInvestorEngagementScore(sessionId));
+}
+function trackInvestorPageOpenedOnce() {
+  if (state._investorPageTracked) return;
+  state._investorPageTracked = true;
+  trackInvestorEvent('investor_page_opened', {source_section:'investor_page'});
+}
+function investorMetric(label, value, note = '') {
+  return `<article class="investor-metric"><span>${esc(label)}</span><strong>${esc(value)}</strong>${note ? `<small>${esc(note)}</small>` : ''}</article>`;
+}
+function investorAnalysisPanel() {
+  const model = investorModel();
+  const analysis = contributionAnalysis();
+  const scenario = selectedFirstHubScenario();
+  const platform = platformAnalysis();
+  const presets = model.contributionPresets || [50000,100000,200000,250000,500000,1000000,2200000];
+  const examples = model.examples || presets.map(contributionAnalysis);
+  const useOfFunds = model.useOfFunds || [];
+  const risks = model.risks || [];
+  const scenarioInvestorShare = (scenario.distributableProfit || 0) * (analysis.estimatedEquityPercent / 100);
+  return `<section class="investor-analysis-section" id="investor-analysis">
+    <div class="section-intro">
+      <div class="eyebrow">Investor Analysis</div>
+      <h2>From First Hub to Caribbean Platform</h2>
+      <p>The Las Terrenas model is designed as the first reference hub for a scalable controlled-environment agriculture platform. The first-hub financials remain grounded in the Northeast Dominican Republic model, while platform scenarios are illustrative only.</p>
+    </div>
+    <div class="investor-disclaimer compact"><strong>Important notice</strong><p>${esc(model.disclaimer || '')}</p></div>
+    <div class="investor-tool-grid">
+      <article class="investor-tool-card investor-calculator-card">
+        <h3>Investment Participation Calculator</h3>
+        <div class="quick-amount-row">${presets.map(value => `<button class="ghost-btn ${Number(state.investorAnalysis.contribution) === value ? 'active' : ''}" type="button" data-action="setInvestorContribution" data-contribution="${value}">${esc(money(value))}</button>`).join('')}</div>
+        <div class="form-grid two">
+          <label><span>Contribution amount</span><input data-investor-field="contribution" type="number" min="0" max="${esc(model.raiseTarget || 2200000)}" step="1000" value="${esc(state.investorAnalysis.contribution)}"></label>
+          <label><span>Investor type</span><select data-investor-field="investorType">${(model.investorTypes || []).map(item => `<option ${state.investorAnalysis.investorType === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
+          <label><span>Preferred participation</span><select data-investor-field="participation">${(model.participationTypes || []).map(item => `<option ${state.investorAnalysis.participation === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
+          <label><span>Interest level</span><select data-investor-field="interestLevel">${(model.interestLevels || []).map(item => `<option ${state.investorAnalysis.interestLevel === item ? 'selected' : ''}>${esc(item)}</option>`).join('')}</select></label>
+        </div>
+        <label><span>Notes / comments</span><textarea data-investor-field="notes" placeholder="Optional discussion notes">${esc(state.investorAnalysis.notes || '')}</textarea></label>
+        <div class="investor-metric-grid">
+          ${investorMetric('Contribution', money(analysis.contribution))}
+          ${investorMetric('Share of target raise', percent(analysis.shareOfRaisePercent))}
+          ${investorMetric('Estimated equity from 30% pool', percent(analysis.estimatedEquityPercent), 'Capped at 30%')}
+          ${investorMetric('Founder/platform allocation portion', money(analysis.founderAllocation), 'Contribution x 10%')}
+          ${investorMetric('Remaining raise', money(analysis.remainingRaise))}
+        </div>
+        <div class="investor-action-row"><button class="primary-btn" type="button" data-action="calculateInvestorScenario">Calculate Investment Scenario</button><button class="ghost-btn" type="button" data-action="submitInvestorInterest">Submit Non-Binding Investor Interest</button><button class="ghost-btn" type="button" data-action="requestInvestorReview">Request Investor Review</button></div>
+      </article>
+      <article class="investor-tool-card">
+        <h3>First Hub Economics</h3>
+        <div class="scenario-toggle-row">${(model.firstHubScenarios || []).map(item => `<button class="ghost-btn ${state.investorScenario === item.id ? 'active' : ''}" type="button" data-action="setInvestorScenario" data-scenario="${esc(item.id)}">${esc(item.label)}</button>`).join('')}</div>
+        <div class="investor-metric-grid">
+          ${investorMetric('Illustrative annual revenue', money(scenario.annualRevenue))}
+          ${investorMetric('Illustrative EBITDA margin', percent((scenario.ebitdaMargin || 0) * 100))}
+          ${investorMetric('Illustrative distributable profit', money(scenario.distributableProfit))}
+          ${investorMetric('Investor share at current estimate', money(scenarioInvestorShare))}
+          ${investorMetric('Payback range', scenario.paybackRange || 'discussion-only')}
+          ${investorMetric('ROI multiple scenario', `${Number(scenario.roiMultiple || 0).toFixed(1)}x`, 'Illustrative only')}
+        </div>
+        <p class="investor-note">${esc(scenario.notes || '')}</p>
+      </article>
+    </div>
+    <div class="investor-tool-grid">
+      <article class="investor-tool-card">
+        <h3>Platform Expansion Upside</h3>
+        <p>The first hub is a proof point for a repeatable Caribbean controlled-environment agriculture model if successfully executed.</p>
+        <div class="platform-stage-list">${(model.expansionStages || []).map(([stage, text]) => `<div><strong>${esc(stage)}</strong><span>${esc(text)}</span></div>`).join('')}</div>
+      </article>
+      <article class="investor-tool-card">
+        <h3>Multi-Hub Revenue Simulator</h3>
+        <div class="quick-amount-row">${(model.hubAssumptions?.hubPresets || [1,3,5,10]).map(count => `<button class="ghost-btn ${Number(state.investorHubs) === count ? 'active' : ''}" type="button" data-action="setInvestorHubs" data-hubs="${count}">${count} hub${count === 1 ? '' : 's'}</button>`).join('')}</div>
+        <div class="form-grid two">
+          <label><span>Custom hubs</span><input data-investor-field="hubs" type="number" min="1" max="25" step="1" value="${esc(state.investorHubs)}"></label>
+          <label><span>Revenue per hub</span><input data-investor-field="revenuePerHub" type="number" min="0" step="50000" value="${esc(state.investorAnalysis.revenuePerHub)}"></label>
+          <label><span>EBITDA margin (%)</span><input data-investor-field="ebitdaMargin" type="number" min="0" max="60" step="1" value="${esc(state.investorAnalysis.ebitdaMargin)}"></label>
+          <label><span>Valuation multiple</span><input data-investor-field="valuationMultiple" type="number" min="0" max="15" step="0.5" value="${esc(state.investorAnalysis.valuationMultiple)}"></label>
+        </div>
+        <div class="investor-metric-grid">
+          ${investorMetric('Platform revenue', money(platform.totalRevenue))}
+          ${investorMetric('Platform EBITDA', money(platform.totalEbitda))}
+          ${investorMetric('Potential valuation range', money(platform.valuation), 'Scenario multiple')}
+          ${investorMetric('Theoretical investor value', money(platform.theoreticalInvestorValue), 'Based on current estimated equity')}
+        </div>
+      </article>
+    </div>
+    <div class="investor-tool-grid">
+      <article class="investor-tool-card">
+        <h3>Use of Funds</h3>
+        <div class="funds-list">${useOfFunds.map(([label, amount]) => `<div><span>${esc(label)}</span><strong>${esc(money(amount))}</strong></div>`).join('')}</div>
+        <p class="investor-note">Total shown: ${esc(money(model.useOfFundsTotal || 0))}. Allocation remains subject to final budgets, legal structure, and execution planning.</p>
+      </article>
+      <article class="investor-tool-card">
+        <h3>Risk & Mitigation</h3>
+        <div class="risk-list">${risks.map(([risk, mitigation]) => `<div><strong>${esc(risk)}</strong><p>${esc(mitigation)}</p></div>`).join('')}</div>
+      </article>
+    </div>
+    <article class="investor-tool-card">
+      <h3>Investor Participation Examples</h3>
+      <div class="table-wrap"><table><thead><tr><th>Contribution</th><th>Share of raise</th><th>Estimated equity</th><th>Founder/platform allocation</th><th>Remaining raise</th></tr></thead><tbody>${examples.map(row => `<tr><td>${esc(money(row.contribution))}</td><td>${esc(percent(row.shareOfRaisePercent))}</td><td>${esc(percent(row.indicativeInvestorEquityPercent))}</td><td>${esc(money(row.founderDevelopmentAllocationReleased))}</td><td>${esc(money(row.remainingRaise))}</td></tr>`).join('')}</tbody></table></div>
+    </article>
+    <p class="investor-privacy-note">When you use investor tools or submit investor information, SymbioGreens may record your submitted inputs and interaction history to evaluate investor interest, respond to inquiries, improve investor communications, and support appropriate follow-up. These tools are illustrative and non-binding.</p>
+  </section>`;
+}
 function investorsPanel() {
+  trackInvestorPageOpenedOnce();
   const active = state.investorTrack || 'investor';
   const reviewSteps = [['Submit Profile','Complete the appropriate pre-qualification form with detailed information.'],['Initial Review','We review background, readiness, market fit, and strategic alignment.'],['Clarification','If there is potential alignment, we may request more information or schedule a call.'],['Concept Assessment','Qualified opportunities may be assessed for demand, feasibility, capital needs, operating model, and long-term viability.'],['Formal Discussion','Only aligned opportunities move to structured commercial, investment, or partnership review.']];
   const lookFor = ['Serious capital or real market access','Strong local need','Hospitality or specialty buyer demand','Long-term alignment','Operational discipline','Shared value creation'];
-  return `<section class="investor-page"><section class="investor-hero"><div class="investor-hero-copy"><div class="eyebrow">Investors & Partnerships</div><h1>Build the Future of Local Food Production With Us</h1><p>SymbioGreens and Balponics are developing a premium controlled-environment agriculture model designed for local freshness, food autonomy, hospitality supply, technical training, and scalable project replication. We welcome serious inquiries from qualified investors and strategic partners aligned with our mission to build smarter local food systems.</p></div><figure class="investor-hero-visual"><img src="public/company/production/investor-partnerships-hero.png" alt="Investors and strategic partnerships two-track overview"></figure></section><section class="track-selector-panel"><div class="section-intro"><h2>Choose Your Track</h2><p>Choose the path that best matches your interest.</p></div><div class="track-selector-grid"><button class="track-selector ${active === 'investor' ? 'active' : ''}" data-action="setInvestorTrack" data-track="investor"><span>I Am an Investor</span><small>For qualified investors seeking exposure to scalable local food production, hydroponic infrastructure, and regional growth opportunities.</small></button><button class="track-selector ${active === 'partner' ? 'active' : ''}" data-action="setInvestorTrack" data-track="partner"><span>I Am a Strategic Partner</span><small>For partners bringing land, capital, market access, buyer relationships, infrastructure, or local execution capacity.</small></button></div><div class="track-selected-note">${active === 'investor' ? 'Investor track selected: review investment opportunities in Balponics, SymbioGreens, farm development, technical platforms, and regional growth.' : 'Strategic partner track selected: explore project partnerships where local partners bring market access, resources, execution capacity, or infrastructure.'}</div></section><section class="track-section investor-track-section ${active === 'investor' ? 'active' : 'muted'}" id="investor-track"><div class="track-header"><div><div class="eyebrow">Investor Track</div><h2>Investor Interest</h2><p>This track is for qualified investors seeking exposure to controlled-environment agriculture, premium local food production, hydroponic infrastructure, farm development, technical platforms, or regional growth opportunities.</p></div><figure><img src="public/company/production/investor-track-overview.png" alt="Investor track pre-qualification overview"></figure></div>${investorInterestForm()}</section><section class="track-section partner-track-section ${active === 'partner' ? 'active' : 'muted'}" id="partner-track"><div class="track-header"><div><div class="eyebrow">Strategic Partner Track</div><h2>Strategic Partnership Interest</h2><p>This track is for partners who want to bring the SymbioGreens / Balponics model to a specific market, country, island, city, hospitality zone, or commercial network.</p><p>SymbioGreens / Balponics can bring the model, systems, crop strategy, training, technical support, brand standards, and operating framework. A local partner may bring land, capital, infrastructure, buyer access, market access, operations, or local execution. Partnership structures vary by project and may involve meaningful long-term participation within the approved investor equity pool, subject to project structure, technical contribution, capital structure, and support role. This is not a fixed offer; final terms require formal review and negotiation.</p></div><figure><img src="public/company/production/strategic-partner-track-overview.png" alt="Strategic partner track overview"></figure></div>${partnerInterestForm()}</section><section class="review-process-section"><div class="section-intro"><div class="eyebrow">Review Process</div><h2>How the Review Process Works</h2><p>All submissions are reviewed for strategic fit, readiness, and alignment to ensure we build the right partnerships and invest in the right opportunities.</p></div><figure class="investor-wide-visual"><img src="public/company/production/investor-review-process.png" alt="How the investor and partnership review process works"></figure><div class="review-step-grid">${reviewSteps.map(([title,body], index) => `<article><span>${String(index + 1).padStart(2,'0')}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="what-we-look-for"><div class="section-intro"><h2>What We Look For</h2></div><div class="investor-card-grid">${lookFor.map(item => `<article><strong>${esc(item)}</strong></article>`).join('')}</div></section><section class="investor-disclaimer"><strong>Important notice</strong><p>This page is for preliminary expressions of interest only. It is not an offer of securities, not a solicitation to invest, not a guaranteed partnership, and not a guarantee that any submission will advance. All opportunities are subject to review, due diligence, legal documentation, negotiation, and applicable laws.</p></section></section>`;
+  return `<section class="investor-page"><section class="investor-hero"><div class="investor-hero-copy"><div class="eyebrow">Investors & Partnerships</div><h1>Build the Future of Local Food Production With Us</h1><p>SymbioGreens and Balponics are developing a premium controlled-environment agriculture model designed for local freshness, food autonomy, hospitality supply, technical training, and scalable project replication. We welcome serious inquiries from qualified investors and strategic partners aligned with our mission to build smarter local food systems.</p></div><figure class="investor-hero-visual"><img src="public/company/production/investor-partnerships-hero.png" alt="Investors and strategic partnerships two-track overview"></figure></section><section class="track-selector-panel"><div class="section-intro"><h2>Choose Your Track</h2><p>Choose the path that best matches your interest.</p></div><div class="track-selector-grid"><button class="track-selector ${active === 'investor' ? 'active' : ''}" data-action="setInvestorTrack" data-track="investor"><span>I Am an Investor</span><small>For qualified investors seeking exposure to scalable local food production, hydroponic infrastructure, and regional growth opportunities.</small></button><button class="track-selector ${active === 'partner' ? 'active' : ''}" data-action="setInvestorTrack" data-track="partner"><span>I Am a Strategic Partner</span><small>For partners bringing land, capital, market access, buyer relationships, infrastructure, or local execution capacity.</small></button></div><div class="track-selected-note">${active === 'investor' ? 'Investor track selected: review investment opportunities in Balponics, SymbioGreens, farm development, technical platforms, and regional growth.' : 'Strategic partner track selected: explore project partnerships where local partners bring market access, resources, execution capacity, or infrastructure.'}</div></section><section class="track-section investor-track-section ${active === 'investor' ? 'active' : 'muted'}" id="investor-track"><div class="track-header"><div><div class="eyebrow">Investor Track</div><h2>Investor Interest</h2><p>This track is for qualified investors seeking exposure to controlled-environment agriculture, premium local food production, hydroponic infrastructure, farm development, technical platforms, or regional growth opportunities.</p></div><figure><img src="public/company/production/investor-track-overview.png" alt="Investor track pre-qualification overview"></figure></div>${investorInterestForm()}</section><section class="track-section partner-track-section ${active === 'partner' ? 'active' : 'muted'}" id="partner-track"><div class="track-header"><div><div class="eyebrow">Strategic Partner Track</div><h2>Strategic Partnership Interest</h2><p>This track is for partners who want to bring the SymbioGreens / Balponics model to a specific market, country, island, city, hospitality zone, or commercial network.</p><p>SymbioGreens / Balponics can bring the model, systems, crop strategy, training, technical support, brand standards, and operating framework. A local partner may bring land, capital, infrastructure, buyer access, market access, operations, or local execution. Partnership structures vary by project and may involve meaningful long-term participation within the approved investor equity pool, subject to project structure, technical contribution, capital structure, and support role. This is not a fixed offer; final terms require formal review and negotiation.</p></div><figure><img src="public/company/production/strategic-partner-track-overview.png" alt="Strategic partner track overview"></figure></div>${partnerInterestForm()}</section>${investorAnalysisPanel()}<section class="review-process-section"><div class="section-intro"><div class="eyebrow">Review Process</div><h2>How the Review Process Works</h2><p>All submissions are reviewed for strategic fit, readiness, and alignment to ensure we build the right partnerships and invest in the right opportunities.</p></div><figure class="investor-wide-visual"><img src="public/company/production/investor-review-process.png" alt="How the investor and partnership review process works"></figure><div class="review-step-grid">${reviewSteps.map(([title,body], index) => `<article><span>${String(index + 1).padStart(2,'0')}</span><strong>${esc(title)}</strong><p>${esc(body)}</p></article>`).join('')}</div></section><section class="what-we-look-for"><div class="section-intro"><h2>What We Look For</h2></div><div class="investor-card-grid">${lookFor.map(item => `<article><strong>${esc(item)}</strong></article>`).join('')}</div></section><section class="investor-disclaimer"><strong>Important notice</strong><p>This page is for preliminary expressions of interest only. It is not an offer of securities, not a solicitation to invest, not a guaranteed partnership, and not a guarantee that any submission will advance. All opportunities are subject to review, due diligence, legal documentation, negotiation, and applicable laws.</p></section></section>`;
 }
 function investorInterestForm() {
   return `<form class="investor-form" data-form="investor"><input type="hidden" name="inquiry_type" value="Investor"><h3>Investor Pre-Qualification</h3><div class="form-grid two"><label><span>Full Name</span><input name="full_name" required></label><label><span>Company / Organization</span><input name="company"></label><label><span>Email</span><input name="email" type="email" required></label><label><span>Phone / WhatsApp</span><input name="phone"></label><label><span>Country / City</span><input name="country_city"></label><label><span>Website / LinkedIn</span><input name="website"></label><label><span>Investor Type</span><select name="investor_type"><option>Individual investor</option><option>Family office</option><option>Strategic investor</option><option>Institutional investor</option><option>Development / impact investor</option></select></label><label><span>Area of Interest</span><select name="investment_area"><option>Balponics Technical Systems & Services</option><option>SymbioGreens Farm Development</option><option>SymbioGreens Network / Group Expansion</option><option>Specific Model Farms & Projects</option><option>Regional Replication Projects</option><option>Strategic Growth Capital</option></select></label><label><span>Investment Capacity</span><input name="investment_capacity" placeholder="Indicative range"></label><label><span>Preferred Investment Style</span><input name="investment_style" placeholder="Equity, project finance, strategic capital..."></label><label class="full"><span>Current Sector / Business Background</span><textarea name="sector_background"></textarea></label><label class="full"><span>Why You Are Interested</span><textarea name="why_interested" required></textarea></label><label class="full"><span>Expectations, Return / Impact / Value</span><textarea name="expectations"></textarea></label><label class="full"><span>Resources & Relationships</span><textarea name="resources_relationships"></textarea></label><label class="checkbox-row full"><input type="checkbox" name="review_consent" value="Yes" required><span>I understand this is a selective preliminary review process and not an investment offer or guaranteed opportunity.</span></label></div><button class="primary-btn">Submit Investor Profile</button></form>`;
@@ -1787,9 +2041,9 @@ async function saveSurveyProductFromModal(productId, closeAfter = false) {
     comments: payload.notes
   };
   saveDraft(productId, patch);
-  await saveProductInterest(payload);
+  const result = await saveProductInterest(payload);
   const status = form.querySelector('.modal-status');
-  if (status) status.textContent = t('productInterestSaved');
+  if (status) status.textContent = backendSyncUnavailable(result) ? localSyncMessage() : t('productInterestSaved');
   if (closeAfter) {
     setTimeout(() => {
       closeModal();
@@ -1857,16 +2111,42 @@ async function loginManager(e) {
   writeStore(storeKeys.session, state.session);
   navigateToRoute('manager', {closeModal:false});
 }
-function submitSurvey(categoryId) {
+async function submitSurvey(categoryId) {
   const r = currentRespondent();
   if (!r) return;
   const drafts = readStore(storeKeys.drafts, {});
   const selected = Object.entries(drafts).filter(([key,d]) => key.startsWith(`${r.id}:`) && (!categoryId || productById(d.product_id)?.category_id === categoryId)).map(([,d]) => d).filter(d => d.interest_level || d.sample_request === 'Yes' || d.weekly_volume || d.comments);
   if (!selected.length) return alert(translateText('No product interest has been selected yet.'));
   const survey = {id:uid('srv'), respondent_id:r.id, business_id:r.business_id, category_id:categoryId || 'all_categories', submitted_at:new Date().toISOString()};
+  const responseRows = selected.map(d => ({...d, id:uid('resp'), survey_id:survey.id, respondent_id:r.id, business_id:r.business_id, created_at:new Date().toISOString()}));
+  const sampleRows = selected.filter(d => d.sample_request === 'Yes').map(d => ({id:uid('sample'), product_id:d.product_id, respondent_id:r.id, business_id:r.business_id, status:'Requested', created_at:new Date().toISOString()}));
   writeStore(storeKeys.surveys, [...asArray(readStore(storeKeys.surveys, [])), survey]);
-  writeStore(storeKeys.responses, [...asArray(readStore(storeKeys.responses, [])), ...selected.map(d => ({...d, id:uid('resp'), survey_id:survey.id, respondent_id:r.id, business_id:r.business_id, created_at:new Date().toISOString()}))]);
-  writeStore(storeKeys.samples, [...asArray(readStore(storeKeys.samples, [])), ...selected.filter(d => d.sample_request === 'Yes').map(d => ({id:uid('sample'), product_id:d.product_id, respondent_id:r.id, business_id:r.business_id, status:'Requested', created_at:new Date().toISOString()}))]);
+  writeStore(storeKeys.responses, [...asArray(readStore(storeKeys.responses, [])), ...responseRows]);
+  writeStore(storeKeys.samples, [...asArray(readStore(storeKeys.samples, [])), ...sampleRows]);
+  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+    const surveyPayload = {
+      local_buyer_id: r.id,
+      local_business_id: r.business_id,
+      category_id: categoryId || 'all_categories',
+      category_label: categoryId ? categoryLabel(categoryId) : 'All Categories',
+      response_scope: categoryId ? 'category' : 'all_categories',
+      responses: responseRows.map(row => ({
+        ...row,
+        product_name: productById(row.product_id) ? productName(productById(row.product_id)) : row.product_id,
+        category_id: productById(row.product_id)?.category_id || ''
+      })),
+      status: 'submitted',
+      submitted_at: survey.submitted_at,
+      language: state.lang,
+      source_page: location.hash || hashForRoute(state.route),
+      metadata: {local_survey_id: survey.id, local_buyer_id: r.id, local_business_id: r.business_id}
+    };
+    const results = await Promise.all([
+      window.SymbioGreensBackend.saveBuyerSurvey(surveyPayload),
+      ...selected.map(d => saveProductInterest(productInterestPayload(d.product_id)))
+    ]);
+    if (results.some(backendSyncUnavailable)) alert(localSyncMessage());
+  }
   notifyInternal('manager_survey_alert', `Survey submitted by ${r.email}`);
   navigateToRoute('thankyou', {closeModal:false});
 }
@@ -1901,12 +2181,12 @@ async function resetPassword(e) {
   alert(t('passwordChanged'));
   navigateToRoute('login', {closeModal:false});
 }
-function submitContact(e) {
+async function submitContact(e) {
   e.preventDefault();
   const fd = Object.fromEntries(new FormData(e.target));
   if (!isValidEmail(fd.email)) return alert(t('validEmailRequired'));
   const rows = asArray(readStore(storeKeys.contactInquiries, []));
-  rows.push({
+  const row = {
     id:uid('inq'),
     name:cleanText(fd.name,160),
     email:normalizeEmail(fd.email),
@@ -1918,24 +2198,87 @@ function submitContact(e) {
     message:cleanText(fd.message),
     created_at:new Date().toISOString(),
     status:'New'
-  });
+  };
+  rows.push(row);
   writeStore(storeKeys.contactInquiries, rows);
+  const result = await window.SymbioGreensBackend?.saveContactMessage?.({
+    ...row,
+    language: state.lang,
+    source_page: location.hash || hashForRoute(state.route),
+    metadata: {local_contact_id: row.id}
+  });
   notifyInternal('manager_public_inquiry_alert', `Public inquiry from ${fd.name || fd.email}`);
-  alert(t('contactSaved'));
+  alert(backendSyncUnavailable(result) ? localSyncMessage() : t('contactSaved'));
   state.contactInquiryType = '';
   e.target.reset();
 }
-function submitInvestor(e) {
+async function submitInvestor(e) {
   e.preventDefault();
   const fd = Object.fromEntries(new FormData(e.target));
   if (!isValidEmail(fd.email)) return alert(t('validEmailRequired'));
   const rows = asArray(readStore(storeKeys.investorRequests, []));
   const cleaned = Object.fromEntries(Object.entries(fd).map(([key, value]) => [key, cleanText(value)]));
-  rows.push({...cleaned, id:uid('inv'), inquiry_type:cleanText(fd.inquiry_type || 'Investor / Partner'), full_name:cleanText(fd.full_name,160), email:normalizeEmail(fd.email), company:cleanText(fd.company,160), status:'new', approved_access:false, created_at:new Date().toISOString()});
+  const row = {...cleaned, id:uid('inv'), inquiry_type:cleanText(fd.inquiry_type || 'Investor / Partner'), full_name:cleanText(fd.full_name,160), email:normalizeEmail(fd.email), company:cleanText(fd.company,160), status:'new', approved_access:false, created_at:new Date().toISOString()};
+  rows.push(row);
   writeStore(storeKeys.investorRequests, rows);
+  const result = await window.SymbioGreensBackend?.saveInvestorPrequalification?.({
+    ...row,
+    language: state.lang,
+    source_page: location.hash || hashForRoute(state.route),
+    metadata: {local_investor_request_id: row.id}
+  });
+  await trackInvestorEvent('prequalification_submitted', {source_section:'investor_prequalification', event_payload: row, contribution_amount: cleanText(fd.investment_capacity || fd.capital_readiness || '')});
   notifyInternal('manager_investor_request_alert', `${fd.inquiry_type || 'Investor / partner'} request from ${fd.full_name || fd.email}`);
-  alert(t('investorSubmissionThanks'));
+  alert(backendSyncUnavailable(result) ? localSyncMessage() : t('investorSubmissionThanks'));
   e.target.reset();
+}
+async function submitNonBindingInvestorInterest(requestReview = false) {
+  const analysis = contributionAnalysis();
+  const platform = platformAnalysis();
+  const payload = {
+    opportunity_area: 'SymbioGreens Caribbean platform',
+    interest_summary: [
+      `Contribution scenario: ${money(analysis.contribution)}`,
+      `Estimated equity: ${percent(analysis.estimatedEquityPercent)}`,
+      `Participation: ${state.investorAnalysis.participation}`,
+      `Interest level: ${state.investorAnalysis.interestLevel}`,
+      state.investorAnalysis.notes ? `Notes: ${state.investorAnalysis.notes}` : ''
+    ].filter(Boolean).join('\n'),
+    target_region: 'Las Terrenas / Caribbean platform',
+    preferred_structure: state.investorAnalysis.participation,
+    status: requestReview ? 'reviewing' : 'new',
+    metadata: {
+      session_id: investorSessionId(),
+      investor_type: state.investorAnalysis.investorType,
+      contribution_amount: analysis.contribution,
+      share_of_raise_percent: analysis.shareOfRaisePercent,
+      estimated_equity_percent: analysis.estimatedEquityPercent,
+      founder_platform_allocation: analysis.founderAllocation,
+      remaining_raise: analysis.remainingRaise,
+      platform_scenario: platform
+    },
+    created_at: new Date().toISOString()
+  };
+  const rows = asArray(readStore(storeKeys.investorFeedback, []));
+  rows.push({...payload, id:uid('inv_interest'), request_review: requestReview});
+  writeStore(storeKeys.investorFeedback, rows);
+  await trackInvestorEvent(requestReview ? 'investor_review_requested' : 'non_binding_interest_submitted', {
+    source_section: 'investor_analysis',
+    contribution_amount: analysis.contribution,
+    estimated_equity: analysis.estimatedEquityPercent,
+    event_payload: payload.metadata
+  });
+  if (window.SymbioGreensBackend?.isBackendEnabled?.()) {
+    await window.SymbioGreensBackend.saveInvestorInterest?.(payload);
+    await window.SymbioGreensBackend.investor?.saveInvestorCalculatorSession?.({
+      scenario_name: state.investorScenario,
+      inputs: {...state.investorAnalysis, hubs: state.investorHubs},
+      outputs: {analysis, platform},
+      is_saved: true,
+      created_at: new Date().toISOString()
+    });
+  }
+  alert(requestReview ? 'Investor review request saved. This is non-binding and subject to formal review.' : 'Non-binding investor interest saved for discussion.');
 }
 async function manageUser(action, userId) {
   const respondents = asArray(readStore(storeKeys.respondents, []));
@@ -1998,6 +2341,33 @@ document.addEventListener('click', e => {
   if (action === 'setHomeHydro') { state.activeHomeHydro = actionBtn.dataset.homeHydro || 'water'; mount(); return; }
   if (action === 'setHomeStep') { state.activeHomeStep = actionBtn.dataset.homeStep || 'profile'; mount(); return; }
   if (action === 'setInvestorTrack') { state.investorTrack = actionBtn.dataset.track || 'investor'; mount(); setTimeout(() => document.querySelector(state.investorTrack === 'partner' ? '#partner-track' : '#investor-track')?.scrollIntoView({behavior:'smooth', block:'start'}), 0); return; }
+  if (action === 'setInvestorContribution') {
+    state.investorAnalysis.contribution = Number(actionBtn.dataset.contribution || 0);
+    const analysis = contributionAnalysis();
+    trackInvestorEvent('quick_contribution_clicked', {source_section:'investment_calculator', contribution_amount: analysis.contribution, estimated_equity: analysis.estimatedEquityPercent});
+    mount();
+    return;
+  }
+  if (action === 'setInvestorScenario') {
+    state.investorScenario = actionBtn.dataset.scenario || 'base';
+    trackInvestorEvent('scenario_viewed', {source_section:'first_hub_economics', scenario_name: state.investorScenario});
+    mount();
+    return;
+  }
+  if (action === 'setInvestorHubs') {
+    state.investorHubs = Number(actionBtn.dataset.hubs || 1);
+    trackInvestorEvent('multi_hub_simulator_used', {source_section:'multi_hub_simulator', event_payload: platformAnalysis()});
+    mount();
+    return;
+  }
+  if (action === 'calculateInvestorScenario') {
+    const analysis = contributionAnalysis();
+    trackInvestorEvent('scenario_calculated', {source_section:'investment_calculator', contribution_amount: analysis.contribution, estimated_equity: analysis.estimatedEquityPercent, scenario_name: state.investorScenario});
+    alert(`Illustrative scenario calculated: ${percent(analysis.estimatedEquityPercent)} estimated equity on ${money(analysis.contribution)}. This is non-binding and discussion-only.`);
+    return;
+  }
+  if (action === 'submitInvestorInterest') { submitNonBindingInvestorInterest(false); return; }
+  if (action === 'requestInvestorReview') { submitNonBindingInvestorInterest(true); return; }
   if (action === 'setContactInquiry') { state.contactInquiryType = actionBtn.dataset.inquiry || ''; mount(); setTimeout(() => document.querySelector('[data-form="contact"]')?.scrollIntoView({behavior:'smooth', block:'center'}), 0); return; }
   if (action === 'focusContactForm') { document.querySelector('[data-form="contact"]')?.scrollIntoView({behavior:'smooth', block:'center'}); return; }
   if (action === 'closeModal') { closeModal(); return; }
@@ -2008,11 +2378,32 @@ document.addEventListener('click', e => {
   if (action === 'exportRespondents') { exportCsv('respondents'); return; }
   if (['activateUser','deactivateUser','resetUserPassword'].includes(action)) { manageUser(action, actionBtn.dataset.user); return; }
 });
+document.addEventListener('focusin', e => {
+  if (e.target.closest?.('.investor-form') && !state._investorPrequalStarted) {
+    state._investorPrequalStarted = true;
+    trackInvestorEvent('prequalification_started', {source_section:'investor_prequalification'});
+  }
+});
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModal();
 });
 document.addEventListener('input', e => {
   if (e.target.matches('[data-search]')) { state.search = e.target.value; mount(); return; }
+  if (e.target.matches('[data-investor-field]')) {
+    const field = e.target.dataset.investorField;
+    const numericFields = ['contribution','revenuePerHub','ebitdaMargin','valuationMultiple','timelineYears'];
+    if (field === 'hubs') {
+      state.investorHubs = Number(e.target.value || 1);
+      trackInvestorEvent('valuation_sensitivity_changed', {source_section:'valuation_sensitivity', event_payload: platformAnalysis()});
+      mount();
+      return;
+    }
+    state.investorAnalysis[field] = numericFields.includes(field) ? Number(e.target.value || 0) : e.target.value;
+    const analysis = contributionAnalysis();
+    trackInvestorEvent(field === 'contribution' ? 'contribution_amount_entered' : 'valuation_sensitivity_changed', {source_section:'investor_analysis', contribution_amount: analysis.contribution, estimated_equity: analysis.estimatedEquityPercent, event_payload: {[field]: state.investorAnalysis[field]}});
+    mount();
+    return;
+  }
   const draft = e.target.dataset.draft;
   if (draft) { const [productId, field] = draft.split(':'); saveDraft(productId, {[field]: e.target.value}); }
 });
@@ -2034,4 +2425,6 @@ window.addEventListener('hashchange', () => { state.route = routeFromLocation();
 state.route = routeFromLocation();
 if (!state.category && categories()[0]) state.category = categories()[0].id;
 mount();
+
+
 
