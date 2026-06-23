@@ -1,0 +1,115 @@
+[
+  {
+    "id": "premium-lettuces",
+    "slug": "premium-lettuces",
+    "name": "Premium Lettuces",
+    "block": "Block 01",
+    "family": "Lettuces",
+    "status": "active",
+    "custom_program": "Custom Lettuce Program",
+    "format_options": [
+      "Living Premium Lettuces"
+    ],
+    "sort_order": 1,
+    "source_category_name": "Premium Lettuces",
+    "product_count": 17
+  },
+  {
+    "id": "baby-greens",
+    "slug": "baby-greens",
+    "name": "Baby Greens",
+    "block": "Block 02",
+    "family": "Baby Greens",
+    "status": "active",
+    "custom_program": "Baby Greens Mix",
+    "format_options": [
+      "Living Baby Greens"
+    ],
+    "sort_order": 2,
+    "source_category_name": "Baby Greens",
+    "product_count": 11
+  },
+  {
+    "id": "microgreens",
+    "slug": "microgreens",
+    "name": "Premium Microgreens",
+    "block": "Block 03",
+    "family": "Microgreens",
+    "status": "active",
+    "custom_program": "Microgreens Mix",
+    "format_options": [
+      "Living Premium Microgreens"
+    ],
+    "sort_order": 3,
+    "source_category_name": "Microgreens",
+    "product_count": 4
+  },
+  {
+    "id": "premium-specialty-herbs",
+    "slug": "premium-specialty-herbs",
+    "name": "Premium Specialty Herbs",
+    "block": "Block 04",
+    "family": "Herbs",
+    "status": "active",
+    "custom_program": "Specialty Herb Program",
+    "format_options": [
+      "Living Premium Specialty Herbs"
+    ],
+    "sort_order": 4,
+    "source_category_name": "Premium Specialty Herbs",
+    "product_count": 30
+  },
+  {
+    "id": "edible-flowers",
+    "slug": "edible-flowers",
+    "name": "Premium Edible Flowers",
+    "block": "Block 05",
+    "family": "Edible Flowers",
+    "status": "active",
+    "custom_program": "Edible Flower Mix",
+    "format_options": [
+      "Living Premium Edible Flowers"
+    ],
+    "sort_order": 5,
+    "source_category_name": "Premium Edible Flowers",
+    "product_count": 10
+  },
+  {
+    "id": "gourmet-mushrooms",
+    "slug": "gourmet-mushrooms",
+    "name": "Premium Gourmet Mushrooms",
+    "block": "Block 06",
+    "family": "Gourmet Mushrooms",
+    "status": "active",
+    "custom_program": "Gourmet Mushroom Program",
+    "format_options": [],
+    "sort_order": 6,
+    "source_category_name": "Premium Gourmet Mushrooms",
+    "product_count": 12
+  },
+  {
+    "id": "wellness-mushrooms",
+    "slug": "wellness-mushrooms",
+    "name": "Medicinal / Wellness Mushrooms",
+    "block": "Block 07",
+    "family": "Wellness Mushrooms",
+    "status": "pending_assets",
+    "custom_program": "Wellness Mushroom Program",
+    "format_options": [],
+    "sort_order": 7,
+    "product_count": 0
+  },
+  {
+    "id": "specialty-vegetables",
+    "slug": "specialty-vegetables",
+    "name": "Premium Hydroponic Specialty Vegetables",
+    "block": "Block 08",
+    "family": "Specialty Vegetables",
+    "status": "active",
+    "custom_program": "Hydroponic Specialty Vegetable Program",
+    "format_options": [],
+    "sort_order": 8,
+    "source_category_name": "Premium Hydroponic Specialty Vegetables",
+    "product_count": 12
+  }
+]

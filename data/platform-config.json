@@ -1,0 +1,90 @@
+{
+  "version": "1.0",
+  "module_type": "master_market_intelligence_and_production_planning",
+  "survey_options": {
+    "interest_level": [
+      "Not Interested",
+      "Interested",
+      "Very Interested",
+      "Must Have"
+    ],
+    "current_usage": [
+      "Already Using",
+      "Interested To Test",
+      "Used Occasionally",
+      "Never Used Before",
+      "Difficult To Source"
+    ],
+    "estimated_weekly_volume": [
+      "Sample Only",
+      "Small Volume",
+      "Medium Volume",
+      "High Volume",
+      "Custom"
+    ],
+    "quantity_unit": [
+      "Units",
+      "Heads",
+      "Clamshells",
+      "Trays",
+      "Kilograms",
+      "Pounds",
+      "Bunches",
+      "Custom"
+    ],
+    "delivery_frequency": [
+      "Daily",
+      "2-3 Times Weekly",
+      "Weekly",
+      "Occasional",
+      "Seasonal",
+      "Event-Based"
+    ],
+    "packaging": [
+      "Chef Pack",
+      "Retail Clamshell",
+      "Bulk Foodservice",
+      "Reusable Crate",
+      "Event Catering Tray",
+      "Custom Packaging"
+    ],
+    "sample_request": [
+      "Yes",
+      "No"
+    ]
+  },
+  "business_types": [
+    "Restaurant",
+    "Hotel",
+    "Resort",
+    "Catering Company",
+    "Supermarket",
+    "Gourmet Retailer",
+    "Distributor",
+    "Private Chef",
+    "Yacht Provisioning",
+    "Wellness Business",
+    "Other"
+  ],
+  "buyer_types": [
+    "Chef",
+    "Executive Chef",
+    "F&B Manager",
+    "Purchasing Manager",
+    "Owner",
+    "General Manager",
+    "Distributor",
+    "Retail Buyer",
+    "Other"
+  ],
+  "custom_programs": {
+    "premium-lettuces": "Custom Lettuce Program",
+    "baby-greens": "Baby Greens Mix",
+    "microgreens": "Microgreens Mix",
+    "premium-specialty-herbs": "Specialty Herb Program",
+    "edible-flowers": "Edible Flower Mix",
+    "gourmet-mushrooms": "Gourmet Mushroom Program",
+    "wellness-mushrooms": "Wellness Mushroom Program",
+    "specialty-vegetables": "Hydroponic Specialty Vegetable Program"
+  }
+}
