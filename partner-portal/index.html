@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SymbioGreens Partner Portal | Regional Project Development Platform</title>
+  <meta name="description" content="A gated static preview of the SymbioGreens/Balponics regional partner project-development portal.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/ui/partner-visual-system.css">
+</head>
+<body data-portal-type="partner">
+  <section class="access-shell" id="accessGate" data-public-section aria-labelledby="accessTitle">
+    <div class="access-panel">
+      <img class="access-logo" src="assets/logos/symbiogreens-balponics-lockup.png" alt="SymbioGreens Partner Portal - Powered by Balponics">
+      <span class="pill">Regional Project Development Platform</span>
+      <h1 id="accessTitle">Partner Portal Access Required</h1>
+      <p>Please sign in with an approved account to access the regional partner platform.</p>
+      <p>Partner portal access is available only after project review and partner approval.</p>
+      <form class="access-login-form" data-production-login>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="button primary" type="submit">Login</button>
+        <button class="button" type="button" data-production-reset>Forgot Password</button>
+      </form>
+      <p class="production-access-note">Private partner tools are available only after approval.</p>
+      <div class="portal-access-message" data-access-message role="status" aria-live="polite"></div>
+      <div class="access-actions">
+        <a class="button primary" href="https://bbalmir-maker.github.io/symbiogreens-publication-ready/">Return to SymbioGreens Public Website</a>
+        <a class="button" href="https://bbalmir-maker.github.io/symbiogreens-publication-ready/#account">Submit Partner Application</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="portal-shell" id="portalShell" data-private-section hidden>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="SymbioGreens Partner Portal home">
+        <img src="assets/logos/symbiogreens-balponics-lockup.png" alt="SymbioGreens Partner Portal - Powered by Balponics">
+      </a>
+      <nav class="nav" aria-label="Partner portal sections">
+        <a href="#model">Model</a>
+        <a href="#feasibility">Feasibility</a>
+        <a href="#production">Production</a>
+        <a href="#ownership">Ownership</a>
+        <a href="#market">Market</a>
+        <a href="#readiness">Readiness</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#action">Action</a>
+        <button class="button small" id="exitDemo" type="button">Exit Demo</button>
+      </nav>
+    </header>
+    <div class="demo-banner">Founder Demo Mode - partner portal preview. No real partner data is loaded.</div>
+    <main id="app"></main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../shared/config/supabase.config.example.js"></script>
+  <script src="../shared/js/supabase-config.js"></script>
+  <script src="../shared/js/supabase-client.js"></script>
+  <script src="../shared/js/auth-guard.js"></script>
+  <script src="../shared/js/portal-access.js"></script>
+  <script src="../shared/js/application-service.js"></script>
+  <script src="../shared/js/email-status.js"></script>
+  <script src="partner-model-data.js"></script>
+  <script src="assets/js/backend-service.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
