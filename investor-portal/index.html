@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SymbioGreens Balponics | Northeast DR Presentation</title>
+  <style>
+    :root {
+      --ink: #17201b;
+      --muted: #5d6f64;
+      --paper: #fbfcf6;
+      --panel: #ffffff;
+      --sage: #dfead8;
+      --leaf: #2f6f3e;
+      --deep: #10251b;
+      --blue: #0f6982;
+      --gold: #c99132;
+      --clay: #8c4f36;
+      --line: rgba(23, 32, 27, 0.12);
+      --shadow: 0 24px 70px rgba(20, 33, 26, 0.16);
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(115deg, rgba(223,234,216,0.72), rgba(246,241,226,0.9) 48%, rgba(220,234,239,0.72)),
+        #eef2e7;
+      line-height: 1.5;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.8rem clamp(1rem, 2vw, 2rem);
+      background: rgba(251, 252, 246, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .brand-logo {
+      width: clamp(178px, 20vw, 250px);
+      height: auto;
+      display: block;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.45rem 0.65rem;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid var(--line);
+    }
+
+    .brand-lockup .brand-logo-sg {
+      width: clamp(130px, 15vw, 210px);
+      max-height: 62px;
+      object-fit: contain;
+    }
+
+    .brand-lockup .brand-logo-balponics {
+      width: clamp(120px, 14vw, 200px);
+      max-height: 54px;
+      object-fit: contain;
+      padding-left: 0.7rem;
+      border-left: 1px solid var(--line);
+    }
+
+    .brand-lockup span {
+      display: grid;
+      gap: 0.05rem;
+      min-width: max-content;
+      color: var(--deep);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-lockup small {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: conic-gradient(from 180deg, var(--leaf), var(--blue), var(--gold), var(--leaf));
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+
+    .nav {
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav a, .button, .download-link {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.72);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 0.55rem 0.82rem;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav a.active {
+      background: var(--deep);
+      color: white;
+      border-color: var(--deep);
+    }
+
+    .button.primary, .download-link.primary {
+      background: var(--deep);
+      color: white;
+      border-color: var(--deep);
+    }
+
+    main {
+      width: min(1480px, calc(100% - 2rem));
+      margin: 1rem auto 4rem;
+    }
+
+    body.portal-unlocked main > section.portal-page {
+      display: none;
+    }
+
+    body.portal-unlocked main > section.portal-page.active-page {
+      display: block;
+      animation: portalPageIn 180ms ease-out;
+    }
+
+    @keyframes portalPageIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section {
+      margin: 1rem 0;
+      padding: clamp(1rem, 2.6vw, 2.4rem);
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+
+    .hero {
+      min-height: calc(100vh - 90px);
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(1.2rem, 3vw, 3rem);
+      align-items: stretch;
+      overflow: hidden;
+      padding: 0;
+      background: var(--deep);
+      color: white;
+    }
+
+    .hero-copy {
+      padding: clamp(1.4rem, 4vw, 4rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: fit-content;
+      border: 1px solid rgba(255,255,255,0.24);
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #dfead8;
+    }
+
+    h1 {
+      margin: 1.1rem 0;
+      max-width: 860px;
+      font-size: clamp(2.4rem, 6vw, 6.4rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 760px;
+      color: rgba(255,255,255,0.78);
+      font-size: clamp(1rem, 1.7vw, 1.35rem);
+    }
+
+    .hero-media {
+      position: relative;
+      min-height: 560px;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .metric {
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 1rem;
+      min-width: 0;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: clamp(1.5rem, 2.2vw, 2.4rem);
+      line-height: 1.05;
+      color: white;
+    }
+
+    .metric span { color: rgba(255,255,255,0.68); font-weight: 700; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: end;
+      margin-bottom: 1.4rem;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--deep);
+    }
+
+    h3 {
+      margin: 0 0 0.7rem;
+      font-size: 1.2rem;
+      line-height: 1.15;
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 600px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      min-width: 0;
+    }
+
+    .dark-card {
+      background: var(--deep);
+      color: white;
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .dark-card p, .dark-card li { color: rgba(255,255,255,0.76); }
+
+    .image-card {
+      padding: 0;
+      overflow: hidden;
+      background: #101815;
+      color: white;
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    .image-card .caption {
+      padding: 1rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      border-radius: 999px;
+      background: var(--sage);
+      color: var(--deep);
+      padding: 0.28rem 0.65rem;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 850;
+      margin-bottom: 0.75rem;
+    }
+
+    .tag.blue { background: #d8edf1; color: #074c5d; }
+    .tag.gold { background: #f4e3c8; color: #6b4210; }
+    .tag.clay { background: #f1ded4; color: #68341f; }
+
+    .list {
+      display: grid;
+      gap: 0.55rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      padding-left: 1rem;
+      border-left: 3px solid var(--sage);
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .statline {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .statbox {
+      background: #f5f8ef;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+
+    .statbox strong {
+      display: block;
+      font-size: clamp(1.5rem, 2.2vw, 2.35rem);
+      line-height: 1.05;
+      color: var(--leaf);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 0.82rem;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: var(--deep);
+      color: white;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    td:last-child, th:last-child { text-align: right; }
+    tbody tr:nth-child(even) { background: rgba(223,234,216,0.32); }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    label {
+      display: grid;
+      gap: 0.45rem;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    input[type="number"], input[type="range"], select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0.72rem;
+      font: inherit;
+      background: white;
+      color: var(--ink);
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    input[type="range"] {
+      padding: 0;
+      accent-color: var(--leaf);
+    }
+
+    .scenario-tabs {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 999px;
+      padding: 0.6rem 0.9rem;
+      cursor: pointer;
+      font-weight: 850;
+    }
+
+    .tab.active {
+      background: var(--deep);
+      color: white;
+      border-color: var(--deep);
+    }
+
+    .total-band {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 1.2rem;
+      background: linear-gradient(90deg, var(--deep), #204f36);
+      color: white;
+      border-radius: var(--radius);
+    }
+
+    .total-band strong {
+      font-size: clamp(1.8rem, 4vw, 3.6rem);
+      line-height: 1;
+    }
+
+    .progress {
+      height: 12px;
+      background: rgba(23,32,27,0.1);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 0.8rem;
+    }
+
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 50%;
+      background: linear-gradient(90deg, var(--gold), var(--leaf));
+      border-radius: inherit;
+    }
+
+    .portal-status {
+      margin: 0.9rem 0 0;
+      color: rgba(255,255,255,0.76);
+      font-weight: 700;
+    }
+
+    .portal-toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 20;
+      max-width: 360px;
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius);
+      background: var(--deep);
+      color: white;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      font-weight: 800;
+    }
+
+    .portal-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .crop-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.8rem;
+    }
+
+    .chip {
+      padding: 0.36rem 0.58rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      font-weight: 750;
+      color: var(--muted);
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .chip:hover, .info-card:hover {
+      border-color: rgba(47, 111, 62, 0.45);
+      box-shadow: 0 12px 36px rgba(20, 33, 26, 0.14);
+    }
+
+    .info-card {
+      cursor: pointer;
+      transition: box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .info-card:hover { transform: translateY(-2px); }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(9, 20, 14, 0.62);
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      width: min(760px, 100%);
+      max-height: min(760px, calc(100vh - 2rem));
+      overflow: auto;
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 32px 90px rgba(0,0,0,0.34);
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    .modal header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: start;
+      padding: 1.2rem 1.2rem 0;
+    }
+
+    .modal h3 {
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      margin: 0;
+    }
+
+    .modal-body { padding: 1rem 1.2rem 1.2rem; }
+
+    .modal-body p { color: var(--muted); font-weight: 650; }
+
+    .modal-source {
+      display: inline-flex;
+      margin: 0.4rem 0.4rem 0 0;
+      padding: 0.38rem 0.58rem;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--line);
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .founder-layout {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .founder-photo {
+      min-height: 100%;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--deep);
+      border: 1px solid var(--line);
+    }
+
+    .founder-photo img {
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .close-modal {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 1rem;
+      padding: 1rem;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+
+    .step strong { color: var(--leaf); }
+
+    footer {
+      width: min(1480px, calc(100% - 2rem));
+      margin: 0 auto 3rem;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 700;
+    }
+
+    @media (max-width: 1050px) {
+      .hero, .grid-2, .grid-3, .grid-4, .controls, .statline {
+        grid-template-columns: 1fr;
+      }
+
+      .founder-layout { grid-template-columns: 1fr; }
+      .founder-photo img { min-height: 360px; }
+
+      .hero-media { min-height: 360px; }
+      .hero-metrics { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 0.7rem; }
+      .nav { display: none; }
+      .step { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      @page { size: letter landscape; margin: 0.35in; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .topbar, .button, .download-link, .scenario-tabs, .controls, .modal-backdrop { display: none !important; }
+      body { background: white; font-size: 10.5pt; line-height: 1.35; }
+      main { width: 100%; margin: 0; }
+      section {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #d9ded4;
+        margin: 0 0 0.22in;
+        padding: 0.28in;
+      }
+      .hero {
+        min-height: 6.8in;
+        color: white;
+        break-after: page;
+        page-break-after: always;
+      }
+      h1 { font-size: 42pt; }
+      h2 { font-size: 24pt; }
+      h3 { font-size: 13pt; }
+      p, li, td, th { font-size: 9.4pt; }
+      .grid-2 { gap: 0.18in; }
+      .grid-3, .grid-4 { gap: 0.14in; }
+      .card { padding: 0.14in; }
+      .image-card img { height: 1.75in; }
+      .metric, .statbox { padding: 0.12in; }
+      .metric strong, .statbox strong, .total-band strong { font-size: 18pt; }
+      .total-band { padding: 0.16in; }
+      table { font-size: 8.8pt; }
+      th, td { padding: 0.055in 0.075in; }
+      footer { display: none; }
+    }
+
+    body:not(.portal-unlocked) .topbar,
+    body:not(.portal-unlocked) .portal-demo-banner,
+    body:not(.portal-unlocked) main,
+    body:not(.portal-unlocked) footer,
+    body:not(.portal-unlocked) .modal-backdrop {
+      display: none !important;
+    }
+
+    body.portal-unlocked .access-shell {
+      display: none !important;
+    }
+
+    .access-shell {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background:
+        linear-gradient(115deg, rgba(223,234,216,0.78), rgba(246,241,226,0.92) 48%, rgba(220,234,239,0.78)),
+        #eef2e7;
+    }
+
+    .access-panel {
+      width: min(760px, 100%);
+      padding: clamp(1.4rem, 4vw, 3.4rem);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(255,255,255,0.92);
+      box-shadow: var(--shadow);
+    }
+
+    .access-panel h1 {
+      color: var(--deep);
+      font-size: clamp(2.4rem, 6vw, 5.2rem);
+    }
+
+    .access-panel p {
+      color: var(--muted);
+      font-size: 1.08rem;
+      font-weight: 650;
+    }
+
+    .access-logo {
+      width: min(620px, 100%);
+      height: auto;
+      margin-bottom: 1rem;
+      padding: 0.55rem;
+      border-radius: 8px;
+      background: #fbfcf6;
+      border: 1px solid var(--line);
+    }
+
+    .portal-badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      background: rgba(255,255,255,0.72);
+      color: var(--deep);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .access-login-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 1.2rem;
+    }
+
+    .access-login-form label {
+      display: grid;
+      gap: 0.35rem;
+      color: var(--deep);
+      font-weight: 850;
+    }
+
+    .access-login-form input {
+      min-height: 46px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.7rem 0.8rem;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .portal-access-message:empty {
+      display: none;
+    }
+
+    .portal-access-message .production-access-card {
+      margin-top: 1rem;
+      padding: 0.85rem;
+      border: 1px solid rgba(15, 105, 130, .18);
+      border-radius: 8px;
+      background: rgba(220,234,239,0.72);
+    }
+
+    .portal-access-message .production-access-card p {
+      margin: 0.35rem 0 0;
+      font-size: 0.95rem;
+    }
+
+    .portal-demo-banner {
+      position: sticky;
+      top: 58px;
+      z-index: 9;
+      padding: 0.55rem 1rem;
+      text-align: center;
+      background: linear-gradient(90deg, var(--deep), #204f36);
+      color: white;
+      font-weight: 850;
+      border-bottom: 1px solid rgba(255,255,255,0.16);
+    }
+
+    .portal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.3rem;
+    }
+
+    @media (max-width: 720px) {
+      .access-login-form {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-portal-type="investor">
+  <script>
+    if (
+      window.SYMBIO_FORCE_INVESTOR_DEMO === true ||
+      window.SYMBIO_INVESTOR_PREVIEW_ONLY === true ||
+      document.documentElement.dataset.forceDemo === "true"
+    ) {
+      document.body.classList.add("portal-unlocked");
+    }
+  </script>
+
+  <section class="access-shell" data-public-section aria-labelledby="access-title">
+    <div class="access-panel">
+      <img class="access-logo" src="assets/logos/symbiogreens-balponics-lockup.png" alt="SymbioGreens Investor Portal - Powered by Balponics">
+      <span class="portal-badge">SymbioGreens Investor Portal</span>
+      <h1 id="access-title">Investor Portal Access Required</h1>
+      <p>Please sign in with an approved account to access investor materials.</p>
+      <p>Private investor dashboard access is available only after application review and approval.</p>
+      <form class="access-login-form" data-production-login>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="button primary" type="submit">Login</button>
+        <button class="button" type="button" data-production-reset>Forgot Password</button>
+      </form>
+      <p class="production-access-note">Private investor materials are available only after approval.</p>
+      <div class="portal-access-message" data-access-message role="status" aria-live="polite"></div>
+      <div class="portal-actions">
+        <a class="button primary" href="https://bbalmir-maker.github.io/symbiogreens-publication-ready/">Return to Public Website</a>
+        <a class="button" href="https://bbalmir-maker.github.io/symbiogreens-publication-ready/#investors">Request Investor Review</a>
+      </div>
+    </div>
+  </section>
+
+  <header class="topbar">
+    <div class="brand brand-lockup">
+      <img class="brand-logo-sg" src="assets/logos/symbiogreens-logo.png" alt="SymbioGreens">
+      <span>Investor Portal<small>Powered by Balponics</small></span>
+      <img class="brand-logo-balponics" src="assets/logos/balponics-logo.png" alt="Balponics">
+    </div>
+    <nav class="nav" aria-label="Presentation sections">
+      <a href="#top" data-portal-page="overview">Overview</a>
+      <a href="#model">Model</a>
+      <a href="#systems">Systems</a>
+      <a href="#founder">Founder</a>
+      <a href="#financials">Financials</a>
+      <a href="#investor">Investor</a>
+      <a href="#portal-workflow">Portal</a>
+      <a href="#documents">Docs</a>
+      <a href="#go-to-market">Sales</a>
+      <a href="#conclusion">Conclusion</a>
+      <button class="button" type="button" id="exitPortalDemo">Exit Demo</button>
+    </nav>
+  </header>
+
+  <div class="portal-demo-banner">Founder Demo Mode - private investor portal preview. No real investor data is loaded.</div>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <span class="eyebrow">Northeast Dominican Republic | Premium CEA Farm</span>
+        <h1>Hydroponic specialty crops, medicinal plants, gourmet mushrooms and value-added processing.</h1>
+        <p>
+          A controlled-environment agriculture platform designed to replace imported specialty produce
+          for resorts, chefs and distributors with same-day local supply, premium consistency and
+          multiple revenue channels.
+        </p>
+        <div class="hero-metrics" style="display:flex; flex-wrap:wrap; gap:16px;">
+          <div class="metric"><strong>$131K-$171K</strong><span>baseline monthly revenue</span></div>
+          <div class="metric"><strong>$200K-$250K</strong><span>target utilization upside</span></div>
+          <div class="metric"><strong>$2.0M-$2.5M</strong><span>platform capitalization range</span></div>
+          <div class="metric"><strong>$2.2M</strong><span>current planning target</span></div>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="assets/resort-products.png" alt="SymbioGreens produce packages for resort and hospitality buyers">
+      </div>
+    </section>
+
+    <section id="confidentiality">
+      <div class="section-head">
+        <div>
+          <span class="tag clay">Confidential and proprietary</span>
+          <h2>Private investment material prepared for selected recipients only.</h2>
+        </div>
+        <p>
+          This presentation contains confidential business concepts, financial assumptions, production strategy,
+          supplier and market positioning, founder-developed research and proprietary planning related to
+          SymbioGreens Balponics.
+        </p>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <h3>Use restrictions</h3>
+          <p>
+            By reviewing this material, the recipient agrees not to copy, distribute, publish, reproduce,
+            reverse-engineer, use for competing purposes, or disclose its contents to third parties without
+            prior written consent from Bernard Balmir / Balponics SymbioGreens.
+          </p>
+        </article>
+        <article class="card dark-card">
+          <h3>Important note</h3>
+          <p>
+            This document is for discussion and evaluation only. It is not a public offering, securities
+            solicitation, legal opinion, tax advice or audited financial statement. All projections are planning
+            estimates and remain subject to due diligence, contracts, permitting, market conditions and execution.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="model">
+      <div class="section-head">
+        <div>
+          <span class="tag">Executive summary</span>
+          <h2>A diversified premium farm built around chef demand and wellness demand.</h2>
+        </div>
+        <p>
+          The model combines hydroponic herbs, baby greens, edible flowers, medicinal herbs,
+          gourmet mushrooms, substrate specialty crops, dried products and farm experiences.
+        </p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <span class="tag blue">Market gap</span>
+          <h3>Imported specialty produce is vulnerable</h3>
+          <p>Hotels and restaurants frequently import microgreens, herbs, edible flowers, mushrooms and Asian herbs from Miami, Europe and Central America.</p>
+          <ul class="list">
+            <li>Long logistics chains reduce freshness.</li>
+            <li>Airfreight and handling inflate costs.</li>
+            <li>Supply instability creates menu risk for chefs.</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="tag gold">Local advantage</span>
+          <h3>Same-day harvest, reliable weekly supply</h3>
+          <p>Controlled production in the northeast corridor can supply Santo Domingo, Punta Cana, Cap Cana and Casa de Campo within a few hours.</p>
+          <ul class="list">
+            <li>Better shelf life at delivery.</li>
+            <li>Lower logistics risk.</li>
+            <li>Consistent quality for resort menus.</li>
+          </ul>
+        </article>
+        <article class="card dark-card">
+          <span class="tag">Strategic goal</span>
+          <h3>Build a scalable, profitable agricultural platform</h3>
+          <p>The facility is designed to reach $150K-$250K monthly revenue during the first operational year through phased utilization and contracted demand.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="founder">
+      <div class="section-head">
+        <div>
+          <span class="tag">Founder profile</span>
+          <h2>Bernard Balmir: founder, operator and builder of resilient food systems.</h2>
+        </div>
+        <p>
+          This venture is not a new idea on paper. It is the next stage of years spent developing Balponics,
+          studying controlled-environment agriculture, building market relationships and designing a model that can
+          serve the Caribbean hospitality economy with fresher, cleaner and more local food.
+        </p>
+      </div>
+      <div class="founder-layout">
+        <div class="founder-photo">
+          <img src="assets/founder-bernard-balmir.png" alt="Bernard Balmir, founder of Balponics SymbioGreens">
+        </div>
+        <div>
+          <article class="card dark-card">
+            <span class="tag">Hydroponics and CEA</span>
+            <h3>Founder / CEO, Balponics</h3>
+            <p>
+              Since 2015, Bernard has developed and tested hydroponic, NFT, tower and controlled-environment systems
+              adapted to tropical Dominican conditions. The farm plan is built on practical knowledge of nutrient
+              management, crop cycles, tower density, microgreens, commercial pilots and B2B installation work.
+            </p>
+            <div class="statline" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+              <div class="metric"><strong>8+ yrs</strong><span>hydroponic operating data</span></div>
+              <div class="metric"><strong>15+</strong><span>pilots and installations</span></div>
+              <div class="metric"><strong>DR</strong><span>tropical CEA focus</span></div>
+            </div>
+          </article>
+          <article class="card" style="margin-top: 1rem;">
+            <span class="tag gold">Verdinova / Verda project</span>
+            <h3>Circular economy and infrastructure leadership</h3>
+            <p>
+              Through Verdinova, Bernard has advanced circular economy and biodigestion concepts in the Dominican
+              Republic, connecting sustainability, waste-to-value systems, institutional relationships and long-term
+              environmental strategy. That experience strengthens the farm's positioning as more than a produce company:
+              it is a resilient, resource-efficient agricultural platform.
+            </p>
+            <ul class="list">
+              <li>Founder-level project development and partner coordination.</li>
+              <li>Strategic framing around sustainability, clean energy and local impact.</li>
+              <li>Ability to communicate with investors, institutions, operators and hospitality buyers.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+      <div class="grid-3" style="margin-top: 1rem;">
+        <article class="card">
+          <span class="tag blue">Commercial scale</span>
+          <h3>Telecom, fintech and distribution</h3>
+          <p>Built and led large sales channels, including prepaid telecom, fintech retail networks and government-level business development across the Caribbean, Africa and the Americas.</p>
+        </article>
+        <article class="card">
+          <span class="tag clay">Agriculture and operations</span>
+          <h3>Farm and industrial management</h3>
+          <p>Experience includes large agricultural operations, stakeholder coordination, processing facilities, sustainability reporting and structured operating discipline.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Food and hospitality</span>
+          <h3>Chef-facing market intuition</h3>
+          <p>Restaurant ownership and hospitality exposure help connect production planning with kitchen needs, freshness, reliability, menu value and customer experience.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="vision">
+      <div class="section-head">
+        <div>
+          <span class="tag">Why this business</span>
+          <h2>A profitable farm that also solves a regional food-resilience problem.</h2>
+        </div>
+        <p>
+          SymbioGreens Balponics is designed to make money because it solves a real operational problem:
+          high-end hospitality depends on imported specialty food that is expensive, fragile and slow.
+        </p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <span class="tag blue">Import replacement</span>
+          <h3>Freshness and proximity</h3>
+          <p>Producing near demand centers reduces airfreight dependence, protects freshness, lowers spoilage risk and gives chefs reliable weekly harvest lists instead of uncertain imported supply.</p>
+        </article>
+        <article class="card">
+          <span class="tag">ESG fit</span>
+          <h3>Water, waste and energy logic</h3>
+          <p>Closed-loop hydroponics, solar-assisted operations, local delivery, drying of surplus production and mushroom substrate reuse create a strong sustainability and ESG narrative.</p>
+        </article>
+        <article class="card">
+          <span class="tag gold">Resort systems</span>
+          <h3>Onsite micro-farms as a service</h3>
+          <p>Large resorts can host small branded hydroponic systems maintained by Balponics under contract, while buying inputs, seedlings, nutrients, maintenance and premium produce from the main farm.</p>
+        </article>
+      </div>
+      <div class="grid-2" style="margin-top: 1rem;">
+        <article class="card dark-card">
+          <span class="tag">Regional expansion</span>
+          <h3>Dominican Republic first, Caribbean next</h3>
+          <p>
+            Once the model works in the northeast, it can be replicated near Punta Cana, Cap Cana, Puerto Plata,
+            Casa de Campo and other demand zones. The same logic then extends across import-dependent islands
+            such as Barbados, Martinique and Guadeloupe, where imported specialty produce from metropolitan or
+            overseas supply chains is expensive and vulnerable.
+          </p>
+        </article>
+        <article class="card">
+          <span class="tag clay">Strategic outcome</span>
+          <h3>Build the platform, not just one farm</h3>
+          <p>
+            The long-term vision is a network of controlled-environment farms and serviced resort systems that
+            localize premium food supply for tourism economies while creating jobs, reducing logistics exposure
+            and making Caribbean hospitality more resilient.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="location">
+      <div class="section-head">
+        <div>
+          <span class="tag">Strategic location</span>
+          <h2>Las Terrenas, Sanchez or Rio San Juan as the operating corridor.</h2>
+        </div>
+        <p>
+          The northeast gives the project lower land costs, proximity to luxury tourism, an eco-tourism story
+          and direct access to the country's most valuable hospitality markets.
+        </p>
+      </div>
+      <div class="statline">
+        <div class="statbox"><strong>3</strong><span>priority site options</span></div>
+        <div class="statbox"><strong>4</strong><span>major demand markets</span></div>
+        <div class="statbox"><strong>80%</strong><span>target water savings</span></div>
+        <div class="statbox"><strong>80%</strong><span>target solar coverage</span></div>
+      </div>
+    </section>
+
+    <section id="systems">
+      <div class="section-head">
+        <div>
+          <span class="tag">Production systems</span>
+          <h2>Four complementary growing systems, one integrated facility.</h2>
+        </div>
+        <p>Each module targets a different premium buyer need while sharing water, cold chain, packaging and sales infrastructure.</p>
+      </div>
+      <div class="grid-4">
+        <article class="image-card info-card" data-info="hydroponic-towers" tabindex="0" role="button" aria-label="Learn more about hydroponic towers">
+          <img src="assets/tower-aisle.png" alt="Vertical hydroponic tower aisle with leafy greens">
+          <div class="caption">
+            <span class="tag">Hydroponic towers</span>
+            <h3>500 towers phase one</h3>
+            <p>8-inch diameter, 8-foot towers with 80 plant sites each, supporting 40,000 plants per cycle.</p>
+            <div class="crop-cloud">
+              <span class="chip" data-info="thai-basil">Thai basil</span><span class="chip" data-info="shiso">shiso</span><span class="chip" data-info="mint">mint</span><span class="chip" data-info="tarragon">tarragon</span><span class="chip" data-info="gotu-kola">gotu kola</span>
+            </div>
+          </div>
+        </article>
+        <article class="image-card info-card" data-info="microgreens-system" tabindex="0" role="button" aria-label="Learn more about microgreens systems">
+          <img src="assets/microgreens-room.png" alt="Indoor microgreens production racks">
+          <div class="caption">
+            <span class="tag blue">Microgreens</span>
+            <h3>8,000-9,000 trays</h3>
+            <p>200 m2 floor space with 5-level racks and 7-10 day production cycles.</p>
+            <div class="crop-cloud">
+              <span class="chip" data-info="radish-microgreens">radish</span><span class="chip" data-info="amaranth-microgreens">amaranth</span><span class="chip" data-info="pea-shoots">pea shoots</span><span class="chip" data-info="mustard-microgreens">mustard</span><span class="chip" data-info="broccoli-microgreens">broccoli</span>
+            </div>
+          </div>
+        </article>
+        <article class="image-card info-card" data-info="mushroom-system" tabindex="0" role="button" aria-label="Learn more about gourmet mushroom systems">
+          <img src="assets/mushroom-room.png" alt="Gourmet mushroom grow room with oyster and lion's mane mushrooms">
+          <div class="caption">
+            <span class="tag clay">Mushrooms</span>
+            <h3>2,000 kg monthly</h3>
+            <p>Indoor grow rooms for modern gastronomy and wellness-driven products.</p>
+            <div class="crop-cloud">
+              <span class="chip" data-info="lions-mane">lion's mane</span><span class="chip" data-info="king-oyster">king oyster</span><span class="chip" data-info="shiitake">shiitake</span><span class="chip" data-info="enoki">enoki</span>
+            </div>
+          </div>
+        </article>
+        <article class="image-card info-card" data-info="specialty-substrate" tabindex="0" role="button" aria-label="Learn more about specialty substrate crops">
+          <img src="assets/nft-herbs.png" alt="NFT hydroponic channels with herbs and leafy crops">
+          <div class="caption">
+            <span class="tag gold">Specialty substrate</span>
+            <h3>Larger-root crops</h3>
+            <p>Substrate systems handle crops frequently imported by Asian, wellness and resort kitchens.</p>
+            <div class="crop-cloud">
+              <span class="chip" data-info="kaffir-lime">kaffir lime</span><span class="chip" data-info="pandan">pandan</span><span class="chip" data-info="lemongrass">lemongrass</span><span class="chip" data-info="curry-leaves">curry leaves</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="facility-visuals">
+      <div class="section-head">
+        <div>
+          <span class="tag">Facility visuals</span>
+          <h2>Images mapped to the production story.</h2>
+        </div>
+        <p>These visuals support live presentation flow: product proof, system design, crop variety and commercial scaling.</p>
+      </div>
+      <div class="grid-4">
+        <article class="image-card info-card" data-info="microgreens-room" tabindex="0" role="button" aria-label="Learn more about microgreens room">
+          <img src="assets/microgreens-rack.png" alt="Microgreens trays under irrigation in a controlled room">
+          <div class="caption">
+            <span class="tag blue">Microgreens room</span>
+            <h3>Fast-cycle trays</h3>
+            <p>Radish, pea shoots, mustard, broccoli, sunflower and amaranth grown on short cycles.</p>
+          </div>
+        </article>
+        <article class="image-card info-card" data-info="indoor-rack-system" tabindex="0" role="button" aria-label="Learn more about indoor rack systems">
+          <img src="assets/commercial-rack.png" alt="Commercial rack system for leafy greens">
+          <div class="caption">
+            <span class="tag">Indoor rack system</span>
+            <h3>Scalable baby greens</h3>
+            <p>Rack production supports baby greens, medicinal starts and specialty leafy crops.</p>
+          </div>
+        </article>
+        <article class="image-card info-card" data-info="leafy-varieties" tabindex="0" role="button" aria-label="Learn more about leafy varieties">
+          <img src="assets/leafy-varieties.png" alt="Leafy greens varieties growing in a vertical tower">
+          <div class="caption">
+            <span class="tag gold">Crop variety</span>
+            <h3>Lettuce, bok choy and brassicas</h3>
+            <p>Visual support for the premium leafy portfolio and chef-facing sampling.</p>
+          </div>
+        </article>
+        <article class="image-card info-card" data-info="greenhouse-substrate" tabindex="0" role="button" aria-label="Learn more about substrate greenhouse systems">
+          <img src="assets/greenhouse-vines.png" alt="Greenhouse vine crops in substrate containers">
+          <div class="caption">
+            <span class="tag clay">Substrate greenhouse</span>
+            <h3>Large-root specialty crops</h3>
+            <p>Useful reference for crops that need root volume, trellising or container-based systems.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="crop-portfolio">
+      <div class="section-head">
+        <div>
+          <span class="tag">Crop portfolio</span>
+          <h2>Fresh, processed and experience-based revenue from the same biological platform.</h2>
+        </div>
+        <p>Crop selection prioritizes high price per square meter, fast turns, import replacement and cross-use in fresh and dried formats.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <span class="tag">Medicinal plants</span>
+          <h3>Wellness and nutraceutical channel</h3>
+          <p>Fresh or dried tulsi, gotu kola, lemon balm, moringa, stevia, ashwagandha, ginger and turmeric.</p>
+        </article>
+        <article class="card">
+          <span class="tag blue">Value-added processing</span>
+          <h3>Dried herbs, teas and mushroom powders</h3>
+          <p>Surplus production becomes shelf-stable herbal teas, seasoning blends, lion's mane powder and shiitake powder.</p>
+        </article>
+        <article class="card">
+          <span class="tag gold">Agrotourism</span>
+          <h3>Farm tours and culinary experiences</h3>
+          <p>Guided hydroponic tours, chef harvests, farm-to-table dinners and herbal tea workshops add revenue and deepen buyer relationships.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="financials">
+      <div class="section-head">
+        <div>
+          <span class="tag">Interactive financial model</span>
+          <h2>Change utilization and see the monthly operating picture.</h2>
+        </div>
+        <p>The baseline uses the ranges provided in the plan. The scenario buttons load conservative, base and expansion assumptions.</p>
+      </div>
+
+      <div class="scenario-tabs" role="group" aria-label="Scenario controls">
+        <button class="tab active" data-scenario="base">Base case</button>
+        <button class="tab" data-scenario="conservative">Conservative</button>
+        <button class="tab" data-scenario="upside">Upside</button>
+      </div>
+
+      <div class="controls">
+        <label>Hydroponic herbs monthly
+          <input id="herbs" type="number" min="0" step="1000" value="57500">
+        </label>
+        <label>Microgreens monthly
+          <input id="microgreens" type="number" min="0" step="1000" value="30000">
+        </label>
+        <label>Mushrooms monthly
+          <input id="mushrooms" type="number" min="0" step="1000" value="24000">
+        </label>
+        <label>Specialty crops monthly
+          <input id="specialty" type="number" min="0" step="1000" value="12500">
+        </label>
+        <label>Medicinal plants monthly
+          <input id="medicinal" type="number" min="0" step="1000" value="10000">
+        </label>
+        <label>Dry products monthly
+          <input id="dry" type="number" min="0" step="1000" value="10000">
+        </label>
+        <label>Agrotourism monthly
+          <input id="tourism" type="number" min="0" step="500" value="7000">
+        </label>
+        <label>Operating costs monthly
+          <input id="opex" type="number" min="0" step="500" value="29000">
+        </label>
+      </div>
+
+      <div class="grid-2">
+        <article class="card">
+          <h3>Revenue model</h3>
+          <table>
+            <thead><tr><th>Category</th><th>Monthly revenue</th></tr></thead>
+            <tbody id="revenueRows"></tbody>
+          </table>
+        </article>
+        <article class="card">
+          <h3>Three-year run rate</h3>
+          <table>
+            <thead><tr><th>Year</th><th>Revenue</th><th>Profit</th></tr></thead>
+            <tbody id="projectionRows"></tbody>
+          </table>
+        </article>
+      </div>
+
+      <div class="total-band">
+        <div>
+          <div class="tag">Live monthly result</div>
+          <strong id="totalRevenue">$151,000</strong>
+          <p id="profitLine">Estimated net profit: $122,000 monthly</p>
+        </div>
+        <div>
+          <strong id="margin">81%</strong>
+          <p>estimated operating margin</p>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 1rem;">
+        <article class="card">
+          <h3>Updated operating cost basis</h3>
+          <table>
+            <thead><tr><th>Category</th><th>Monthly estimate</th></tr></thead>
+            <tbody>
+              <tr><td>Labor and technical staff</td><td>$8,500</td></tr>
+              <tr><td>Utilities after solar offset</td><td>$2,500</td></tr>
+              <tr><td>Seeds, nutrients, spawn and growing media</td><td>$5,000</td></tr>
+              <tr><td>Packaging and harvest supplies</td><td>$2,500</td></tr>
+              <tr><td>Fuel, vehicle insurance and fleet maintenance</td><td>$3,500</td></tr>
+              <tr><td>Site security, manager house and facility upkeep</td><td>$2,000</td></tr>
+              <tr><td>Equipment maintenance and spare parts</td><td>$2,000</td></tr>
+              <tr><td>Founder / managing partner salary</td><td>$3,000</td></tr>
+              <tr><td><strong>Total</strong></td><td><strong>$29,000</strong></td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="card">
+          <span class="tag">Operating note</span>
+          <h3>Fleet and facilities are now included</h3>
+          <p>
+            The operating model now reflects a more complete site reality: refrigerated delivery,
+            pickup trucks, secure storage, facility upkeep and manager accommodations. This is still
+            lean for a premium farm, but it is more credible than a production-only expense base.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="customer-model">
+      <div class="section-head">
+        <div>
+          <span class="tag">Customer acquisition model</span>
+          <h2>The $200K monthly target is built from three buyer classes.</h2>
+        </div>
+        <p>Direct chef demand creates margin and visibility, resort contracts create volume, and distributors create national reach.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <table>
+            <thead><tr><th>Client type</th><th>Quantity</th><th>Monthly revenue</th></tr></thead>
+            <tbody>
+              <tr><td>Hotels</td><td>10</td><td>$80,000</td></tr>
+              <tr><td>Restaurants</td><td>30</td><td>$45,000</td></tr>
+              <tr><td>Distributors</td><td>3</td><td>$75,000</td></tr>
+              <tr><td><strong>Total</strong></td><td><strong>43 accounts</strong></td><td><strong>$200,000</strong></td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="image-card">
+          <img src="assets/product-showroom.png" alt="Balponics product showroom with towers and racks">
+          <div class="caption">
+            <span class="tag">Sales experience</span>
+            <h3>Show the system, then sell the harvest</h3>
+            <p>Farm visits, chef sampling and weekly harvest lists turn production transparency into a sales advantage.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="investment">
+      <div class="section-head">
+        <div>
+          <span class="tag">CapEx and platform capitalization</span>
+          <h2>$2.2M planning target supports the first hub, infrastructure, operating runway and platform development.</h2>
+        </div>
+        <p>The updated investor platform is framed as a $2.0M-$2.5M capitalization range, with $2.2M used as the current planning target for investor modeling. This reflects the real launch requirement for site work, production systems, cold chain, logistics, operating resilience, buyer activation and platform development.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <table>
+            <thead><tr><th>Allocation</th><th>Amount</th></tr></thead>
+            <tbody>
+              <tr><td>Site control, land work, legal closing and title work</td><td>$250,000</td></tr>
+              <tr><td>Greenhouse structure, grading, drainage and site prep</td><td>$260,000</td></tr>
+              <tr><td>Hydroponic infrastructure</td><td>$210,000</td></tr>
+              <tr><td>Microgreens facility</td><td>$85,000</td></tr>
+              <tr><td>Mushroom rooms</td><td>$100,000</td></tr>
+              <tr><td>Specialty crop / substrate systems</td><td>$85,000</td></tr>
+              <tr><td>Solar installation and electrical resilience</td><td>$165,000</td></tr>
+              <tr><td>Water, fertigation and automation systems</td><td>$115,000</td></tr>
+              <tr><td>Cold storage and packing line</td><td>$105,000</td></tr>
+              <tr><td>Refrigerated delivery and logistics vehicles</td><td>$120,000</td></tr>
+              <tr><td>Working capital reserve</td><td>$190,000</td></tr>
+              <tr><td>Staff, administration and launch operations</td><td>$95,000</td></tr>
+              <tr><td>Buyer activation and market development</td><td>$65,000</td></tr>
+              <tr><td>Permits, professional services and pre-opening costs</td><td>$60,000</td></tr>
+              <tr><td>Contingency</td><td>$75,000</td></tr>
+              <tr><td>Founder / platform development allocation</td><td>$220,000</td></tr>
+              <tr><td><strong>Current planning target</strong></td><td><strong>$2,200,000</strong></td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="card dark-card">
+          <span class="tag">Why the platform capitalization matters</span>
+          <h3>Owning the operating base protects the value of the business</h3>
+          <p>The $2.2M planning target turns the project from an equipment installation into a durable operating platform with production capacity, energy and water resilience, cold-chain control, buyer activation and room for expansion.</p>
+          <div class="timeline">
+            <div class="step"><strong>Site</strong><span>Purchase land in the northeast corridor with enough room for greenhouse expansion, visitor flow and future production modules.</span></div>
+            <div class="step"><strong>Facilities</strong><span>Build a one-story manager house with office, staff support, secure storage, dry goods area and operations control.</span></div>
+            <div class="step"><strong>Fleet</strong><span>Add one refrigerated delivery truck plus two pickup / management vehicles for procurement, sales visits and daily operations.</span></div>
+            <div class="step"><strong>Production</strong><span>Install hydroponic towers, microgreens racks, mushroom rooms, drying, cold storage, solar and packing infrastructure.</span></div>
+            <div class="step"><strong>Platform</strong><span>Recognize founder-developed research, crop strategy, operating design, buyer positioning, supplier planning and project assembly through a founder/platform allocation estimated at 10% of contributed capital.</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="investor">
+      <div class="section-head">
+        <div>
+          <span class="tag">Investor equity calculator</span>
+          <h2>Contribution converts into equity up to a 30% maximum.</h2>
+        </div>
+        <p>Based on the $2.2M current planning target, each dollar of contribution earns proportional equity, capped at 30% total investor equity. The founder/platform allocation estimate is contribution x 10%, with a $220K allocation at the full $2.2M target.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card">
+          <label>Investor contribution
+            <input id="contribution" type="number" min="0" step="5000" value="100000">
+          </label>
+          <label style="margin-top: 1rem;">Raise target
+            <input id="raiseTarget" type="number" min="1" step="10000" value="2200000">
+          </label>
+          <label style="margin-top: 1rem;">Founder/platform allocation at full target
+            <input id="founderBonusCap" type="number" min="0" step="5000" value="220000">
+          </label>
+          <label style="margin-top: 1rem;">Maximum available equity
+            <input id="maxEquity" type="number" min="1" max="100" step="1" value="30">
+          </label>
+          <div class="progress" aria-hidden="true"><span id="raiseProgress"></span></div>
+        </article>
+        <article class="card dark-card">
+          <span class="tag">Calculated offer</span>
+          <h3 id="equityResult">1.36% equity</h3>
+          <p id="equityDetail">$100,000 contribution equals 4.5% of the $2,200,000 target, producing 1.36% equity under the 30% cap.</p>
+          <p id="bonusDetail">Founder/platform allocation estimate at this contribution: $10,000. Full funding releases the $220,000 platform allocation.</p>
+          <p id="capNote">The cap protects the company: even contributions above the target do not exceed the maximum equity pool.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="valuation">
+      <div class="section-head">
+        <div>
+          <span class="tag">Valuation and ROI calculator</span>
+          <h2>Model company value and investor return from the live operating assumptions.</h2>
+        </div>
+        <p>
+          This uses the current revenue/profit model, the investor contribution, and adjustable valuation
+          assumptions. It is designed for live conversations, not as a final securities valuation.
+        </p>
+      </div>
+      <div class="controls">
+        <label>EBITDA / profit multiple
+          <input id="profitMultiple" type="number" min="1" step="0.5" value="6">
+        </label>
+        <label>Revenue multiple
+          <input id="revenueMultiple" type="number" min="0.1" step="0.1" value="1.5">
+        </label>
+        <label>Hold period in years
+          <input id="holdYears" type="number" min="1" step="1" value="5">
+        </label>
+        <label>Dividend payout of annual profit
+          <input id="dividendPayout" type="number" min="0" max="100" step="5" value="30">
+        </label>
+      </div>
+      <div class="grid-4">
+        <article class="statbox">
+          <strong id="profitValuation">$8.8M</strong>
+          <span>profit-multiple valuation</span>
+        </article>
+        <article class="statbox">
+          <strong id="revenueValuation">$2.7M</strong>
+          <span>revenue-multiple valuation</span>
+        </article>
+        <article class="statbox">
+          <strong id="blendedValuation">$5.8M</strong>
+          <span>blended company valuation</span>
+        </article>
+        <article class="statbox">
+          <strong id="investorReturn">$158K</strong>
+          <span>estimated investor total return</span>
+        </article>
+      </div>
+      <div class="total-band">
+        <div>
+          <div class="tag">Investor ROI output</div>
+          <strong id="roiMultiple">1.58x</strong>
+          <p id="roiDetail">Estimated return multiple based on equity value plus dividends.</p>
+        </div>
+        <div>
+          <strong id="annualizedRoi">10%</strong>
+          <p>estimated annualized ROI</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="portal-workflow">
+      <div class="section-head">
+        <div>
+          <span class="tag">Private investor workflow</span>
+          <h2>Save scenarios, record interest, ask questions and request follow-up.</h2>
+        </div>
+        <p>
+          These actions are wired through the backend-ready investor service. In demo mode they save locally;
+          in production they should write to Supabase under approved investor access and RLS.
+        </p>
+      </div>
+      <div class="grid-2">
+        <article class="card dark-card">
+          <span class="tag">Scenario persistence</span>
+          <h3>Save the current investor model</h3>
+          <p>The saved record includes contribution, equity estimate, founder/platform allocation, revenue assumptions, valuation assumptions and ROI output.</p>
+          <button class="button primary" type="button" data-portal-action="save-scenario">Save current scenario</button>
+          <p class="portal-status" id="scenarioSaveStatus">No scenario saved in this session yet.</p>
+        </article>
+        <article class="card">
+          <span class="tag blue">Non-binding interest</span>
+          <h3>Investor interest selection</h3>
+          <label>Preferred contribution range
+            <select id="interestRange">
+              <option>50k-100k</option>
+              <option>100k-250k</option>
+              <option selected>250k-500k</option>
+              <option>500k-1M</option>
+              <option>1M+</option>
+            </select>
+          </label>
+          <label style="margin-top: 1rem;">Primary interest area
+            <select id="interestArea">
+              <option>Las Terrenas first hub</option>
+              <option>Dominican Republic expansion</option>
+              <option>Caribbean platform</option>
+              <option>Africa long-term option</option>
+              <option>Strategic partner / JV</option>
+            </select>
+          </label>
+          <button class="button primary" type="button" data-portal-action="save-interest" style="margin-top: 1rem;">Save interest selection</button>
+        </article>
+      </div>
+      <div class="grid-2" style="margin-top: 1rem;">
+        <article class="card">
+          <span class="tag gold">Investor questions</span>
+          <h3>Ask a diligence question</h3>
+          <label>Question
+            <textarea id="investorQuestion" rows="4" placeholder="Ask about structure, risks, buyer validation, expansion, operations or legal review."></textarea>
+          </label>
+          <label style="margin-top: 1rem;">How useful is the presentation so far?
+            <select id="questionRating">
+              <option value="3">Helpful</option>
+              <option value="4">Very helpful</option>
+              <option value="2">Somewhat helpful</option>
+              <option value="1">Needs more detail</option>
+            </select>
+          </label>
+          <button class="button primary" type="button" data-portal-action="save-question" style="margin-top: 1rem;">Save question and rating</button>
+        </article>
+        <article class="card">
+          <span class="tag clay">Objections and follow-up</span>
+          <h3>Record an objection or call request</h3>
+          <label>Comment or objection
+            <textarea id="investorComment" rows="4" placeholder="Add concerns, objections, diligence notes or meeting context."></textarea>
+          </label>
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top: 1rem;">
+            <button class="button primary" type="button" data-portal-action="save-comment">Save comment</button>
+            <button class="button" type="button" data-portal-action="request-call">Request follow-up call</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="documents">
+      <div class="section-head">
+        <div>
+          <span class="tag">Document room</span>
+          <h2>Private materials are structured for controlled release.</h2>
+        </div>
+        <p>No private external data room is connected yet. Document requests are logged locally in demo mode and should later require approved investor access.</p>
+      </div>
+      <div class="grid-4">
+        <article class="card"><span class="tag">Locked</span><h3>Investor deck</h3><p>Available after final document release.</p><button class="button" data-doc-request="Investor deck">Request access</button></article>
+        <article class="card"><span class="tag">Locked</span><h3>Financial assumptions</h3><p>Available after final document release.</p><button class="button" data-doc-request="Financial assumptions">Request access</button></article>
+        <article class="card"><span class="tag">Locked</span><h3>Risk register</h3><p>Available after final document release.</p><button class="button" data-doc-request="Risk register">Request access</button></article>
+        <article class="card"><span class="tag">Locked</span><h3>Legal structure</h3><p>Available after legal review.</p><button class="button" data-doc-request="Legal structure">Request access</button></article>
+      </div>
+    </section>
+
+    <section id="admin-readiness">
+      <div class="section-head">
+        <div>
+          <span class="tag">Admin and analytics readiness</span>
+          <h2>Investor engagement is tracked for future approval workflow review.</h2>
+        </div>
+        <p>The public website remains intake-only. Approved investor portal activity is staged for admin review, scoring and follow-up after Supabase activation.</p>
+      </div>
+      <div class="statline">
+        <div class="statbox"><strong id="portalEventsCount">0</strong><span>tracked events</span></div>
+        <div class="statbox"><strong id="portalScenariosCount">0</strong><span>saved scenarios</span></div>
+        <div class="statbox"><strong id="portalQuestionsCount">0</strong><span>questions/comments</span></div>
+        <div class="statbox"><strong id="portalDocsCount">0</strong><span>document requests</span></div>
+      </div>
+      <div style="margin-top: 1rem;">
+        <button class="button primary" type="button" data-portal-action="queue-invite">Queue demo approval invitation</button>
+        <button class="button" type="button" data-portal-action="refresh-engagement">Refresh engagement summary</button>
+      </div>
+    </section>
+
+    <section id="go-to-market">
+      <div class="section-head">
+        <div>
+          <span class="tag">Marketing and sales strategy</span>
+          <h2>Chef-focused, resort-ready and distributor-scalable.</h2>
+        </div>
+        <p>Positioning: Fresh. Local. Sustainable. Chef-focused.</p>
+      </div>
+      <div class="grid-3">
+        <article class="card">
+          <span class="tag blue">Direct chef supply</span>
+          <h3>Margin and menu influence</h3>
+          <p>High-margin microgreens, edible flowers, herbs and specialty leaves sold through weekly harvest lists and tasting samples.</p>
+        </article>
+        <article class="card">
+          <span class="tag gold">Resort supply contracts</span>
+          <h3>Volume and stability</h3>
+          <p>Recurring herb, mushroom, baby green and medicinal herb supply for hospitality kitchens and wellness programs.</p>
+        </article>
+        <article class="card">
+          <span class="tag clay">Distributor partnerships</span>
+          <h3>National reach</h3>
+          <p>Target partners include Hotelsa, Vima Dominicana and Interfoods Dominicana for broader coverage.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="swot">
+      <div class="section-head">
+        <div>
+          <span class="tag">SWOT analysis</span>
+          <h2>Strong operating upside with clear technical and market risks.</h2>
+        </div>
+      </div>
+      <div class="grid-4">
+        <article class="card"><h3>Strengths</h3><ul class="list"><li>High-density hydroponic production.</li><li>Year-round controlled growing.</li><li>Diversified revenue streams.</li><li>Tourism-driven demand.</li></ul></article>
+        <article class="card"><h3>Weaknesses</h3><ul class="list"><li>Capital investment required.</li><li>Technical expertise needed.</li><li>Sales execution must be disciplined.</li></ul></article>
+        <article class="card"><h3>Opportunities</h3><ul class="list"><li>Replacement of imports.</li><li>Wellness and nutraceutical growth.</li><li>Eco-tourism positioning.</li></ul></article>
+        <article class="card"><h3>Threats</h3><ul class="list"><li>Price volatility.</li><li>Logistical disruptions.</li><li>New competitors entering the category.</li></ul></article>
+      </div>
+    </section>
+
+    <section id="conclusion">
+      <div class="section-head">
+        <div>
+          <span class="tag">Final strategic conclusion</span>
+          <h2>A compact, premium, diversified farm serving culinary and wellness markets.</h2>
+        </div>
+        <p>
+          The model maximizes revenue per square meter by combining vertical hydroponics, microgreens,
+          gourmet mushrooms, medicinal plants, processing and agrotourism into one scalable platform.
+        </p>
+      </div>
+      <div class="grid-2">
+        <article class="image-card">
+          <img src="assets/tower-close.png" alt="Close-up of leafy greens growing in vertical hydroponic towers">
+          <div class="caption">
+            <span class="tag">Production validation</span>
+            <h3>Capacity supports baseline revenue above $130K monthly</h3>
+            <p>1,200-1,300 kg herbs, 8,000-9,000 microgreen trays and about 2,000 kg mushrooms monthly.</p>
+          </div>
+        </article>
+        <article class="card dark-card">
+          <h3>Investment thesis</h3>
+          <p>With limited local competition, strong hospitality demand and a product mix that can be sold fresh, dried and experiential, SymbioGreens Balponics can become a defensible premium supplier in the Dominican Republic.</p>
+          <button class="button primary" onclick="window.print()">Print or save presentation</button>
+          <span class="download-link">Updated PDF package pending after final number review</span>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    SymbioGreens Balponics | Northeast Dominican Republic | Controlled-environment specialty agriculture
+  </footer>
+
+  <div class="modal-backdrop" id="infoModal" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header>
+        <div>
+          <span class="tag" id="modalTag">Knowledge card</span>
+          <h3 id="modalTitle">Title</h3>
+        </div>
+        <button class="close-modal" id="closeModal" aria-label="Close">x</button>
+      </header>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <div id="portalToast" class="portal-toast" role="status" aria-live="polite"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../shared/config/supabase.config.example.js"></script>
+  <script src="../shared/js/supabase-config.js"></script>
+  <script src="../shared/js/supabase-client.js"></script>
+  <script src="../shared/js/auth-guard.js"></script>
+  <script src="../shared/js/portal-access.js"></script>
+  <script src="../shared/js/application-service.js"></script>
+  <script src="../shared/js/email-status.js"></script>
+  <script>
+    if (window.SymbioBackend?.isConfigured() && window.SymbioPortalAccess?.guardPortal) {
+      window.SymbioPortalAccess.guardPortal("investor").then((access) => {
+        if (access.allowed) document.body.classList.add("portal-unlocked");
+      });
+    }
+  </script>
+  <script src="assets/js/backend-service.js"></script>
+  <script>
+    const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+    const portalBackend = window.SymbioInvestorPortalBackend;
+    const fields = ["herbs", "microgreens", "mushrooms", "specialty", "medicinal", "dry", "tourism", "opex"];
+    const labels = {
+      herbs: "Hydroponic herbs",
+      microgreens: "Microgreens",
+      mushrooms: "Mushrooms",
+      specialty: "Specialty crops",
+      medicinal: "Medicinal plants",
+      dry: "Dry products",
+      tourism: "Agrotourism"
+    };
+
+    const scenarios = {
+      conservative: { herbs: 50000, microgreens: 28000, mushrooms: 22000, specialty: 10000, medicinal: 8000, dry: 5000, tourism: 6000, opex: 26000 },
+      base: { herbs: 57500, microgreens: 30000, mushrooms: 24000, specialty: 12500, medicinal: 10000, dry: 10000, tourism: 7000, opex: 29000 },
+      upside: { herbs: 65000, microgreens: 32000, mushrooms: 40000, specialty: 25000, medicinal: 18000, dry: 25000, tourism: 10000, opex: 38000 }
+    };
+
+    const infoCards = {
+      "hydroponic-towers": {
+        tag: "Production system",
+        title: "Vertical hydroponic towers",
+        body: "Hydroponic towers stack plant sites vertically, allowing high production density in a compact greenhouse footprint. Closed-loop hydroponics can substantially reduce water use because nutrient solution is recirculated rather than lost to field soil. For this project, towers are strongest for fast-turn leafy greens and herbs where freshness, consistency and presentation matter to chefs.",
+        sources: [["Oklahoma State Extension", "https://extension.okstate.edu/fact-sheets/hydroponics.html"], ["University of Minnesota Extension", "https://extension.umn.edu/how/small-scale-hydroponics"]]
+      },
+      "microgreens-system": {
+        tag: "Production system",
+        title: "Microgreens rack production",
+        body: "Microgreens are young edible seedlings harvested shortly after germination. They are valuable because cycles are short, visual quality is high, and many varieties have concentrated pigments and phytonutrients. Rack systems multiply growing surface vertically, making them ideal for premium, predictable weekly supply.",
+        sources: [["USDA ARS", "https://www.ars.usda.gov/news-events/news/research-news/2012/microgreens-are-nutrient-rich/"], ["University of Florida IFAS", "https://edis.ifas.ufl.edu/publication/HS1164"]]
+      },
+      "mushroom-system": {
+        tag: "Production system",
+        title: "Gourmet mushroom rooms",
+        body: "Indoor mushroom rooms convert controlled humidity, airflow and substrate management into premium culinary production. Oyster, shiitake and lion's mane mushrooms command chef interest because they add texture, umami and wellness positioning. The system also supports drying and powder products from surplus or secondary-grade harvests.",
+        sources: [["Penn State Extension", "https://extension.psu.edu/mushroom-production"], ["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10094187/"]]
+      },
+      "specialty-substrate": {
+        tag: "Production system",
+        title: "Specialty substrate crops",
+        body: "Substrate systems are useful for crops that need more root volume, trellising or a longer production window than tower herbs. Kaffir lime leaves, pandan, lemongrass and curry leaves are strong import-replacement candidates because they are small-volume, high-flavor ingredients used by chefs in Asian, Caribbean and wellness menus.",
+        sources: [["University of Florida IFAS", "https://edis.ifas.ufl.edu/publication/HS1238"], ["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3210002/"]]
+      },
+      "microgreens-room": {
+        tag: "Facility module",
+        title: "Microgreens room advantage",
+        body: "A dedicated microgreens room gives tighter control over sanitation, light, airflow and harvest scheduling. The business advantage is speed: 7-10 day cycles can create many harvest turns per month, allowing the farm to respond quickly to chef orders and reduce unsold inventory risk.",
+        sources: [["USDA ARS", "https://www.ars.usda.gov/news-events/news/research-news/2012/microgreens-are-nutrient-rich/"], ["University of Florida IFAS", "https://edis.ifas.ufl.edu/publication/HS1164"]]
+      },
+      "indoor-rack-system": {
+        tag: "Facility module",
+        title: "Indoor rack systems",
+        body: "Rack systems turn floor area into multiple layers of growing surface. They work best for uniform crops with predictable height and quick turnover. For investors, the key value is revenue per square meter and operational repeatability.",
+        sources: [["University of Minnesota Extension", "https://extension.umn.edu/how/small-scale-hydroponics"], ["USDA ARS", "https://www.ars.usda.gov/news-events/news/research-news/2012/microgreens-are-nutrient-rich/"]]
+      },
+      "leafy-varieties": {
+        tag: "Crop category",
+        title: "Lettuce, bok choy and brassicas",
+        body: "Leafy greens and brassicas provide visual abundance, chef familiarity and reliable demand. Bok choy and brassica greens add Asian-menu relevance, while lettuce varieties support steady resort volume. They are useful anchor crops alongside higher-margin herbs and microgreens.",
+        sources: [["USDA FoodData Central", "https://fdc.nal.usda.gov/"], ["University of Minnesota Extension", "https://extension.umn.edu/how/small-scale-hydroponics"]]
+      },
+      "greenhouse-substrate": {
+        tag: "Facility module",
+        title: "Substrate greenhouse systems",
+        body: "Substrate greenhouse systems are a bridge between hydroponic precision and crop flexibility. They allow containerized production for crops with longer roots, woody stems or trellised growth while preserving irrigation control and clean harvesting.",
+        sources: [["University of Florida IFAS", "https://edis.ifas.ufl.edu/publication/HS1238"]]
+      },
+      "thai-basil": { tag: "Herb", title: "Thai basil", body: "Thai basil is prized for anise-like aroma and high culinary value in Southeast Asian menus. It fits hydroponics well because chefs buy it fresh, aromatic and visually intact.", sources: [["USDA FoodData Central", "https://fdc.nal.usda.gov/"]] },
+      "shiso": { tag: "Herb", title: "Shiso / perilla", body: "Shiso is a premium Japanese and Korean culinary herb with distinctive mint-basil-anise notes. Research on Perilla species highlights phenolic compounds and antioxidant activity, supporting its wellness and chef-story value.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6463634/"]] },
+      "mint": { tag: "Herb", title: "Mint", body: "Mint has broad use in beverages, desserts, sauces, teas and hospitality menus. Its strong aroma makes freshness obvious, which favors local same-day supply over long imported chains.", sources: [["USDA FoodData Central", "https://fdc.nal.usda.gov/"], ["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6864623/"]] },
+      "tarragon": { tag: "Herb", title: "Tarragon", body: "Tarragon is a classic fine-dining herb associated with French cuisine, sauces and poultry/seafood preparations. It is a useful premium herb because chefs need consistent aroma and tender leaf quality.", sources: [["USDA FoodData Central", "https://fdc.nal.usda.gov/"]] },
+      "gotu-kola": { tag: "Medicinal herb", title: "Gotu kola", body: "Gotu kola is used as both a culinary green and a medicinal herb in several traditions. Scientific reviews discuss triterpenes and dermatological/wound-healing research, making it suitable for a wellness-positioned crop line.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3116297/"]] },
+      "radish-microgreens": { tag: "Microgreen", title: "Radish microgreens", body: "Radish microgreens are fast, colorful and spicy, making them popular for plating. Microgreens research shows young seedlings can contain concentrated nutrients compared with mature leaves, although values vary by crop.", sources: [["USDA ARS", "https://www.ars.usda.gov/news-events/news/research-news/2012/microgreens-are-nutrient-rich/"]] },
+      "amaranth-microgreens": { tag: "Microgreen", title: "Amaranth microgreens", body: "Amaranth microgreens bring vivid red color and a delicate earthy flavor. Their visual impact makes them valuable for chef garnish programs and tasting menus.", sources: [["USDA ARS", "https://www.ars.usda.gov/news-events/news/research-news/2012/microgreens-are-nutrient-rich/"]] },
+      "pea-shoots": { tag: "Microgreen", title: "Pea shoots", body: "Pea shoots are tender, sweet and familiar to chefs, with good volume and strong plate presence. They are excellent for recurring supply because they bridge garnish, salad and stir-fry use.", sources: [["USDA FoodData Central", "https://fdc.nal.usda.gov/"]] },
+      "mustard-microgreens": { tag: "Microgreen", title: "Mustard microgreens", body: "Mustard microgreens provide peppery heat and brassica character. They fit premium menus as a small-volume, high-impact flavor ingredient.", sources: [["USDA ARS", "https://www.ars.usda.gov/news-events/news/research-news/2012/microgreens-are-nutrient-rich/"]] },
+      "broccoli-microgreens": { tag: "Microgreen", title: "Broccoli microgreens", body: "Broccoli microgreens are widely recognized in wellness markets because brassica seedlings can contain glucosinolates and related phytochemicals. They are useful for health-focused hotels, juice bars and retail packs.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7584513/"]] },
+      "lions-mane": { tag: "Mushroom", title: "Lion's mane", body: "Lion's mane is a premium culinary and functional mushroom. Research reviews discuss bioactive compounds and neurological-health interest, which supports high-value fresh, dried and powder formats.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10675414/"]] },
+      "king-oyster": { tag: "Mushroom", title: "King oyster", body: "King oyster mushrooms have a dense, meaty stem and high chef value because they sear well and can substitute for scallops or meat textures in modern menus.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10094187/"]] },
+      "shiitake": { tag: "Mushroom", title: "Shiitake", body: "Shiitake mushrooms are globally recognized for umami, texture and dried-product value. They work well in fresh hospitality supply and as dried slices or powder.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10094187/"]] },
+      "enoki": { tag: "Mushroom", title: "Enoki", body: "Enoki mushrooms are delicate, visually distinctive and associated with Asian cuisine. Their fragility makes local production attractive because long logistics can damage quality.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10094187/"]] },
+      "kaffir-lime": { tag: "Specialty crop", title: "Kaffir lime leaves", body: "Kaffir lime leaves deliver intense citrus aroma for Thai, Indonesian and fusion menus. Because chefs use leaves fresh and in small quantities, local production can replace expensive imported packets.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4690266/"]] },
+      "pandan": { tag: "Specialty crop", title: "Pandan leaves", body: "Pandan is a fragrant tropical leaf used in Southeast Asian desserts, rice and beverages. Research describes aromatic and antioxidant compounds, supporting both culinary and wellness storytelling.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8281216/"]] },
+      "lemongrass": { tag: "Specialty crop", title: "Lemongrass", body: "Lemongrass is used in teas, broths, cocktails, spa programs and Asian cuisine. It offers both fresh culinary sales and dried tea-blend potential.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3210002/"]] },
+      "curry-leaves": { tag: "Specialty crop", title: "Curry leaves", body: "Curry leaves are a high-aroma ingredient in South Asian cooking and are difficult to substitute when fresh. Scientific reviews describe antioxidant and phytochemical properties, adding wellness value to the culinary story.", sources: [["NCBI", "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7345155/"]] }
+    };
+
+    function value(id) {
+      return Number(document.getElementById(id).value || 0);
+    }
+
+    function updateFinancials() {
+      const revenueKeys = fields.filter((id) => id !== "opex");
+      const rows = revenueKeys.map((id) => `<tr><td>${labels[id]}</td><td>${money.format(value(id))}</td></tr>`).join("");
+      document.getElementById("revenueRows").innerHTML = rows;
+
+      const monthlyRevenue = revenueKeys.reduce((sum, id) => sum + value(id), 0);
+      const monthlyProfit = monthlyRevenue - value("opex");
+      const margin = monthlyRevenue > 0 ? Math.round((monthlyProfit / monthlyRevenue) * 100) : 0;
+
+      document.getElementById("totalRevenue").textContent = money.format(monthlyRevenue);
+      document.getElementById("profitLine").textContent = `Estimated net profit: ${money.format(monthlyProfit)} monthly`;
+      document.getElementById("margin").textContent = `${margin}%`;
+
+      const growth = [1, 1.18, 1.38];
+      const costGrowth = [1, 1.08, 1.16];
+      document.getElementById("projectionRows").innerHTML = growth.map((g, index) => {
+        const annualRevenue = monthlyRevenue * 12 * g;
+        const annualCost = value("opex") * 12 * costGrowth[index];
+        return `<tr><td>Year ${index + 1}</td><td>${money.format(annualRevenue)}</td><td>${money.format(annualRevenue - annualCost)}</td></tr>`;
+      }).join("");
+
+      updateValuation();
+    }
+
+    function currentEquity() {
+      const contribution = Number(document.getElementById("contribution").value || 0);
+      const target = Math.max(1, Number(document.getElementById("raiseTarget").value || 1));
+      const maxEquity = Number(document.getElementById("maxEquity").value || 30);
+      const founderBonusCap = Number(document.getElementById("founderBonusCap").value || 0);
+      const percentOfRaise = contribution / target;
+      const equity = Math.min(maxEquity, percentOfRaise * maxEquity);
+      const founderBonus = Math.min(founderBonusCap, percentOfRaise * founderBonusCap);
+      return { contribution, target, maxEquity, founderBonusCap, founderBonus, percentOfRaise, equity };
+    }
+
+    function updateEquity() {
+      const { contribution, target, maxEquity, founderBonusCap, founderBonus, percentOfRaise, equity } = currentEquity();
+      const progress = Math.min(100, percentOfRaise * 100);
+
+      document.getElementById("equityResult").textContent = `${equity.toFixed(2)}% equity`;
+      document.getElementById("equityDetail").textContent =
+        `${money.format(contribution)} contribution equals ${(percentOfRaise * 100).toFixed(1)}% of the ${money.format(target)} target, producing ${equity.toFixed(2)}% equity under the ${maxEquity}% cap.`;
+      document.getElementById("bonusDetail").textContent =
+        `Founder/platform allocation estimate at this contribution: ${money.format(founderBonus)}. Full funding releases the ${money.format(founderBonusCap)} platform allocation.`;
+      document.getElementById("raiseProgress").style.width = `${progress}%`;
+      updateValuation();
+    }
+
+    function updateValuation() {
+      const revenueKeys = fields.filter((id) => id !== "opex");
+      const monthlyRevenue = revenueKeys.reduce((sum, id) => sum + value(id), 0);
+      const monthlyProfit = monthlyRevenue - value("opex");
+      const annualRevenue = monthlyRevenue * 12;
+      const annualProfit = monthlyProfit * 12;
+      const profitMultiple = Number(document.getElementById("profitMultiple")?.value || 6);
+      const revenueMultiple = Number(document.getElementById("revenueMultiple")?.value || 1.5);
+      const holdYears = Math.max(1, Number(document.getElementById("holdYears")?.value || 5));
+      const dividendPayout = Number(document.getElementById("dividendPayout")?.value || 0) / 100;
+      const { contribution, equity } = currentEquity();
+
+      const profitValuation = Math.max(0, annualProfit * profitMultiple);
+      const revenueValuation = Math.max(0, annualRevenue * revenueMultiple);
+      const blendedValuation = (profitValuation + revenueValuation) / 2;
+      const equityValue = blendedValuation * (equity / 100);
+      const dividends = Math.max(0, annualProfit * dividendPayout * holdYears * (equity / 100));
+      const totalReturn = equityValue + dividends;
+      const roiMultiple = contribution > 0 ? totalReturn / contribution : 0;
+      const annualized = roiMultiple > 0 ? (Math.pow(roiMultiple, 1 / holdYears) - 1) * 100 : 0;
+
+      document.getElementById("profitValuation").textContent = money.format(profitValuation);
+      document.getElementById("revenueValuation").textContent = money.format(revenueValuation);
+      document.getElementById("blendedValuation").textContent = money.format(blendedValuation);
+      document.getElementById("investorReturn").textContent = money.format(totalReturn);
+      document.getElementById("roiMultiple").textContent = `${roiMultiple.toFixed(2)}x`;
+      document.getElementById("annualizedRoi").textContent = `${Math.round(annualized)}%`;
+      document.getElementById("roiDetail").textContent =
+        `${equity.toFixed(2)}% equity is valued at ${money.format(equityValue)} at exit, plus estimated dividends of ${money.format(dividends)} over ${holdYears} years.`;
+    }
+
+    function openInfoCard(key) {
+      const card = infoCards[key];
+      if (!card) return;
+      document.getElementById("modalTag").textContent = card.tag;
+      document.getElementById("modalTitle").textContent = card.title;
+      document.getElementById("modalBody").innerHTML = `
+        <p>${card.body}</p>
+        <div>${card.sources.map(([label, href]) => `<a class="modal-source" href="${href}" target="_blank" rel="noreferrer">${label}</a>`).join("")}</div>
+      `;
+      document.getElementById("infoModal").classList.add("open");
+      document.getElementById("infoModal").setAttribute("aria-hidden", "false");
+    }
+
+    function closeInfoCard() {
+      document.getElementById("infoModal").classList.remove("open");
+      document.getElementById("infoModal").setAttribute("aria-hidden", "true");
+    }
+
+    function portalToast(message) {
+      const toast = document.getElementById("portalToast");
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add("show");
+      window.setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    function currentPortalModel() {
+      const revenueKeys = fields.filter((id) => id !== "opex");
+      const monthlyRevenue = revenueKeys.reduce((sum, id) => sum + value(id), 0);
+      const monthlyProfit = monthlyRevenue - value("opex");
+      const equity = currentEquity();
+      return {
+        contribution: equity.contribution,
+        target_raise: equity.target,
+        investor_equity_pool: equity.maxEquity,
+        estimated_equity: equity.equity,
+        founder_platform_allocation: equity.founderBonus,
+        monthly_revenue: monthlyRevenue,
+        monthly_profit: monthlyProfit,
+        annual_revenue: monthlyRevenue * 12,
+        annual_profit: monthlyProfit * 12,
+        profit_multiple: Number(document.getElementById("profitMultiple")?.value || 6),
+        revenue_multiple: Number(document.getElementById("revenueMultiple")?.value || 1.5),
+        hold_years: Number(document.getElementById("holdYears")?.value || 5),
+        dividend_payout_percent: Number(document.getElementById("dividendPayout")?.value || 0),
+        roi_multiple: document.getElementById("roiMultiple")?.textContent || "",
+        annualized_roi: document.getElementById("annualizedRoi")?.textContent || "",
+        disclaimer: "Illustrative, non-binding, subject to legal review, due diligence, execution risk and final agreements."
+      };
+    }
+
+    async function updatePortalEngagementSummary() {
+      if (!portalBackend?.getInvestorEngagementSummary) return;
+      const result = await portalBackend.getInvestorEngagementSummary();
+      const data = result.data || {};
+      document.getElementById("portalEventsCount").textContent = data.events ?? 0;
+      document.getElementById("portalScenariosCount").textContent = data.saved_scenarios ?? 0;
+      document.getElementById("portalQuestionsCount").textContent = (data.questions || 0) + (data.comments || 0);
+      document.getElementById("portalDocsCount").textContent = data.document_requests ?? 0;
+    }
+
+    async function handlePortalAction(action) {
+      if (!portalBackend) {
+        portalToast("Backend service is not loaded.");
+        return;
+      }
+
+      if (action === "save-scenario") {
+        const payload = currentPortalModel();
+        await portalBackend.saveInvestorScenario(payload);
+        await portalBackend.trackInvestorPortalEvent("scenario_saved", payload);
+        document.getElementById("scenarioSaveStatus").textContent = `Saved ${money.format(payload.contribution)} scenario at ${payload.estimated_equity.toFixed(2)}% equity.`;
+        portalToast("Scenario saved locally.");
+      }
+
+      if (action === "save-interest") {
+        await portalBackend.saveInvestorInterestSelection({
+          interest_range: document.getElementById("interestRange").value,
+          selected_interests: [document.getElementById("interestArea").value],
+          contribution: currentEquity().contribution,
+          scenario_id: "presentation_portal"
+        });
+        await portalBackend.trackInvestorPortalEvent("interest_selection_saved", { source: "presentation_portal" });
+        portalToast("Interest selection saved locally.");
+      }
+
+      if (action === "save-question") {
+        const question = document.getElementById("investorQuestion").value.trim();
+        const rating = Number(document.getElementById("questionRating").value || 0);
+        if (question) await portalBackend.saveInvestorQuestion({ question, source: "presentation_portal" });
+        await portalBackend.saveInvestorQuestionRating({ question: question || "Presentation usefulness", rating });
+        await portalBackend.trackInvestorPortalEvent("question_saved", { has_question: Boolean(question), rating });
+        document.getElementById("investorQuestion").value = "";
+        portalToast("Question and rating saved locally.");
+      }
+
+      if (action === "save-comment") {
+        const comment = document.getElementById("investorComment").value.trim();
+        if (comment) {
+          await portalBackend.saveInvestorComment({ comment, source: "presentation_portal" });
+          await portalBackend.saveInvestorObjection({ objection: comment, source: "presentation_portal" });
+          await portalBackend.trackInvestorPortalEvent("comment_saved", { has_comment: true });
+          document.getElementById("investorComment").value = "";
+          portalToast("Comment saved locally.");
+        } else {
+          portalToast("Add a comment before saving.");
+        }
+      }
+
+      if (action === "request-call") {
+        await portalBackend.requestInvestorCall({
+          interest_range: document.getElementById("interestRange").value,
+          selected_interests: [document.getElementById("interestArea").value],
+          source: "presentation_portal"
+        });
+        await portalBackend.trackInvestorPortalEvent("call_requested", { source: "presentation_portal" });
+        portalToast("Follow-up call request saved locally.");
+      }
+
+      if (action === "queue-invite") {
+        await portalBackend.sendInvestorInvitation({ investor_email: "demo.investor@example.com", status: "queued_demo" });
+        await portalBackend.saveAdminNote({ note: "Demo approval invitation queued from investor portal.", related_table: "investor_users" });
+        portalToast("Demo approval invitation queued locally.");
+      }
+
+      if (action === "refresh-engagement") {
+        portalToast("Engagement summary refreshed.");
+      }
+
+      await updatePortalEngagementSummary();
+    }
+
+    fields.forEach((id) => document.getElementById(id).addEventListener("input", updateFinancials));
+    ["contribution", "raiseTarget", "maxEquity", "founderBonusCap"].forEach((id) => document.getElementById(id).addEventListener("input", updateEquity));
+    ["profitMultiple", "revenueMultiple", "holdYears", "dividendPayout"].forEach((id) => document.getElementById(id).addEventListener("input", updateValuation));
+
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((tab) => tab.classList.remove("active"));
+        button.classList.add("active");
+        const selected = scenarios[button.dataset.scenario];
+        Object.entries(selected).forEach(([id, amount]) => document.getElementById(id).value = amount);
+        updateFinancials();
+      });
+    });
+
+    updateFinancials();
+    updateEquity();
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-info]");
+      if (trigger) {
+        event.stopPropagation();
+        openInfoCard(trigger.dataset.info);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeInfoCard();
+      if ((event.key === "Enter" || event.key === " ") && event.target.matches("[data-info]")) {
+        event.preventDefault();
+        openInfoCard(event.target.dataset.info);
+      }
+    });
+
+    document.getElementById("closeModal").addEventListener("click", closeInfoCard);
+    document.getElementById("infoModal").addEventListener("click", (event) => {
+      if (event.target.id === "infoModal") closeInfoCard();
+    });
+
+    document.addEventListener("click", async (event) => {
+      const actionButton = event.target.closest("[data-portal-action]");
+      if (actionButton) {
+        await handlePortalAction(actionButton.dataset.portalAction);
+      }
+
+      const documentButton = event.target.closest("[data-doc-request]");
+      if (documentButton) {
+        const documentName = documentButton.dataset.docRequest;
+        await portalBackend.requestInvestorDocument({ document_name: documentName, status: "requested_demo", source: "presentation_portal" });
+        await portalBackend.trackInvestorPortalEvent("document_requested", { document_name: documentName });
+        portalToast(`${documentName} request saved locally.`);
+        await updatePortalEngagementSummary();
+      }
+    });
+
+    if (portalBackend?.trackInvestorPortalEvent) {
+      portalBackend.trackInvestorPortalEvent("presentation_portal_loaded", { access: "founder_demo" });
+      updatePortalEngagementSummary();
+    }
+
+    const portalPageGroups = {
+      overview: ["top", "confidentiality"],
+      model: ["model", "vision", "location"],
+      systems: ["systems", "facility-visuals", "crop-portfolio"],
+      founder: ["founder"],
+      financials: ["financials", "customer-model", "investment", "valuation"],
+      investor: ["investor"],
+      "portal-workflow": ["portal-workflow", "documents", "admin-readiness"],
+      "go-to-market": ["go-to-market", "swot"],
+      conclusion: ["conclusion"]
+    };
+
+    function resolvePortalPage(hashValue) {
+      const id = String(hashValue || "").replace("#", "") || "top";
+      const found = Object.entries(portalPageGroups).find(([, ids]) => ids.includes(id));
+      return found ? found[0] : portalPageGroups[id] ? id : "overview";
+    }
+
+    function showPortalPage(page, shouldScroll = true) {
+      const activePage = portalPageGroups[page] ? page : "overview";
+      document.querySelectorAll("main > section").forEach((section) => {
+        section.classList.add("portal-page");
+        section.classList.toggle("active-page", portalPageGroups[activePage].includes(section.id));
+      });
+      document.querySelectorAll(".nav a").forEach((link) => {
+        const linkPage = link.dataset.portalPage || resolvePortalPage(link.getAttribute("href"));
+        link.classList.toggle("active", linkPage === activePage);
+      });
+      if (shouldScroll) window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll(".nav a").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        const page = link.dataset.portalPage || resolvePortalPage(link.getAttribute("href"));
+        if (window.location.hash !== `#${page}`) window.location.hash = page;
+        showPortalPage(page, true);
+      });
+    });
+
+    window.addEventListener("hashchange", () => {
+      showPortalPage(resolvePortalPage(window.location.hash), true);
+    });
+
+    showPortalPage(resolvePortalPage(window.location.hash), false);
+
+    document.getElementById("exitPortalDemo")?.addEventListener("click", () => {
+      localStorage.removeItem("symbioInvestorPortalDemo");
+      window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>
