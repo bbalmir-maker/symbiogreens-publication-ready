@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SymbioGreens Customer Portal</title>
+  <meta name="description" content="SymbioGreens Customer Portal for product discovery, buyer surveys, product interest, samples, and supply requests.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-portal-type="customer">
+  <section class="access-shell" id="accessGate" data-public-section aria-labelledby="accessTitle">
+    <div class="access-panel">
+      <img class="access-logo" src="assets/logos/symbiogreens-balponics-lockup.png" alt="SymbioGreens Customer Portal - Powered by Balponics">
+      <span class="portal-badge">SymbioGreens Customer Portal - Powered by Balponics</span>
+      <h1 id="accessTitle">Customer Portal Access Required</h1>
+      <p>Please sign in with an approved account to access customer planning tools.</p>
+      <p>Customer dashboard access is available only after customer review and approval.</p>
+      <form class="access-login-form" data-production-login>
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="primary-btn" type="submit">Login</button>
+        <button class="secondary-btn" type="button" data-production-reset>Forgot Password</button>
+      </form>
+      <p class="production-access-note">Private customer tools are available only after approval.</p>
+      <div class="portal-access-message" data-access-message role="status" aria-live="polite"></div>
+      <div class="access-actions">
+        <a class="primary-btn" href="../main-website/index.html#account">Submit Customer Application</a>
+      </div>
+    </div>
+  </section>
+  <div id="portalShell" data-private-section hidden>
+    <div id="app" class="app-shell" aria-live="polite"></div>
+  </div>
+  <div id="modalRoot" class="modal-root" aria-hidden="true"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../shared/config/supabase.config.example.js"></script>
+  <script src="../shared/js/supabase-config.js"></script>
+  <script src="../shared/js/supabase-client.js"></script>
+  <script src="../shared/js/auth-guard.js"></script>
+  <script src="../shared/js/portal-access.js"></script>
+  <script src="../shared/js/application-service.js"></script>
+  <script src="../shared/js/email-status.js"></script>
+  <script src="data/products-data.js"></script>
+  <script src="assets/js/backend-service.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
