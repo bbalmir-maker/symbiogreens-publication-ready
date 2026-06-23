@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-partner-access">
+  <title id="title-partner-access">Partner Access</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M22 29a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M8 56c2-13 9-21 22-21 M43 35v-5a7 7 0 0 1 14 0v5 M39 35h22v19H39z" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

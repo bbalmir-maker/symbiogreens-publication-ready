@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title-greenhouse-development">
+<title id="title-greenhouse-development">Greenhouse Development</title>
+<rect x="4" y="4" width="88" height="88" rx="24" fill="#fff" stroke="#DDEADF" stroke-width="2"/>
+<circle cx="72" cy="72" r="14" fill="#0B7A3A" opacity=".95"/>
+<path d="M14 70h68V39L48 18 14 39v31z M24 70V44l24-15 24 15v26 M34 70V50h28v20 M26 62c8-14 18-14 28 0 M48 62c8-14 18-14 28 0" fill="none" stroke="#0B4F9F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

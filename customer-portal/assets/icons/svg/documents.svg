@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-documents">
+  <title id="title-documents">Documents</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M18 8h21l9 9v39H18z M39 8v12h9 M25 29h16 M25 38h16 M25 47h10" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

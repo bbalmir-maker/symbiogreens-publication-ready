@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title-question-answer">
+<title id="title-question-answer">Question Answer</title>
+<rect x="4" y="4" width="88" height="88" rx="24" fill="#fff" stroke="#DDEADF" stroke-width="2"/>
+<circle cx="72" cy="72" r="14" fill="#0B7A3A" opacity=".95"/>
+<path d="M16 20h50v34H32L16 68z M36 30a7 7 0 0 1 12 5c0 7-10 7-10 14 M38 57h1 M66 44h14v30H62l-8 8V66" fill="none" stroke="#0B4F9F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title-quality-control">
+<title id="title-quality-control">Quality Control</title>
+<rect x="4" y="4" width="88" height="88" rx="24" fill="#fff" stroke="#DDEADF" stroke-width="2"/>
+<circle cx="72" cy="72" r="14" fill="#0B7A3A" opacity=".95"/>
+<path d="M18 24h60v46H18z M30 40h20 M30 54h14 M58 52l8 8 14-20" fill="none" stroke="#0B4F9F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

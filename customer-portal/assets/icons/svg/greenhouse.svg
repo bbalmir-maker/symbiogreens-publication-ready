@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-greenhouse">
+  <title id="title-greenhouse">Greenhouse</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M8 45h48V24L32 10 8 24v21z M14 45V27l18-10 18 10v18 M22 45V30h20v15 M16 39c5-9 11-9 16 0 M32 39c5-9 11-9 16 0" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

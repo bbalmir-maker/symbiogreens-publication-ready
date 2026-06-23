@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-mushrooms">
+  <title id="title-mushrooms">Mushrooms</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M16 36c0-12 8-20 17-20s16 8 16 20H16z M24 36v16h8V36 M36 36v16h8V36 M18 52h28" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

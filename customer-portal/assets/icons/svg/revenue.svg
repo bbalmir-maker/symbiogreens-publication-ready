@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-revenue">
+  <title id="title-revenue">Revenue</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M12 50h40 M17 44V28 M29 44V18 M41 44V34 M19 18c8 2 17-2 25-10 M44 8v12h-12" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

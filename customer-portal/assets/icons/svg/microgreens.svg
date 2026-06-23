@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-microgreens">
+  <title id="title-microgreens">Microgreens</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M12 48h40v8H12z M17 48V35 M27 48V30 M37 48V33 M47 48V37 M17 35c-6-4-8-8-7-13 7 1 11 6 7 13z M27 30c-6-5-6-11-2-16 7 4 8 10 2 16z M37 33c6-5 7-10 4-16-8 3-10 9-4 16z M47 37c6-4 8-8 7-13-7 1-11 6-7 13z" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

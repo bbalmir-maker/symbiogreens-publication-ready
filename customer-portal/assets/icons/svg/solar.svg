@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-solar">
+  <title id="title-solar">Solar</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M32 8v7 M32 49v7 M8 32h7 M49 32h7 M15 15l5 5 M44 44l5 5 M49 15l-5 5 M20 44l-5 5 M32 22a10 10 0 1 1 0 20 10 10 0 0 1 0-20z M16 55h32l-5-13H21z" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

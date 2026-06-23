@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-financing">
+  <title id="title-financing">Financing</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M12 20h40v28H12z M16 28h32 M22 40h4 M32 40h4 M42 40h4 M32 11v12 M24 14h16" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

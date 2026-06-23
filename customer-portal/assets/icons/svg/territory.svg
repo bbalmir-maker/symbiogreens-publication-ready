@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-territory">
+  <title id="title-territory">Territory</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M12 48V12l14 6 13-6 13 6v36l-13-6-13 6-14-6z M26 18v36 M39 12v36" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

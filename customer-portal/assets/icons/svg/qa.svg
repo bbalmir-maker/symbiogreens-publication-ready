@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-qa">
+  <title id="title-qa">Qa</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M10 14h34v24H21l-11 10V14z M28 22a5 5 0 0 1 8 4c0 5-7 5-7 10 M29 42h1 M44 32h10v20H42l-6 6v-12" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-training">
+  <title id="title-training">Training</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M10 20l22-10 22 10-22 10z M18 25v12c0 6 28 6 28 0V25 M54 20v18" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

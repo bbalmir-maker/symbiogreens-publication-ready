@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-automation">
+  <title id="title-automation">Automation</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M20 32a12 12 0 1 0 24 0 12 12 0 0 0-24 0z M32 8v8 M32 48v8 M8 32h8 M48 32h8 M14 14l6 6 M44 44l6 6 M50 14l-6 6 M20 44l-6 6 M32 26v6l5 4" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

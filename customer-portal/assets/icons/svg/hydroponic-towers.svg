@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-hydroponic-towers">
+  <title id="title-hydroponic-towers">Hydroponic Towers</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M32 10v44 M22 18h20 M22 30h20 M22 42h20 M20 18c-6 0-8 4-8 4s4 4 10 0 M44 30c6 0 8 4 8 4s-4 4-10 0 M20 42c-6 0-8 4-8 4s4 4 10 0 M44 18c6 0 8 4 8 4s-4 4-10 0" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

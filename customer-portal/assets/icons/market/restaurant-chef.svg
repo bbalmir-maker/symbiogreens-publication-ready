@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title-restaurant-chef">
+<title id="title-restaurant-chef">Restaurant Chef</title>
+<rect x="4" y="4" width="88" height="88" rx="24" fill="#fff" stroke="#DDEADF" stroke-width="2"/>
+<circle cx="72" cy="72" r="14" fill="#0B7A3A" opacity=".95"/>
+<path d="M25 16v30 M18 16v18c0 8 14 8 14 0V16 M25 46v34 M52 18c14 0 22 9 22 21 0 12-8 21-22 21V18z M52 60v20" fill="none" stroke="#0B4F9F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

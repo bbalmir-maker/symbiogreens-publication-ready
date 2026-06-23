@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title-logistics">
+  <title id="title-logistics">Logistics</title>
+  <rect width="64" height="64" rx="16" fill="#eaf7ef"/>
+  <path d="M8 24h32v21H8z M40 31h9l7 8v6H40z M18 53a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M47 53a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M15 31h17" fill="none" stroke="#0b4f9f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="52" cy="52" r="8" fill="#0f7a3a" opacity="0.92"/>
+</svg>

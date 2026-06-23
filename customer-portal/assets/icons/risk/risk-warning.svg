@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title-risk-warning">
+<title id="title-risk-warning">Risk Warning</title>
+<rect x="4" y="4" width="88" height="88" rx="24" fill="#fff" stroke="#DDEADF" stroke-width="2"/>
+<circle cx="72" cy="72" r="14" fill="#F4A261" opacity=".95"/>
+<path d="M48 14l36 64H12z M48 35v20 M48 66h1" fill="none" stroke="#B4443C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
