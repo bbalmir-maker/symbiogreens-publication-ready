@@ -1,0 +1,17 @@
+{
+  "buyer_registration_confirmation": {
+    "subject": "Your SymbioGreens survey profile is ready"
+  },
+  "survey_submission_confirmation": {
+    "subject": "SymbioGreens market survey received"
+  },
+  "manager_new_buyer_alert": {
+    "subject": "New buyer registered"
+  },
+  "manager_survey_alert": {
+    "subject": "New survey submitted"
+  },
+  "sample_follow_up": {
+    "subject": "SymbioGreens sample follow-up"
+  }
+}
