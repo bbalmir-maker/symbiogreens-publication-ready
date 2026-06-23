@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SymbioGreen Admin Dashboard</title>
+  <meta name="description" content="Production admin dashboard for reviewing SymbioGreen customer, partner, investor, and engineering applications.">
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body data-portal-type="admin">
+  <main class="admin-shell">
+    <section class="admin-hero">
+      <div>
+        <p class="eyebrow">Production Review Console</p>
+        <h1>SymbioGreen Admin Dashboard</h1>
+        <p>Review applications, approve access, request more information, reject requests, and verify email/audit status.</p>
+      </div>
+      <button id="logoutButton" class="button secondary" type="button">Logout</button>
+    </section>
+
+    <section id="loginPanel" class="panel">
+      <h2>Admin Login</h2>
+      <p>Only approved admin accounts can load applications or make decisions.</p>
+      <form id="loginForm" class="form-grid">
+        <label>Email<input name="email" type="email" autocomplete="email" required></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="button primary" type="submit">Sign In</button>
+      </form>
+      <div id="loginStatusMessage" class="status-message" role="status" aria-live="polite"></div>
+    </section>
+
+    <section id="adminPanel" class="panel" hidden>
+      <div class="toolbar">
+        <label>Status
+          <select id="statusFilter">
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+            <option value="needs_more_information">Needs More Information</option>
+          </select>
+        </label>
+        <label>Portal
+          <select id="portalFilter">
+            <option value="">All</option>
+            <option value="customer">Customer</option>
+            <option value="partner">Partner</option>
+            <option value="investor">Investor</option>
+            <option value="engineer">Engineer</option>
+            <option value="general">General</option>
+          </select>
+        </label>
+        <button id="refreshButton" class="button" type="button">Refresh</button>
+      </div>
+      <div id="statusMessage" class="status-message"></div>
+      <div id="applicationsList" class="applications-list"></div>
+    </section>
+  </main>
+  <footer class="admin-footer">
+    <div class="balponics-links" aria-label="Balponics official links">
+      <strong>Balponics</strong>
+      <a href="https://www.facebook.com/hydroponicsaeroponicsaquaponics/" target="_blank" rel="noopener noreferrer" aria-label="Balponics Facebook page">Facebook</a>
+      <a href="https://www.instagram.com/balponics/" target="_blank" rel="noopener noreferrer" aria-label="Balponics Instagram profile">Instagram</a>
+      <a href="https://balponics.com/" target="_blank" rel="noopener noreferrer" aria-label="Balponics website">Website</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../shared/config/supabase.config.example.js"></script>
+  <script src="../shared/js/supabase-config.js"></script>
+  <script src="../shared/js/supabase-client.js"></script>
+  <script src="../shared/js/auth-guard.js"></script>
+  <script src="../shared/js/email-status.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
