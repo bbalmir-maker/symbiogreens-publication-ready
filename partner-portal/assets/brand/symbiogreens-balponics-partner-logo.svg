@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" role="img" aria-labelledby="title desc">
+  <title id="title">SymbioGreens Partner Portal powered by Balponics</title>
+  <desc id="desc">Combined SymbioGreens and Balponics partner portal wordmark.</desc>
+  <defs>
+    <linearGradient id="leaf" x1="34" y1="28" x2="150" y2="158" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#58c783"/>
+      <stop offset=".55" stop-color="#168d5a"/>
+      <stop offset="1" stop-color="#0d6649"/>
+    </linearGradient>
+    <linearGradient id="water" x1="92" y1="42" x2="154" y2="150" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#80d9e4"/>
+      <stop offset="1" stop-color="#168aa6"/>
+    </linearGradient>
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#173a2a" flood-opacity=".14"/>
+    </filter>
+  </defs>
+  <rect x="18" y="18" width="150" height="150" rx="36" fill="#f8fff9" stroke="#d7eadf" filter="url(#shadow)"/>
+  <path d="M57 118c5-43 37-76 85-80-4 49-39 83-85 80Z" fill="url(#leaf)"/>
+  <path d="M62 114c23-13 48-38 74-69" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+  <path d="M106 126c0-27 22-48 35-68 14 21 36 41 36 68 0 25-15 42-36 42s-35-17-35-42Z" transform="translate(-24 -13) scale(.72)" fill="url(#water)"/>
+  <circle cx="93" cy="93" r="56" fill="none" stroke="#c99b33" stroke-width="5" stroke-linecap="round" stroke-dasharray="74 21"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="198" y="70" fill="#16392a" font-size="41" font-weight="900">SymbioGreens</text>
+    <text x="200" y="112" fill="#116a49" font-size="30" font-weight="850">Partner Portal</text>
+    <text x="202" y="146" fill="#5b7568" font-size="17" font-weight="800" letter-spacing="2.2">POWERED BY BALPONICS</text>
+  </g>
+</svg>
