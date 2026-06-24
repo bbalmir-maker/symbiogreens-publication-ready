@@ -29,7 +29,8 @@ export function emailTemplate(type, application, extra = {}) {
   const portalLabel = cleanText(application.portal_type, "general");
   const name = cleanText(application.full_name, "Applicant");
   const adminUrl = Deno.env.get("ADMIN_PORTAL_URL") || "";
-  const targetUrl = portalUrl(application.portal_type);
+  const targetUrl = extra.portalUrl || portalUrl(application.portal_type);
+  const createPasswordUrl = cleanText(extra.createPasswordUrl);
   const notes = cleanText(extra.decisionNotes || extra.requestedInfoMessage || application.review_notes);
 
   if (type === "admin-new-application") {
@@ -65,7 +66,9 @@ export function emailTemplate(type, application, extra = {}) {
       subject: `Your ${APP_NAME} ${title(portalLabel)} Access Has Been Approved`,
       html: `<h2>Access approved</h2>
         <p>${name}, your ${portalLabel} access has been approved.</p>
-        ${targetUrl ? `<p>You can continue here: <a href="${targetUrl}">${targetUrl}</a></p>` : ""}
+        ${createPasswordUrl ? `<p>Create your login credentials here: <a href="${createPasswordUrl}">Create your password</a></p>` : ""}
+        ${!createPasswordUrl && targetUrl ? `<p>You can continue here: <a href="${targetUrl}">${targetUrl}</a></p>` : ""}
+        ${createPasswordUrl && targetUrl ? `<p>After setup, your portal is: <a href="${targetUrl}">${targetUrl}</a></p>` : ""}
         <p>Final access remains subject to the active account, security, and portal role checks.</p>`
     };
   }
