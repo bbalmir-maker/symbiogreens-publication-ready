@@ -1752,11 +1752,14 @@
   <script>
     if (window.SymbioBackend?.isConfigured() && window.SymbioPortalAccess?.guardPortal) {
       window.SymbioPortalAccess.guardPortal("investor").then((access) => {
+        window.SymbioPortalAccessState = access;
         if (access.allowed) document.body.classList.add("portal-unlocked");
       });
     }
   </script>
   <script src="assets/js/backend-service.js"></script>
+  <script src="investor-model-data.js"></script>
+  <script src="app.js"></script>
   <script>
     const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
     const portalBackend = window.SymbioInvestorPortalBackend;
@@ -1980,6 +1983,36 @@
       };
     }
 
+    async function submitInvestorPresentationApplication(message, extraData = {}) {
+      if (!window.SymbioApplicationService?.submitApplication) return null;
+      const profile = window.SymbioPortalAccessState?.profile;
+      const email = profile?.email || "";
+      if (!email) return { success: false, disabled: true, error: "Approved investor email is not available." };
+      try {
+        return await window.SymbioApplicationService.submitApplication({
+          portalType: "investor",
+          submissionType: "investor_follow_up",
+          fullName: profile?.full_name || "Approved investor",
+          companyName: profile?.company_name || "",
+          email,
+          phone: profile?.phone || "",
+          country: profile?.country || "",
+          city: profile?.city || "",
+          roleRequested: "investor",
+          interestType: document.getElementById("interestRange")?.value || "",
+          message,
+          submittedData: {
+            ...currentPortalModel(),
+            ...extraData,
+            source: "presentation_portal"
+          }
+        });
+      } catch (error) {
+        console.warn("Investor presentation application submission failed; local fallback preserved.", error);
+        return { success: false, error: error?.message || String(error) };
+      }
+    }
+
     async function updatePortalEngagementSummary() {
       if (!portalBackend?.getInvestorEngagementSummary) return;
       const result = await portalBackend.getInvestorEngagementSummary();
@@ -2005,14 +2038,21 @@
       }
 
       if (action === "save-interest") {
+        const selectedInterests = [document.getElementById("interestArea").value];
+        const interestRange = document.getElementById("interestRange").value;
         await portalBackend.saveInvestorInterestSelection({
-          interest_range: document.getElementById("interestRange").value,
-          selected_interests: [document.getElementById("interestArea").value],
+          interest_range: interestRange,
+          selected_interests: selectedInterests,
           contribution: currentEquity().contribution,
           scenario_id: "presentation_portal"
         });
         await portalBackend.trackInvestorPortalEvent("interest_selection_saved", { source: "presentation_portal" });
-        portalToast("Interest selection saved locally.");
+        const result = await submitInvestorPresentationApplication("Investor submitted interest selection.", {
+          interest_range: interestRange,
+          selected_interests: selectedInterests,
+          action: "save-interest"
+        });
+        portalToast(result?.success ? "Interest selection saved, and sent to the SymbioGreens team." : "Interest selection saved locally.");
       }
 
       if (action === "save-question") {
@@ -2039,13 +2079,20 @@
       }
 
       if (action === "request-call") {
+        const selectedInterests = [document.getElementById("interestArea").value];
+        const interestRange = document.getElementById("interestRange").value;
         await portalBackend.requestInvestorCall({
-          interest_range: document.getElementById("interestRange").value,
-          selected_interests: [document.getElementById("interestArea").value],
+          interest_range: interestRange,
+          selected_interests: selectedInterests,
           source: "presentation_portal"
         });
         await portalBackend.trackInvestorPortalEvent("call_requested", { source: "presentation_portal" });
-        portalToast("Follow-up call request saved locally.");
+        const result = await submitInvestorPresentationApplication("Investor requested a follow-up call.", {
+          interest_range: interestRange,
+          selected_interests: selectedInterests,
+          action: "request-call"
+        });
+        portalToast(result?.success ? "Follow-up call request saved, and sent to the SymbioGreens team." : "Follow-up call request saved locally.");
       }
 
       if (action === "queue-invite") {

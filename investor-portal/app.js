@@ -1,5 +1,7 @@
 (function () {
   const app = document.getElementById("app");
+  if (!app) return;
+
   const model = window.SYMBIOGREENS_INVESTOR_MODEL;
   const backend = window.SymbioInvestorPortalBackend;
   const PUBLIC_SITE_URL = "https://bbalmir-maker.github.io/symbiogreens-publication-ready/";
