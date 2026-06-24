@@ -1,4 +1,4 @@
-const APP_NAME = "SymbioGreen";
+const APP_NAME = "SymbioGreens";
 
 export function normalizeEmail(value) {
   return String(value || "").trim().toLowerCase();
