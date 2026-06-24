@@ -1,6 +1,9 @@
 (function () {
   "use strict";
 
+  if (window.SYMBIO_ADMIN_APP_LOADED) return;
+  window.SYMBIO_ADMIN_APP_LOADED = true;
+
   const loginPanel = document.getElementById("loginPanel");
   const adminPanel = document.getElementById("adminPanel");
   const loginForm = document.getElementById("loginForm");
