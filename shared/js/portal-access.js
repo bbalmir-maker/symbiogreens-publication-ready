@@ -77,19 +77,19 @@
   function showAccessMessage(status) {
     const copy = portalCopy[status.portalType] || portalCopy.customer;
     const message = status.wrongRole
-      ? "This account does not have access to this portal. Please contact SymbioGreen support if you believe this is an error."
+      ? "This account does not have access to this portal. Please contact SymbioGreens support if you believe this is an error."
       : status.status === "pending"
       ? "Thank you. Your application has been received and is pending review. Our team will review your information and contact you after approval."
       : status.status === "rejected"
-        ? "Your application was not approved at this time. Please contact SymbioGreen for more information."
+        ? "Your application was not approved at this time. Please contact SymbioGreens for more information."
         : status.status === "backend_not_configured"
           ? "Backend access is not configured for this portal yet. Private dashboard access remains locked until approved login is available."
           : status.status === "needs_more_information"
-            ? "We need more information before approving your application. Please check your email for details or contact SymbioGreen support."
+            ? "We need more information before approving your application. Please check your email for details or contact SymbioGreens support."
             : status.status === "suspended"
-              ? "This account is suspended. Please contact SymbioGreen support."
+              ? "This account is suspended. Please contact SymbioGreens support."
               : status.status === "no_profile"
-                ? "Your account exists, but no portal profile has been approved yet. Please submit an application or contact SymbioGreen support."
+                ? "Your account exists, but no portal profile has been approved yet. Please submit an application or contact SymbioGreens support."
                 : "Please sign in with an approved account to access this portal.";
 
     let panel = document.getElementById("productionAccessStatus");
