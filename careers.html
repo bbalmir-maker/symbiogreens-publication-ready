@@ -188,7 +188,7 @@
 
         <label class="full"><span data-i18n="form.message">Message</span><textarea name="message" placeholder="Tell us about your experience, interests, and why you would like to work with SymbioGreens." required></textarea></label>
         <label class="resume-upload"><span data-i18n="form.resume">Upload Resume / CV</span><input name="resume" type="file" accept=".pdf,.doc,.docx"><small data-i18n="form.resumeHint">PDF, DOC, or DOCX preferred.</small></label>
-        <p class="career-form-note"><span data-i18n="form.uploadNote">Resume upload will be connected to the SymbioGreens application system. For now, candidates may also send their CV by email.</span>
+        <p class="career-form-note"><span data-i18n="form.uploadNote">Resume upload is connected to the SymbioGreens application review system. Candidates may also send their CV by email if needed.</span>
           <!-- Temporary fallback email until a company careers email is activated. -->
           <a href="mailto:bbalmir@gmail.com">bbalmir@gmail.com</a>
         </p>
@@ -239,9 +239,9 @@
         <a class="portal-link" href="index.html#register" data-i18n="footer.register">Register as Buyer</a>
         <a class="portal-link" href="index.html#investors" data-i18n="nav.investors">Investor & Partnerships</a>
         <a class="portal-link" href="index.html#contact" data-i18n="nav.contact">Contact</a>
-        <a class="portal-link" href="../customer-portal/index.html">Customer Portal</a>
-        <a class="portal-link" href="../partner-portal/index.html">Partner Portal</a>
-        <a class="portal-link" href="../investor-portal/index.html">Investor Portal</a>
+        <a class="portal-link" href="customer-portal/index.html">Customer Portal</a>
+        <a class="portal-link" href="partner-portal/index.html">Partner Portal</a>
+        <a class="portal-link" href="investor-portal/index.html">Investor Portal</a>
       </div>
       <div>
         <h4 data-i18n="footer.legal">Legal</h4>
@@ -258,6 +258,11 @@
     <p class="footer-legal-line" data-i18n="footer.rights">Copyright 2026 SymbioGreens. All rights reserved. Powered by Balponics.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="shared/js/supabase-config.js"></script>
+  <script src="shared/js/supabase-client.js"></script>
+  <script src="shared/js/auth-guard.js"></script>
+  <script src="shared/js/application-service.js"></script>
   <script>
     const careerTranslations = {
       en: {
@@ -269,7 +274,7 @@
         'careers.formEyebrow':'Talent Profile','careers.formSubtitle':'Tell us about your background and the type of role you are interested in. If there is no current opening that matches your profile, we may keep your information for future opportunities.','careers.growTitle':'Grow With Us','careers.growBody':'SymbioGreens is building more than farms. We are building a platform for resilient, high-quality food production in the Caribbean. If you believe your skills can contribute to that mission, we want to hear from you.',
         'areas.farm':'Farm Operations','areas.agronomy':'Agronomy & Crop Science','areas.engineering':'Engineering & Technical Systems','areas.lab':'Laboratory & R&D','areas.quality':'Quality, Food Safety & Compliance','areas.logistics':'Logistics & Supply Chain','areas.sales':'Sales & Market Development','areas.marketing':'Marketing & Communications','areas.admin':'Administration & Corporate','areas.leadership':'Leadership & Executive Roles',
         'profile.reliable':'Reliable and punctual','profile.structured':'Comfortable working in structured production environments','profile.interested':'Interested in agriculture, sustainability, food systems, or technology','profile.processes':'Able to follow processes and report clearly','profile.training':'Open to training and continuous improvement','profile.professional':'Professional with clients, partners, and teammates',
-        'form.personal':'Personal Information','form.fullName':'Full Name','form.email':'Email Address','form.phone':'Phone / WhatsApp','form.city':'City / Country','form.linkedin':'LinkedIn Profile or Portfolio URL','form.interest':'Area of Interest','form.area':'Area of Interest','form.experience':'Experience Level','form.availability':'Availability','form.employment':'Employment Interest','form.languages':'Languages','form.message':'Message','form.resume':'Upload Resume / CV','form.resumeHint':'PDF, DOC, or DOCX preferred.','form.uploadNote':'Resume upload will be connected to the SymbioGreens application system. For now, candidates may also send their CV by email.','form.success':'Thank you for your interest in SymbioGreens. Your profile has been received for review. If your background matches a current or future opportunity, our team may contact you.',
+        'form.personal':'Personal Information','form.fullName':'Full Name','form.email':'Email Address','form.phone':'Phone / WhatsApp','form.city':'City / Country','form.linkedin':'LinkedIn Profile or Portfolio URL','form.interest':'Area of Interest','form.area':'Area of Interest','form.experience':'Experience Level','form.availability':'Availability','form.employment':'Employment Interest','form.languages':'Languages','form.message':'Message','form.resume':'Upload Resume / CV','form.resumeHint':'PDF, DOC, or DOCX preferred.','form.uploadNote':'Resume upload is connected to the SymbioGreens application review system. Candidates may also send their CV by email if needed.','form.success':'Thank you for your interest in SymbioGreens. Your profile has been received for review. If your background matches a current or future opportunity, our team may contact you.',
         'footer.tagline':'SymbioGreens | Premium Hydroponic Farming Powered by Balponics','footer.line1':'Pure. Fresh. Responsible. Local. Buyer intelligence connected to sustainable hydroponic production.','footer.line2':'Balponics Hydroponic Solutions Provider | Precision Agriculture. Premium Results.','footer.company':'Company','footer.engagement':'Engagement','footer.legal':'Legal','footer.access':'Access','footer.createAccount':'Create Account','footer.register':'Register as Buyer','footer.privacy':'Privacy Policy','footer.terms':'Terms of Use','footer.disclaimer':'Disclaimer','footer.requestAccess':'Request Access','footer.buyerLogin':'Buyer Login','footer.rights':'Copyright 2026 SymbioGreens. All rights reserved. Powered by Balponics.'
       },
       es: {
@@ -293,14 +298,14 @@
     Object.assign(careerTranslations.es, {
       'areas.farm':'Operaciones de finca','areas.agronomy':'Agronomia y ciencia de cultivos','areas.engineering':'Ingenieria y sistemas tecnicos','areas.lab':'Laboratorio e I+D','areas.quality':'Calidad, inocuidad y cumplimiento','areas.logistics':'Logistica y cadena de suministro','areas.sales':'Ventas y desarrollo de mercado','areas.marketing':'Marketing y comunicaciones','areas.admin':'Administracion y corporativo','areas.leadership':'Liderazgo y roles ejecutivos',
       'profile.reliable':'Confiable y puntual','profile.structured':'Comodo trabajando en entornos de produccion estructurados','profile.interested':'Interesado en agricultura, sostenibilidad, sistemas alimentarios o tecnologia','profile.processes':'Capaz de seguir procesos y reportar con claridad','profile.training':'Abierto a capacitacion y mejora continua','profile.professional':'Profesional con clientes, socios y companeros',
-      'form.personal':'Informacion personal','form.fullName':'Nombre completo','form.email':'Correo electronico','form.phone':'Telefono / WhatsApp','form.city':'Ciudad / Pais','form.linkedin':'Perfil de LinkedIn o portafolio','form.interest':'Area de interes','form.area':'Area de interes','form.experience':'Nivel de experiencia','form.availability':'Disponibilidad','form.employment':'Interes laboral','form.languages':'Idiomas','form.message':'Mensaje','form.resume':'Subir CV / resume','form.resumeHint':'PDF, DOC o DOCX preferido.','form.uploadNote':'La carga de CV se conectara al sistema de aplicaciones de SymbioGreens. Por ahora, los candidatos tambien pueden enviar su CV por correo electronico.','form.success':'Gracias por tu interes en SymbioGreens. Tu perfil fue recibido para revision. Si tu experiencia coincide con una oportunidad actual o futura, nuestro equipo puede contactarte.',
+      'form.personal':'Informacion personal','form.fullName':'Nombre completo','form.email':'Correo electronico','form.phone':'Telefono / WhatsApp','form.city':'Ciudad / Pais','form.linkedin':'Perfil de LinkedIn o portafolio','form.interest':'Area de interes','form.area':'Area de interes','form.experience':'Nivel de experiencia','form.availability':'Disponibilidad','form.employment':'Interes laboral','form.languages':'Idiomas','form.message':'Mensaje','form.resume':'Subir CV / resume','form.resumeHint':'PDF, DOC o DOCX preferido.','form.uploadNote':'La carga de CV esta conectada al sistema de revision de candidaturas de SymbioGreens. Los candidatos tambien pueden enviar su CV por correo electronico si es necesario.','form.success':'Gracias por tu interes en SymbioGreens. Tu perfil fue recibido para revision. Si tu experiencia coincide con una oportunidad actual o futura, nuestro equipo puede contactarte.',
       'footer.tagline':'SymbioGreens | Agricultura hidroponica premium impulsada por Balponics','footer.line1':'Puro. Fresco. Responsable. Local. Inteligencia de compradores conectada a produccion hidroponica sostenible.','footer.line2':'Balponics Hydroponic Solutions Provider | Agricultura de precision. Resultados premium.','footer.company':'Empresa','footer.engagement':'Participacion','footer.legal':'Legal','footer.access':'Acceso','footer.createAccount':'Crear cuenta','footer.register':'Registrarse como comprador','footer.privacy':'Politica de privacidad','footer.terms':'Terminos de uso','footer.disclaimer':'Descargo de responsabilidad','footer.requestAccess':'Solicitar acceso','footer.buyerLogin':'Acceso compradores','footer.rights':'Copyright 2026 SymbioGreens. Todos los derechos reservados. Impulsado por Balponics.'
     });
 
     Object.assign(careerTranslations.fr, {
       'areas.farm':'Operations de ferme','areas.agronomy':'Agronomie et sciences vegetales','areas.engineering':'Ingenierie et systemes techniques','areas.lab':'Laboratoire et R&D','areas.quality':'Qualite, securite alimentaire et conformite','areas.logistics':'Logistique et chaine d approvisionnement','areas.sales':'Ventes et developpement de marche','areas.marketing':'Marketing et communications','areas.admin':'Administration et corporate','areas.leadership':'Leadership et roles executifs',
       'profile.reliable':'Fiable et ponctuel','profile.structured':'A l aise dans des environnements de production structures','profile.interested':'Interesse par agriculture, durabilite, systemes alimentaires ou technologie','profile.processes':'Capable de suivre les processus et de rapporter clairement','profile.training':'Ouvert a la formation et a l amelioration continue','profile.professional':'Professionnel avec clients, partenaires et coequipiers',
-      'form.personal':'Informations personnelles','form.fullName':'Nom complet','form.email':'Adresse e-mail','form.phone':'Telephone / WhatsApp','form.city':'Ville / Pays','form.linkedin':'Profil LinkedIn ou portfolio','form.interest':'Domaine d interet','form.area':'Domaine d interet','form.experience':'Niveau d experience','form.availability':'Disponibilite','form.employment':'Interet professionnel','form.languages':'Langues','form.message':'Message','form.resume':'Televerser CV','form.resumeHint':'PDF, DOC ou DOCX de preference.','form.uploadNote':'Le televersement du CV sera connecte au systeme de candidature SymbioGreens. Pour l instant, les candidats peuvent aussi envoyer leur CV par e-mail.','form.success':'Merci pour votre interet envers SymbioGreens. Votre profil a ete recu pour examen. Si votre parcours correspond a une opportunite actuelle ou future, notre equipe pourra vous contacter.',
+      'form.personal':'Informations personnelles','form.fullName':'Nom complet','form.email':'Adresse e-mail','form.phone':'Telephone / WhatsApp','form.city':'Ville / Pays','form.linkedin':'Profil LinkedIn ou portfolio','form.interest':'Domaine d interet','form.area':'Domaine d interet','form.experience':'Niveau d experience','form.availability':'Disponibilite','form.employment':'Interet professionnel','form.languages':'Langues','form.message':'Message','form.resume':'Televerser CV','form.resumeHint':'PDF, DOC ou DOCX de preference.','form.uploadNote':'Le televersement du CV est connecte au systeme de revue des candidatures SymbioGreens. Les candidats peuvent aussi envoyer leur CV par e-mail si necessaire.','form.success':'Merci pour votre interet envers SymbioGreens. Votre profil a ete recu pour examen. Si votre parcours correspond a une opportunite actuelle ou future, notre equipe pourra vous contacter.',
       'footer.tagline':'SymbioGreens | Agriculture hydroponique premium propulsee par Balponics','footer.line1':'Pur. Frais. Responsable. Local. Intelligence acheteur connectee a une production hydroponique durable.','footer.line2':'Balponics Hydroponic Solutions Provider | Agriculture de precision. Resultats premium.','footer.company':'Entreprise','footer.engagement':'Engagement','footer.legal':'Legal','footer.access':'Acces','footer.createAccount':'Creer un compte','footer.register':'Inscription acheteur','footer.privacy':'Politique de confidentialite','footer.terms':'Conditions d utilisation','footer.disclaimer':'Avertissement','footer.requestAccess':'Demander l acces','footer.buyerLogin':'Connexion acheteur','footer.rights':'Copyright 2026 SymbioGreens. Tous droits reserves. Propulse par Balponics.'
     });
 
@@ -345,13 +350,86 @@
       button.addEventListener('click', () => applyCareerLanguage(button.dataset.lang));
     });
 
-    document.querySelector('[data-careers-form]').addEventListener('submit', (event) => {
+    const careersForm = document.querySelector('[data-careers-form]');
+    careersForm.addEventListener('submit', async (event) => {
       event.preventDefault();
       const form = event.currentTarget;
-      form.querySelector('.career-success-message').hidden = false;
-      form.querySelector('.career-success-message').scrollIntoView({behavior: 'smooth', block: 'center'});
-      form.reset();
+      const button = form.querySelector('button[type="submit"]');
+      const success = form.querySelector('.career-success-message');
+      let errorMessage = form.querySelector('.career-error-message');
+      if (!errorMessage) {
+        errorMessage = document.createElement('p');
+        errorMessage.className = 'career-error-message';
+        errorMessage.setAttribute('role', 'alert');
+        errorMessage.hidden = true;
+        success.insertAdjacentElement('beforebegin', errorMessage);
+      }
+      success.hidden = true;
+      errorMessage.hidden = true;
+
+      const data = new FormData(form);
+      const resume = form.elements.resume?.files?.[0] || null;
+      const payload = {
+        portalType: 'career',
+        submissionType: 'career_application',
+        fullName: data.get('full_name'),
+        email: data.get('email'),
+        phone: data.get('phone'),
+        country: data.get('city_country'),
+        city: data.get('city_country'),
+        roleRequested: 'career',
+        interestType: data.get('area_of_interest'),
+        message: data.get('message'),
+        submittedData: {
+          city_country: data.get('city_country'),
+          portfolio_url: data.get('portfolio_url'),
+          area_of_interest: data.get('area_of_interest'),
+          experience_level: data.get('experience_level'),
+          availability: data.get('availability'),
+          employment_interest: data.getAll('employment_interest'),
+          languages: data.getAll('languages'),
+          message: data.get('message')
+        }
+      };
+
+      try {
+        if (!window.SymbioApplicationService?.submitApplication) {
+          throw new Error('Application system is not available on this page.');
+        }
+        if (resume) {
+          if (resume.size > 5 * 1024 * 1024) {
+            throw new Error('Resume file must be 5 MB or smaller.');
+          }
+          const dataUrl = await fileToDataUrl(resume);
+          payload.resumeFileName = resume.name;
+          payload.resumeFileBase64 = String(dataUrl).split(',')[1] || '';
+        }
+        button.disabled = true;
+        button.dataset.originalText = button.dataset.originalText || button.textContent;
+        button.textContent = 'Submitting...';
+        const result = await window.SymbioApplicationService.submitApplication(payload);
+        if (!result.success) throw new Error(result.error || 'Application submission failed.');
+        success.hidden = false;
+        success.scrollIntoView({behavior: 'smooth', block: 'center'});
+        form.reset();
+      } catch (error) {
+        errorMessage.textContent = error.message || 'Application submission failed. Please try again or email your CV.';
+        errorMessage.hidden = false;
+        errorMessage.scrollIntoView({behavior: 'smooth', block: 'center'});
+      } finally {
+        button.disabled = false;
+        if (button.dataset.originalText) button.textContent = button.dataset.originalText;
+      }
     });
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error || new Error('Could not read resume file.'));
+        reader.readAsDataURL(file);
+      });
+    }
 
     applyCareerLanguage(localStorage.getItem('sg_platform_language') || 'en');
   </script>
