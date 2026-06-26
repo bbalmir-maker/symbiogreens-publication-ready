@@ -95,7 +95,7 @@ export function emailTemplate(type, application, extra = {}) {
   return { subject: `${APP_NAME} Application Update`, html: "<p>Your application status has been updated.</p>" };
 }
 
-export async function sendEmail({ to, type, application, extra = {}, serviceClient }) {
+export async function sendEmail({ to, type, application, extra = {}, serviceClient, attachments = [] }) {
   const resendKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("RESEND_FROM_EMAIL");
   const template = emailTemplate(type, application, extra);
@@ -121,7 +121,7 @@ export async function sendEmail({ to, type, application, extra = {}, serviceClie
       "Authorization": `Bearer ${resendKey}`,
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ from, to, subject: template.subject, html: template.html })
+    body: JSON.stringify({ from, to, subject: template.subject, html: template.html, ...(attachments.length ? { attachments } : {}) })
   });
 
   const result = await response.json().catch(() => ({}));
