@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="icon-action" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-buyers" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-climate" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-crops" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-docs" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-electricity" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-finance" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-government" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-greenhouse" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-hotel" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-hydroponics" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-installation" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-land" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-market" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-mushrooms" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-overview" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-ownership" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-partner-model" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-qa" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-rainfall" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-rainwater" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-revenue" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-risk" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-score" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-solar" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-support" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-survey" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-territory" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-validation" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+  <symbol id="icon-water" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    <path d="M12 5.5v13M6.5 12h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M12 18.5c3-2.1 4.5-4.6 4.5-7.5 0-2.5-1.5-4.6-4.5-6.4-3 1.8-4.5 3.9-4.5 6.4 0 2.9 1.5 5.4 4.5 7.5Z" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".45"/>
+  </symbol>
+</svg>
