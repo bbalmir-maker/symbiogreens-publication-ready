@@ -19,7 +19,7 @@
   }
 
   function normalizePortalType(value) {
-    return ["customer", "partner", "investor", "engineer", "general"].includes(value) ? value : "general";
+    return ["customer", "partner", "investor", "engineer", "career", "general"].includes(value) ? value : "general";
   }
 
   function toApplicationRow(payload = {}) {
@@ -66,6 +66,8 @@
       roleRequested: application.roleRequested || application.portalType || null,
       interestType: application.interestType || null,
       message: application.message || null,
+      resumeFileName: payload.resumeFileName || payload.resume_file_name || null,
+      resumeFileBase64: payload.resumeFileBase64 || payload.resume_file_base64 || null,
       submittedData: application.submittedData && typeof application.submittedData === "object"
         ? { ...application.submittedData, form_payload: payload }
         : { value: application.submittedData, form_payload: payload }

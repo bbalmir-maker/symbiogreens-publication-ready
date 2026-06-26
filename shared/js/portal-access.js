@@ -16,25 +16,25 @@
     customer: {
       title: "Customer Portal Access Required",
       apply: "Submit Customer Application",
-      href: "../main-website/index.html#account",
+      href: "../index.html#account",
       note: "Customer dashboard access is available only after customer review and approval."
     },
     partner: {
       title: "Partner Portal Access Required",
       apply: "Submit Partner Application",
-      href: "https://bbalmir-maker.github.io/symbiogreens-publication-ready/#account",
+      href: "../index.html#account",
       note: "Partner portal access is available only after project review and partner approval."
     },
     investor: {
       title: "Investor Portal Access Required",
       apply: "Request Investor Review",
-      href: "https://bbalmir-maker.github.io/symbiogreens-publication-ready/#investors",
+      href: "../index.html#investors",
       note: "Private investor dashboard access is available only after application review and approval."
     },
     admin: {
       title: "Admin Dashboard",
       apply: "Return to Public Website",
-      href: "../main-website/index.html"
+      href: "../index.html"
     }
   };
 
