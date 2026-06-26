@@ -34,9 +34,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/butterhead-lettuce.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/butterhead-lettuce.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/butterhead-lettuce-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/butterhead-lettuce.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/butterhead-lettuce.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/butterhead-lettuce-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -76,9 +76,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/buttercrunch-lettuce.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/buttercrunch-lettuce.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/buttercrunch-lettuce-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/buttercrunch-lettuce.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/buttercrunch-lettuce.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/buttercrunch-lettuce-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -118,9 +118,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/romaine-hearts.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/romaine-hearts.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/romaine-hearts-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/romaine-hearts.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/romaine-hearts.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/romaine-hearts-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -160,9 +160,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/mini-romaine.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/mini-romaine.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/mini-romaine-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/mini-romaine.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/mini-romaine.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/mini-romaine-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -202,9 +202,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/romaine-lettuce.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/romaine-lettuce.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/romaine-lettuce-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/romaine-lettuce.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/romaine-lettuce.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/romaine-lettuce-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -244,9 +244,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/little-gem.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/little-gem.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/little-gem-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/little-gem.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/little-gem.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/little-gem-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -286,9 +286,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/green-oakleaf-lettuce.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/green-oakleaf-lettuce.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/green-oakleaf-lettuce-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/green-oakleaf-lettuce.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/green-oakleaf-lettuce.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/green-oakleaf-lettuce-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -328,9 +328,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/red-oakleaf-lettuce.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/red-oakleaf-lettuce.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/red-oakleaf-lettuce-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/red-oakleaf-lettuce.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/red-oakleaf-lettuce.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/red-oakleaf-lettuce-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -370,9 +370,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/lollo-rosso.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/lollo-rosso.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/lollo-rosso-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/lollo-rosso.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/lollo-rosso.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/lollo-rosso-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -412,9 +412,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/lollo-bionda.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/lollo-bionda.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/lollo-bionda-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/lollo-bionda.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/lollo-bionda.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/lollo-bionda-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -454,9 +454,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/batavia-lettuce.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/batavia-lettuce.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/batavia-lettuce-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/batavia-lettuce.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/batavia-lettuce.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/batavia-lettuce-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -496,9 +496,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/frisee.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/frisee.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/frisee-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/frisee.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/frisee.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/frisee-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -538,9 +538,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/endive.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/endive.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/endive-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/endive.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/endive.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/endive-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -580,9 +580,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/salanova-green-butter.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/salanova-green-butter.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/salanova-green-butter-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/salanova-green-butter.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/salanova-green-butter.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/salanova-green-butter-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -622,9 +622,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/salanova-red-butter.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/salanova-red-butter.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/salanova-red-butter-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/salanova-red-butter.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/salanova-red-butter.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/salanova-red-butter-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -664,9 +664,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/salanova-green-crispy.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/salanova-green-crispy.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/salanova-green-crispy-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/salanova-green-crispy.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/salanova-green-crispy.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/salanova-green-crispy-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -706,9 +706,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/premium-lettuces/images/png/salanova-red-crispy.png",
-      "webp": "public/catalog/premium-lettuces/images/webp/salanova-red-crispy.webp",
-      "thumbnail": "public/catalog/premium-lettuces/images/thumbnails/salanova-red-crispy-thumb.webp"
+      "png": "../public/catalog/premium-lettuces/images/png/salanova-red-crispy.png",
+      "webp": "../public/catalog/premium-lettuces/images/webp/salanova-red-crispy.webp",
+      "thumbnail": "../public/catalog/premium-lettuces/images/thumbnails/salanova-red-crispy-thumb.webp"
     },
     "active": true,
     "source_block": "Block 01"
@@ -750,9 +750,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/baby-arugula.png",
-      "webp": "public/catalog/baby-greens/images/webp/baby-arugula.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/baby-arugula-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/baby-arugula.png",
+      "webp": "../public/catalog/baby-greens/images/webp/baby-arugula.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/baby-arugula-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -795,9 +795,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/watercress.png",
-      "webp": "public/catalog/baby-greens/images/webp/watercress.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/watercress-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/watercress.png",
+      "webp": "../public/catalog/baby-greens/images/webp/watercress.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/watercress-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -839,9 +839,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/baby-kale-mix.png",
-      "webp": "public/catalog/baby-greens/images/webp/baby-kale-mix.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/baby-kale-mix-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/baby-kale-mix.png",
+      "webp": "../public/catalog/baby-greens/images/webp/baby-kale-mix.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/baby-kale-mix-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -882,9 +882,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/baby-spinach.png",
-      "webp": "public/catalog/baby-greens/images/webp/baby-spinach.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/baby-spinach-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/baby-spinach.png",
+      "webp": "../public/catalog/baby-greens/images/webp/baby-spinach.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/baby-spinach-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -925,9 +925,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/baby-swiss-chard.png",
-      "webp": "public/catalog/baby-greens/images/webp/baby-swiss-chard.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/baby-swiss-chard-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/baby-swiss-chard.png",
+      "webp": "../public/catalog/baby-greens/images/webp/baby-swiss-chard.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/baby-swiss-chard-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -969,9 +969,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/baby-mustard-greens.png",
-      "webp": "public/catalog/baby-greens/images/webp/baby-mustard-greens.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/baby-mustard-greens-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/baby-mustard-greens.png",
+      "webp": "../public/catalog/baby-greens/images/webp/baby-mustard-greens.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/baby-mustard-greens-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -1013,9 +1013,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/mesclun-mix.png",
-      "webp": "public/catalog/baby-greens/images/webp/mesclun-mix.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/mesclun-mix-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/mesclun-mix.png",
+      "webp": "../public/catalog/baby-greens/images/webp/mesclun-mix.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/mesclun-mix-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -1057,9 +1057,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/asian-greens-mix.png",
-      "webp": "public/catalog/baby-greens/images/webp/asian-greens-mix.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/asian-greens-mix-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/asian-greens-mix.png",
+      "webp": "../public/catalog/baby-greens/images/webp/asian-greens-mix.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/asian-greens-mix-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -1101,9 +1101,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/tatsoi.png",
-      "webp": "public/catalog/baby-greens/images/webp/tatsoi.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/tatsoi-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/tatsoi.png",
+      "webp": "../public/catalog/baby-greens/images/webp/tatsoi.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/tatsoi-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -1145,9 +1145,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/mizuna.png",
-      "webp": "public/catalog/baby-greens/images/webp/mizuna.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/mizuna-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/mizuna.png",
+      "webp": "../public/catalog/baby-greens/images/webp/mizuna.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/mizuna-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -1189,9 +1189,9 @@
     "application_tags": [],
     "applications": [],
     "images": {
-      "png": "public/catalog/baby-greens/images/png/pak-choi-baby-bok-choy.png",
-      "webp": "public/catalog/baby-greens/images/webp/pak-choi-baby-bok-choy.webp",
-      "thumbnail": "public/catalog/baby-greens/images/thumbnails/pak-choi-baby-bok-choy-thumb.webp"
+      "png": "../public/catalog/baby-greens/images/png/pak-choi-baby-bok-choy.png",
+      "webp": "../public/catalog/baby-greens/images/webp/pak-choi-baby-bok-choy.webp",
+      "thumbnail": "../public/catalog/baby-greens/images/thumbnails/pak-choi-baby-bok-choy-thumb.webp"
     },
     "active": true,
     "source_block": "Block 02"
@@ -1254,9 +1254,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/microgreens/images/png/radish-microgreens.png",
-      "webp": "public/catalog/microgreens/images/webp/radish-microgreens.webp",
-      "thumbnail": "public/catalog/microgreens/images/thumbnails/radish-microgreens-thumb.webp"
+      "png": "../public/catalog/microgreens/images/png/radish-microgreens.png",
+      "webp": "../public/catalog/microgreens/images/webp/radish-microgreens.webp",
+      "thumbnail": "../public/catalog/microgreens/images/thumbnails/radish-microgreens-thumb.webp"
     },
     "active": true,
     "source_block": "Block 03"
@@ -1318,9 +1318,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/microgreens/images/png/sunflower-shoots.png",
-      "webp": "public/catalog/microgreens/images/webp/sunflower-shoots.webp",
-      "thumbnail": "public/catalog/microgreens/images/thumbnails/sunflower-shoots-thumb.webp"
+      "png": "../public/catalog/microgreens/images/png/sunflower-shoots.png",
+      "webp": "../public/catalog/microgreens/images/webp/sunflower-shoots.webp",
+      "thumbnail": "../public/catalog/microgreens/images/thumbnails/sunflower-shoots-thumb.webp"
     },
     "active": true,
     "source_block": "Block 03"
@@ -1387,9 +1387,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/microgreens/images/png/pea-shoots.png",
-      "webp": "public/catalog/microgreens/images/webp/pea-shoots.webp",
-      "thumbnail": "public/catalog/microgreens/images/thumbnails/pea-shoots-thumb.webp"
+      "png": "../public/catalog/microgreens/images/png/pea-shoots.png",
+      "webp": "../public/catalog/microgreens/images/webp/pea-shoots.webp",
+      "thumbnail": "../public/catalog/microgreens/images/thumbnails/pea-shoots-thumb.webp"
     },
     "active": true,
     "source_block": "Block 03"
@@ -1463,9 +1463,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/microgreens/images/png/wheatgrass.png",
-      "webp": "public/catalog/microgreens/images/webp/wheatgrass.webp",
-      "thumbnail": "public/catalog/microgreens/images/thumbnails/wheatgrass-thumb.webp"
+      "png": "../public/catalog/microgreens/images/png/wheatgrass.png",
+      "webp": "../public/catalog/microgreens/images/webp/wheatgrass.webp",
+      "thumbnail": "../public/catalog/microgreens/images/thumbnails/wheatgrass-thumb.webp"
     },
     "active": true,
     "source_block": "Block 03"
@@ -1539,9 +1539,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/shiso-green.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/shiso-green.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/shiso-green-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/shiso-green.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/shiso-green.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/shiso-green-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -1614,9 +1614,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/shiso-red.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/shiso-red.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/shiso-red-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/shiso-red.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/shiso-red.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/shiso-red-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -1692,9 +1692,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/sorrel-green.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/sorrel-green.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/sorrel-green-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/sorrel-green.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/sorrel-green.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/sorrel-green-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -1768,9 +1768,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/sorrel-red-veined.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/sorrel-red-veined.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/sorrel-red-veined-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/sorrel-red-veined.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/sorrel-red-veined.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/sorrel-red-veined-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -1844,9 +1844,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/thai-basil.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/thai-basil.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/thai-basil-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/thai-basil.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/thai-basil.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/thai-basil-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -1920,9 +1920,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/purple-basil.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/purple-basil.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/purple-basil-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/purple-basil.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/purple-basil.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/purple-basil-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -1996,9 +1996,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/genovese-basil.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/genovese-basil.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/genovese-basil-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/genovese-basil.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/genovese-basil.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/genovese-basil-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2073,9 +2073,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/lemon-basil.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/lemon-basil.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/lemon-basil-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/lemon-basil.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/lemon-basil.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/lemon-basil-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2149,9 +2149,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/cinnamon-basil.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/cinnamon-basil.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/cinnamon-basil-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/cinnamon-basil.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/cinnamon-basil.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/cinnamon-basil-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2226,9 +2226,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/thai-cinnamon-basil.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/thai-cinnamon-basil.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/thai-cinnamon-basil-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/thai-cinnamon-basil.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/thai-cinnamon-basil.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/thai-cinnamon-basil-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2302,9 +2302,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/holy-basil-tulsi.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/holy-basil-tulsi.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/holy-basil-tulsi-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/holy-basil-tulsi.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/holy-basil-tulsi.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/holy-basil-tulsi-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2385,9 +2385,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/lemon-verbena.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/lemon-verbena.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/lemon-verbena-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/lemon-verbena.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/lemon-verbena.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/lemon-verbena-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2467,9 +2467,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/fennel-fronds.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/fennel-fronds.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/fennel-fronds-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/fennel-fronds.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/fennel-fronds.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/fennel-fronds-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2552,9 +2552,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/chervil.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/chervil.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/chervil-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/chervil.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/chervil.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/chervil-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2634,9 +2634,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/orach-mountain-spinach.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/orach-mountain-spinach.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/orach-mountain-spinach-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/orach-mountain-spinach.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/orach-mountain-spinach.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/orach-mountain-spinach-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2719,9 +2719,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/lemon-balm-melissa.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/lemon-balm-melissa.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/lemon-balm-melissa-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/lemon-balm-melissa.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/lemon-balm-melissa.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/lemon-balm-melissa-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2803,9 +2803,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/lemongrass.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/lemongrass.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/lemongrass-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/lemongrass.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/lemongrass.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/lemongrass-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2888,9 +2888,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/french-tarragon.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/french-tarragon.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/french-tarragon-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/french-tarragon.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/french-tarragon.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/french-tarragon-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -2970,9 +2970,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/bronze-fennel.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/bronze-fennel.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/bronze-fennel-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/bronze-fennel.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/bronze-fennel.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/bronze-fennel-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3051,9 +3051,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/garlic-chives.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/garlic-chives.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/garlic-chives-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/garlic-chives.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/garlic-chives.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/garlic-chives-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3127,9 +3127,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/chive-blossoms.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/chive-blossoms.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/chive-blossoms-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/chive-blossoms.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/chive-blossoms.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/chive-blossoms-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3207,9 +3207,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/nasturtium-leaves.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/nasturtium-leaves.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/nasturtium-leaves-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/nasturtium-leaves.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/nasturtium-leaves.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/nasturtium-leaves-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3283,9 +3283,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/borage.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/borage.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/borage-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/borage.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/borage.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/borage-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3363,9 +3363,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/vietnamese-coriander-rau-ram.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/vietnamese-coriander-rau-ram.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/vietnamese-coriander-rau-ram-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/vietnamese-coriander-rau-ram.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/vietnamese-coriander-rau-ram.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/vietnamese-coriander-rau-ram-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3438,9 +3438,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/mitsuba.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/mitsuba.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/mitsuba-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/mitsuba.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/mitsuba.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/mitsuba-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3513,9 +3513,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/salad-burnet.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/salad-burnet.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/salad-burnet-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/salad-burnet.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/salad-burnet.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/salad-burnet-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3593,9 +3593,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/pineapple-sage.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/pineapple-sage.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/pineapple-sage-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/pineapple-sage.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/pineapple-sage.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/pineapple-sage-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3669,9 +3669,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/bergamot-mint.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/bergamot-mint.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/bergamot-mint-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/bergamot-mint.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/bergamot-mint.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/bergamot-mint-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3743,9 +3743,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/stevia.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/stevia.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/stevia-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/stevia.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/stevia.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/stevia-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3819,9 +3819,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/premium-specialty-herbs/images/png/basil-flowers.png",
-      "webp": "public/catalog/premium-specialty-herbs/images/webp/basil-flowers.webp",
-      "thumbnail": "public/catalog/premium-specialty-herbs/images/thumbnails/basil-flowers-thumb.webp"
+      "png": "../public/catalog/premium-specialty-herbs/images/png/basil-flowers.png",
+      "webp": "../public/catalog/premium-specialty-herbs/images/webp/basil-flowers.webp",
+      "thumbnail": "../public/catalog/premium-specialty-herbs/images/thumbnails/basil-flowers-thumb.webp"
     },
     "active": true,
     "source_block": "Block 04"
@@ -3894,9 +3894,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/01-nasturtium-flowers.png",
-      "webp": "public/catalog/edible-flowers/images/webp/01-nasturtium-flowers.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/01-nasturtium-flowers-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/01-nasturtium-flowers.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/01-nasturtium-flowers.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/01-nasturtium-flowers-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -3969,9 +3969,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/02-viola-mix.png",
-      "webp": "public/catalog/edible-flowers/images/webp/02-viola-mix.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/02-viola-mix-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/02-viola-mix.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/02-viola-mix.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/02-viola-mix-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4044,9 +4044,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/03-butterfly-pea-flowers.png",
-      "webp": "public/catalog/edible-flowers/images/webp/03-butterfly-pea-flowers.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/03-butterfly-pea-flowers-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/03-butterfly-pea-flowers.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/03-butterfly-pea-flowers.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/03-butterfly-pea-flowers-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4119,9 +4119,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/04-borage-flowers.png",
-      "webp": "public/catalog/edible-flowers/images/webp/04-borage-flowers.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/04-borage-flowers-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/04-borage-flowers.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/04-borage-flowers.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/04-borage-flowers-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4195,9 +4195,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/05-calendula-petals.png",
-      "webp": "public/catalog/edible-flowers/images/webp/05-calendula-petals.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/05-calendula-petals-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/05-calendula-petals.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/05-calendula-petals.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/05-calendula-petals-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4271,9 +4271,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/06-dianthus.png",
-      "webp": "public/catalog/edible-flowers/images/webp/06-dianthus.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/06-dianthus-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/06-dianthus.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/06-dianthus.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/06-dianthus-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4346,9 +4346,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/07-bachelor-buttons.png",
-      "webp": "public/catalog/edible-flowers/images/webp/07-bachelor-buttons.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/07-bachelor-buttons-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/07-bachelor-buttons.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/07-bachelor-buttons.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/07-bachelor-buttons-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4421,9 +4421,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/08-cornflower-blue.png",
-      "webp": "public/catalog/edible-flowers/images/webp/08-cornflower-blue.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/08-cornflower-blue-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/08-cornflower-blue.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/08-cornflower-blue.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/08-cornflower-blue-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4495,9 +4495,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/09-snapdragon.png",
-      "webp": "public/catalog/edible-flowers/images/webp/09-snapdragon.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/09-snapdragon-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/09-snapdragon.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/09-snapdragon.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/09-snapdragon-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4571,9 +4571,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/edible-flowers/images/png/10-begonia.png",
-      "webp": "public/catalog/edible-flowers/images/webp/10-begonia.webp",
-      "thumbnail": "public/catalog/edible-flowers/images/thumbnails/10-begonia-thumb.webp"
+      "png": "../public/catalog/edible-flowers/images/png/10-begonia.png",
+      "webp": "../public/catalog/edible-flowers/images/webp/10-begonia.webp",
+      "thumbnail": "../public/catalog/edible-flowers/images/thumbnails/10-begonia-thumb.webp"
     },
     "active": true,
     "source_block": "Block 05"
@@ -4650,9 +4650,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/01-lions-mane.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/01-lions-mane.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/01-lions-mane-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/01-lions-mane.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/01-lions-mane.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/01-lions-mane-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -4730,9 +4730,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/02-king-oyster.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/02-king-oyster.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/02-king-oyster-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/02-king-oyster.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/02-king-oyster.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/02-king-oyster-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -4811,9 +4811,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/03-blue-oyster.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/03-blue-oyster.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/03-blue-oyster-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/03-blue-oyster.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/03-blue-oyster.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/03-blue-oyster-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -4892,9 +4892,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/04-golden-oyster.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/04-golden-oyster.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/04-golden-oyster-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/04-golden-oyster.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/04-golden-oyster.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/04-golden-oyster-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -4972,9 +4972,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/05-pink-oyster.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/05-pink-oyster.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/05-pink-oyster-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/05-pink-oyster.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/05-pink-oyster.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/05-pink-oyster-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -5052,9 +5052,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/06-shiitake.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/06-shiitake.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/06-shiitake-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/06-shiitake.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/06-shiitake.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/06-shiitake-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -5132,9 +5132,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/07-maitake.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/07-maitake.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/07-maitake-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/07-maitake.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/07-maitake.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/07-maitake-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -5212,9 +5212,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/08-black-pearl-oyster.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/08-black-pearl-oyster.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/08-black-pearl-oyster-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/08-black-pearl-oyster.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/08-black-pearl-oyster.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/08-black-pearl-oyster-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -5292,9 +5292,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/09-beech-mushroom.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/09-beech-mushroom.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/09-beech-mushroom-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/09-beech-mushroom.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/09-beech-mushroom.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/09-beech-mushroom-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -5372,9 +5372,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/10-king-trumpet.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/10-king-trumpet.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/10-king-trumpet-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/10-king-trumpet.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/10-king-trumpet.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/10-king-trumpet-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -5453,9 +5453,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/11-chestnut-mushroom.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/11-chestnut-mushroom.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/11-chestnut-mushroom-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/11-chestnut-mushroom.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/11-chestnut-mushroom.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/11-chestnut-mushroom-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -5534,9 +5534,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/gourmet-mushrooms/images/png/12-pioppino.png",
-      "webp": "public/catalog/gourmet-mushrooms/images/webp/12-pioppino.webp",
-      "thumbnail": "public/catalog/gourmet-mushrooms/images/thumbnails/12-pioppino-thumb.webp"
+      "png": "../public/catalog/gourmet-mushrooms/images/png/12-pioppino.png",
+      "webp": "../public/catalog/gourmet-mushrooms/images/webp/12-pioppino.webp",
+      "thumbnail": "../public/catalog/gourmet-mushrooms/images/thumbnails/12-pioppino-thumb.webp"
     },
     "active": true,
     "source_block": "Block 06"
@@ -5612,9 +5612,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/01-rainbow-swiss-chard.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/01-rainbow-swiss-chard.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/01-rainbow-swiss-chard-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/01-rainbow-swiss-chard.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/01-rainbow-swiss-chard.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/01-rainbow-swiss-chard-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -5690,9 +5690,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/02-red-vein-sorrel.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/02-red-vein-sorrel.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/02-red-vein-sorrel-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/02-red-vein-sorrel.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/02-red-vein-sorrel.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/02-red-vein-sorrel-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -5767,9 +5767,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/03-french-sorrel.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/03-french-sorrel.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/03-french-sorrel-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/03-french-sorrel.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/03-french-sorrel.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/03-french-sorrel-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -5845,9 +5845,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/04-purple-kohlrabi.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/04-purple-kohlrabi.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/04-purple-kohlrabi-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/04-purple-kohlrabi.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/04-purple-kohlrabi.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/04-purple-kohlrabi-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -5923,9 +5923,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/05-baby-fennel.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/05-baby-fennel.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/05-baby-fennel-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/05-baby-fennel.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/05-baby-fennel.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/05-baby-fennel-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -6000,9 +6000,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/06-watermelon-radish.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/06-watermelon-radish.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/06-watermelon-radish-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/06-watermelon-radish.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/06-watermelon-radish.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/06-watermelon-radish-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -6077,9 +6077,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/07-purple-daikon-radish.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/07-purple-daikon-radish.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/07-purple-daikon-radish-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/07-purple-daikon-radish.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/07-purple-daikon-radish.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/07-purple-daikon-radish-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -6154,9 +6154,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/08-baby-bok-choy.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/08-baby-bok-choy.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/08-baby-bok-choy-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/08-baby-bok-choy.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/08-baby-bok-choy.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/08-baby-bok-choy-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -6231,9 +6231,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/09-baby-hakurei-turnip.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/09-baby-hakurei-turnip.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/09-baby-hakurei-turnip-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/09-baby-hakurei-turnip.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/09-baby-hakurei-turnip.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/09-baby-hakurei-turnip-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -6309,9 +6309,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/10-baby-napa-cabbage.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/10-baby-napa-cabbage.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/10-baby-napa-cabbage-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/10-baby-napa-cabbage.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/10-baby-napa-cabbage.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/10-baby-napa-cabbage-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -6387,9 +6387,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/11-tatsoi.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/11-tatsoi.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/11-tatsoi-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/11-tatsoi.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/11-tatsoi.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/11-tatsoi-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
@@ -6465,9 +6465,9 @@
       }
     ],
     "images": {
-      "png": "public/catalog/specialty-vegetables/images/png/12-mizuna.png",
-      "webp": "public/catalog/specialty-vegetables/images/webp/12-mizuna.webp",
-      "thumbnail": "public/catalog/specialty-vegetables/images/thumbnails/12-mizuna-thumb.webp"
+      "png": "../public/catalog/specialty-vegetables/images/png/12-mizuna.png",
+      "webp": "../public/catalog/specialty-vegetables/images/webp/12-mizuna.webp",
+      "thumbnail": "../public/catalog/specialty-vegetables/images/thumbnails/12-mizuna-thumb.webp"
     },
     "active": true,
     "source_block": "Block 08"
