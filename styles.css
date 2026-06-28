@@ -4041,3 +4041,68 @@ th { background:#f1f6f3; color:var(--green); font-size:12px; text-transform:uppe
     grid-template-columns: 1fr;
   }
 }
+
+/* SymbioGreens homepage carousel hero */
+.sg-carousel-hero {
+  overflow: hidden;
+  background-image: none;
+  isolation: isolate;
+}
+.sg-hero-slides,
+.sg-hero-slide {
+  position: absolute;
+  inset: 0;
+}
+.sg-hero-slides {
+  z-index: 0;
+}
+.sg-hero-slide {
+  opacity: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  animation: sgHeroFade 24s infinite;
+}
+.sg-hero-slide:nth-child(2) { animation-delay: 6s; }
+.sg-hero-slide:nth-child(3) { animation-delay: 12s; }
+.sg-hero-slide:nth-child(4) { animation-delay: 18s; }
+.sg-carousel-hero .homepage-hero-overlay {
+  position: relative;
+  z-index: 1;
+}
+@keyframes sgHeroFade {
+  0%, 18% { opacity: 1; }
+  25%, 93% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sg-hero-slide { animation: none; }
+  .sg-hero-slide:first-child { opacity: 1; }
+}
+
+.footer-contact-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
+  margin: 18px 0;
+}
+.footer-contact-strip a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+.footer-contact-strip a svg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 19px;
+  stroke-width: 1.8;
+}
+.footer-contact-strip a:hover,
+.footer-contact-strip a:focus-visible {
+  color: #fff;
+  text-decoration: underline;
+}
