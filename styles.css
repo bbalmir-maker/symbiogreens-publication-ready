@@ -4106,3 +4106,194 @@ th { background:#f1f6f3; color:var(--green); font-size:12px; text-transform:uppe
   color: #fff;
   text-decoration: underline;
 }
+/* SymbioGreens hero restoration */
+.sg-carousel-hero {
+  background-color: #062f21;
+}
+.sg-carousel-hero .homepage-hero-overlay {
+  background: linear-gradient(90deg, rgba(0, 31, 22, 0.34), rgba(0, 31, 22, 0.12) 58%, transparent 82%);
+}
+.sg-carousel-hero .hero-copy-overlay {
+  background: rgba(0, 38, 25, 0.24) !important;
+  border: 1px solid rgba(255, 255, 255, 0.34) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+.sg-carousel-hero .hero-copy-overlay .eyebrow,
+.sg-carousel-hero .hero-copy-overlay h1,
+.sg-carousel-hero .hero-copy-overlay .hero-subhead,
+.sg-carousel-hero .hero-copy-overlay p {
+  color: #fff !important;
+  text-shadow: 0 3px 16px rgba(0, 20, 13, 0.88) !important;
+}
+.sg-carousel-hero .hero-copy-overlay .ghost-btn {
+  color: #fff;
+  background: rgba(0, 38, 25, 0.24);
+  border-color: rgba(255, 255, 255, 0.72);
+}
+.sg-carousel-hero .hero-copy-overlay .ghost-btn:hover,
+.sg-carousel-hero .hero-copy-overlay .ghost-btn:focus-visible {
+  color: #fff;
+  background: rgba(0, 38, 25, 0.48);
+}
+
+/* Local contact icon fallback: no external script can block page rendering. */
+.footer-contact-strip i[data-lucide] {
+  display: inline-grid;
+  width: 19px;
+  height: 19px;
+  place-items: center;
+  flex: 0 0 19px;
+  color: currentColor;
+  font-style: normal;
+}
+.footer-contact-strip i[data-lucide="mail"]::before { content: "\2709"; }
+.footer-contact-strip i[data-lucide="phone"]::before { content: "\260E"; }
+.footer-contact-strip i[data-lucide="message-circle"]::before { content: "\25CF"; font-size: .72em; border: 1px solid currentColor; border-radius: 50%; line-height: 1; }
+/* SymbioGreens internal photographic page heroes */
+.sg-page-hero,
+.about-strategy-hero,
+.projects-hero,
+.team-page-hero,
+.contact-hero-panel,
+.investor-hero,
+.account-entry-hero,
+.careers-hero {
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  min-height: clamp(390px, 56vh, 570px);
+  margin: -26px calc(50% - 50vw) 28px;
+  padding: clamp(104px, 13vw, 164px) clamp(24px, 6vw, 88px) clamp(54px, 8vw, 96px);
+  display: grid;
+  grid-template-columns: minmax(0, 940px);
+  align-items: end;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+  color: #fff;
+  background-color: #073b29;
+  background-image:
+    linear-gradient(90deg, rgba(0, 42, 28, .54) 0%, rgba(0, 42, 28, .28) 48%, rgba(0, 42, 28, .08) 78%),
+    var(--sg-page-hero-image);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: none;
+}
+
+.sg-page-hero { --sg-page-hero-image: url('public/company/production/premium-product-assortment.png'); }
+.about-strategy-hero { --sg-page-hero-image: url('public/company/production/about-symbiogreens-balponics-ecosystem.png'); }
+.projects-hero { --sg-page-hero-image: url('public/company/production/las-terrenas-northeast-dr-model-farm-hub.png'); }
+.team-page-hero { --sg-page-hero-image: url('public/company/production/team-operations.png'); }
+.contact-hero-panel { --sg-page-hero-image: url('public/company/production/contact-hero-buyer-project-coordination.png'); }
+.investor-hero { --sg-page-hero-image: url('public/company/production/investor-partnerships-hero.png'); }
+.account-entry-hero { --sg-page-hero-image: url('public/company/production/contact-how-to-connect.png'); }
+.careers-hero { --sg-page-hero-image: url('public/company/careers/careers-hero-team.png'); }
+
+.sg-page-hero-copy,
+.projects-hero > div,
+.contact-hero-copy,
+.investor-hero-copy,
+.account-entry-hero > div,
+.careers-hero-copy {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 100%);
+  padding: clamp(18px, 2.8vw, 30px);
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 8px;
+  background: rgba(0, 48, 32, .22);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.about-strategy-hero > *,
+.team-page-hero > * {
+  position: relative;
+  z-index: 1;
+  width: min(980px, 100%);
+}
+
+.sg-page-hero .eyebrow,
+.about-strategy-hero .eyebrow,
+.projects-hero .eyebrow,
+.team-page-hero .eyebrow,
+.contact-hero-panel .eyebrow,
+.investor-hero .eyebrow,
+.account-entry-hero .eyebrow,
+.careers-hero .eyebrow,
+.sg-page-hero h1,
+.about-strategy-hero h1,
+.projects-hero h1,
+.team-page-hero h1,
+.contact-hero-panel h1,
+.investor-hero h1,
+.account-entry-hero h1,
+.careers-hero h1,
+.sg-page-hero p,
+.about-strategy-hero p,
+.projects-hero p,
+.team-page-hero p,
+.contact-hero-panel p,
+.investor-hero p,
+.account-entry-hero p,
+.careers-hero p {
+  color: #fff !important;
+  text-shadow: 0 3px 16px rgba(0, 20, 13, .82);
+}
+
+.sg-page-hero h1,
+.about-strategy-hero h1,
+.projects-hero h1,
+.team-page-hero h1,
+.contact-hero-panel h1,
+.investor-hero h1,
+.account-entry-hero h1,
+.careers-hero h1 {
+  max-width: 900px;
+  margin-bottom: 14px;
+  font-size: clamp(2.5rem, 5vw, 4.9rem);
+  line-height: 1.02;
+}
+
+.projects-hero-visual,
+.contact-hero-visual,
+.investor-hero-visual,
+.account-entry-hero > figure,
+.careers-hero-visual {
+  display: none;
+}
+
+.projects-hero .ghost-btn,
+.investor-hero .ghost-btn,
+.careers-hero .ghost-btn {
+  color: #fff;
+  border-color: rgba(255, 255, 255, .74);
+  background: rgba(0, 48, 32, .24);
+}
+
+@media (max-width: 760px) {
+  .sg-page-hero,
+  .about-strategy-hero,
+  .projects-hero,
+  .team-page-hero,
+  .contact-hero-panel,
+  .investor-hero,
+  .account-entry-hero,
+  .careers-hero {
+    min-height: 470px;
+    padding: 96px 18px 34px;
+    background-position: center;
+  }
+
+  .sg-page-hero-copy,
+  .projects-hero > div,
+  .contact-hero-copy,
+  .investor-hero-copy,
+  .account-entry-hero > div,
+  .careers-hero-copy {
+    padding: 18px;
+  }
+}
